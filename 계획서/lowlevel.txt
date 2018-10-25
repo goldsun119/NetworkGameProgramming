@@ -1,6 +1,5 @@
-Class {
+class PlayerInfo{
 POINT Pos;
-int type;
 int Hp;
 bool Shield;
 bool SubWeapon;
@@ -8,14 +7,14 @@ bool Power;
 int BulletCount;
 }
 
-Class EnemyInfo{
+class EnemyInfo{
 int Type;
 int Hp;
 int BoomCount;
 bool IsBoom;
 }
 
-Class ClientInfo{
+class ClientInfo{
 int Scene;
 bool IsReady;
 }
@@ -31,7 +30,6 @@ E_RANK
 --------------------------------------------------------
 클라
 - 윈속 초기화
-
 int WSAStartup()
 
 - 소켓 생성
@@ -48,14 +46,14 @@ connect()
 
 - 게임 실행
 <KeyDown에서>
-- void SendData(struct player, struct enemy)- 모든  OBJECT들의 정보 송신
+- void SendData(PlayerInfo , EnemyInfo)- 모든  OBJECT들의 정보 송신
 <렌더>
 int  IsPlayerAlive() - 플레이어가 살아있으면 그림. 상단바에 나오는 목숨개수도 이걸로 그림.
 bool  IsEnemyAlive() - 적이 살아있으면 그림. 
 void IsDrawItem(bool) - true면 그림
 void IsDrawBullet(bool) - true면 그림
 
-void RecvInGameData(struct player, struct enemy) - 보낸 정보를 받고 그에따라 구조체 정보를 변경
+void RecvInGameData(PlayerInfo, EnemyInfo) - 보낸 정보를 받고 그에따라 객체 정보를 변경
 {
  m_player = player;
  m_enemy = enemy;
@@ -66,7 +64,7 @@ void  IsAllPlayerDead() - 모든 플레이어가 죽었는지 여부를 서버에서 보내주고 클라
 
 --------------------------------------------------------
 서버
-ClientInfoToHandle{
+class ClientInfoToHandle{
 bool isReady;
 bool isDead';
 }
@@ -85,8 +83,8 @@ bool IsAllClientReady() - 모든 클라이언트의 ready상태를 확인하는 함수
  processClient() 온 순서대로 번호 할당. 
 
  - 레디정보 수신
-void RecvInitData(struct ClientInfo) - ready 정보 받고 ClientInfo 의 상태 바꿈
-void IsAllClientReady(bool ) - 모든 클라이언트가 레디면 게임실행 --> 씬정보를 넘겨줘야함. 
+void RecvInitData(ClientInfo) - ready 정보 받고 ClientInfo 의 상태 바꿈
+void IsAllClientReady(bool) - 모든 클라이언트가 레디면 게임실행 --> 씬정보를 넘겨줘야함. 
 
 
 - 게임실행
@@ -97,20 +95,21 @@ bool Shield;
 bool SubWeapon;
 bool Power;
 int BulletCount;
-}PLAYER_INFO;
+}
 
 class EnemyInfo{
 int Type;
 int Hp;
 int BoomCount;
 bool IsBoom;
-}ENEMY_INFO;
-void RecvInGameData(struct player, struct enemy) - 게임 실행 중 데이터 수신
-void CheckEnemybyPlayerBulletCollision(playerbullet,  enemy)- 내 총알과 적의 충돌체크 --> 멤버변수 값을 변경
-void CheckPlayerbyEnemyBulletCollision(enemybullet,  player)- 적 총알과 나의 충돌체크--> 멤버변수 값을 변경
+}
+
+void RecvInGameData(PlayerInfo, EnemyInfo) - 게임 실행 중 데이터 수신
+void CheckEnemybyPlayerBulletCollision(playerbullet, EnemyInfo)- 내 총알과 적의 충돌체크 --> 멤버변수 값을 변경
+void CheckPlayerbyEnemyBulletCollision(enemybullet, PlayerInfo)- 적 총알과 나의 충돌체크--> 멤버변수 값을 변경
 변경된 값을 토대로 
 
-void SendInGameData(struct player, struct enemy) - 게임 실행 중 데이터 송신
+void SendInGameData(PlayerInfo, EnemyInfo) - 게임 실행 중 데이터 송신
 
 타이머들 돌리기.  - 적 오브젝트 생성하고, 아이템 생성하고, 총알 발사. 
 - 게임 종료
