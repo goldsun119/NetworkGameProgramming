@@ -28,6 +28,57 @@ E_GAMEOVER,
 E_RANK
 }
 --------------------------------------------------------
+클라
+
+KeyDown에서
+- void SendData(struct player, struct enemy)- 모든  OBJECT정보
+
+
+- 게임 실행
+int  IsPlayerAlive() - 플레이어가 살아있으면 그림. 상단바에 나오는 목숨개수만큼 그림. 
+void RecvInGameData(struct player, struct enemy) - 보낸 정보를 받고 그에따라 구조체 정보를 변경
+{
+ m_player = player;
+ m_enemy = enemy;
+}
+
+렌더에서 
+int GetPlayerHp() - 0보다 크면 그림
+int GetEnemyHp() - 0보다 크면 그림
+void IsDrawItem() 
+--------------------------------------------------------
 서버
-SOCKET ListenSock;
-SOCKET ClientSock;
+
+-접속
+
+void SetReady() - ready 상태를 설정하는 함수
+bool IsAllClientReady() - 모든 클라이언트의 ready상태를 확인하는 함수
+
+- 게임실행
+typedef sturct PlayerInfo{
+POINT Pos;
+int Hp;
+bool Shield;
+bool SubWeapon;
+bool Power;
+int BulletCount;
+}PLAYER_INFO;
+
+typedef sturct EnemyInfo{
+int Type;
+int Hp;
+int BoomCount;
+bool IsBoom;
+}ENEMY_INFO;
+void RecvInGameData(struct player, struct enemy) - 게임 실행 중 데이터 수신
+void CheckEnemybyPlayerBulletCollision(playerbullet,  enemy)- 내 총알과 적의 충돌체크 --> 멤버변수 값을 변경
+void CheckPlayerbyEnemyBulletCollision(enemybullet,  player)- 적 총알과 나의 충돌체크--> 멤버변수 값을 변경
+변경된 값을 토대로 
+
+void SendInGameData(struct player, struct enemy) - 게임 실행 중 데이터 송신
+
+
+- 게임 종료
+bool IsAllPlayerDead(int Client1Hp, int Client2Hp) - 모든 플레이어가 죽으면 게임을 종료하는 함수 
+
+
