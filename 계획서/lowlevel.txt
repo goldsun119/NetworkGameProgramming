@@ -1,0 +1,33 @@
+typedef sturct PlayerInfo{
+POINT Pos;
+int Hp;
+bool Shield;
+bool SubWeapon;
+bool Power;
+int BulletCount;
+}PLAYER_INFO;
+
+typedef sturct EnemyInfo{
+int Type;
+int Hp;
+int BoomCount;
+bool IsBoom;
+}ENEMY_INFO;
+
+typedef sturct ClientInfo{
+int Scene;
+bool IsReady;
+}CLIENT_INFO;
+
+enum E_SCENE
+{
+E_TITLE,
+E_MENU,
+E_INGAME,
+E_GAMEOVER,
+E_RANK
+}
+--------------------------------------------------------
+¼­¹ö
+SOCKET ListenSock;
+SOCKET ClientSock;
