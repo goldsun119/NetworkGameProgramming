@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Framework">
+      <UniqueIdentifier>{84b299eb-b481-456e-9bd7-540ad1c8a1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\InputManager">
+      <UniqueIdentifier>{3799c7ac-6438-46f6-945e-f91da983d6ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager">
+      <UniqueIdentifier>{30ee2f92-5b6d-4a65-b92f-a565d7a7a18a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager">
+      <UniqueIdentifier>{2741fc88-9d7c-4f4f-b2b4-949a61927f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\Manager">
+      <UniqueIdentifier>{973e54f4-eeac-4311-a963-e916c006ed68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\GameState">
+      <UniqueIdentifier>{d0fe5110-7e3c-40f4-9752-9b8360d8b4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\GameState\00. Menu">
+      <UniqueIdentifier>{4bfeedf2-0588-4f95-8d7c-7dc20cc5e3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOut">
+      <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\GameState\01. GameIn">
+      <UniqueIdentifier>{c8940910-9d95-4322-bfe4-418bc0196e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\Scene">
+      <UniqueIdentifier>{4cb28855-c929-45e0-8fcc-0da2485d4926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\FrameWork">
+      <UniqueIdentifier>{290d8b25-b27c-4e22-a819-afbca2d1696b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="2DFRAMEWORK.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>소스 파일\Framework\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyMenu.h">
+      <Filter>소스 파일\Framework\SceneManager\GameState\00. Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyGameOver.h">
+      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOut</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyInGame.h">
+      <Filter>소스 파일\Framework\SceneManager\GameState\01. GameIn</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\Framework\SceneManager\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>소스 파일\Framework\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>소스 파일\Framework\FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>소스 파일\Framework\ObjectManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="2DFRAMEWORK.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>소스 파일\Framework\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyMenu.cpp">
+      <Filter>소스 파일\Framework\SceneManager\GameState\00. Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyGameOver.cpp">
+      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOut</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyInGame.cpp">
+      <Filter>소스 파일\Framework\SceneManager\GameState\01. GameIn</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\Framework\SceneManager\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>소스 파일\Framework\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>소스 파일\Framework\FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>소스 파일\Framework\ObjectManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2DFRAMEWORK.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="2DFRAMEWORK.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
