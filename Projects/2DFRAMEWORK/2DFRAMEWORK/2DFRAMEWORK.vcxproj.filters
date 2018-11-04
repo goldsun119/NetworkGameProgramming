@@ -46,6 +46,12 @@
     <Filter Include="소스 파일\Framework\FrameWork">
       <UniqueIdentifier>{290d8b25-b27c-4e22-a819-afbca2d1696b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Framework\RenderManager">
+      <UniqueIdentifier>{efef60e2-6242-4fbf-ac47-e6618769527a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\main">
+      <UniqueIdentifier>{52d28be8-55a4-4b28-8044-bfc8c0d392ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -55,9 +61,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="2DFRAMEWORK.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
@@ -84,12 +87,18 @@
     <ClInclude Include="CGameObject.h">
       <Filter>소스 파일\Framework\ObjectManager</Filter>
     </ClInclude>
+    <ClInclude Include="SingleTon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderManager.h">
+      <Filter>소스 파일\Framework\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="2DFRAMEWORK.h">
+      <Filter>소스 파일\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="2DFRAMEWORK.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -115,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="CGameObject.cpp">
       <Filter>소스 파일\Framework\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderManager.cpp">
+      <Filter>소스 파일\Framework\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="2DFRAMEWORK.cpp">
+      <Filter>소스 파일\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -152,11 +152,13 @@
     <ClInclude Include="CMyInGame.h" />
     <ClInclude Include="CMyGameOver.h" />
     <ClInclude Include="CMyMenu.h" />
+    <ClInclude Include="CRenderManager.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SingleTon.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -166,6 +168,7 @@
     <ClCompile Include="CMyInGame.cpp" />
     <ClCompile Include="CMyGameOver.cpp" />
     <ClCompile Include="CMyMenu.cpp" />
+    <ClCompile Include="CRenderManager.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Framework.cpp" />
