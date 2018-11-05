@@ -15,8 +15,21 @@ class Test {
 public:
 	bool IsReady=false;
 	bool IsDead=false;
+	int IsScene = 0; //씬 메뉴 초기값, 1 게임플레이
+
 };
 
+#pragma pack(1)
+class PlayerInfo {
+public:
+	POINT Pos = {10,10};
+	int Hp=5;
+	int BulletCount=1;
+	bool Shield=0;
+	bool SubWeapon=1;
+	bool Power=1;
+	int Score=0;
+};
 // 소켓 함수 오류 출력 후 종료
 void err_quit(char *msg)
 {
@@ -44,6 +57,8 @@ void err_display(char *msg)
 	LocalFree(lpMsgBuf);
 }
 
+
+
 int main(int argc, char *argv[])
 {
 	int retval;
@@ -67,14 +82,33 @@ int main(int argc, char *argv[])
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
 	Test test;
-
+	PlayerInfo playerInfo;
 	int count = 0;
 	while (true)
 	{
-		retval = send(sock, (char*)&test.IsReady, sizeof(test.IsReady), 0);//구조체 보냄
-		if (retval == SOCKET_ERROR) {
-			err_display("send()");
+		if (test.IsScene == 0) {//메뉴화면
+			retval = send(sock, (char*)&test.IsReady, sizeof(test.IsReady), 0);//구조체 보냄
+			if (retval == SOCKET_ERROR) {
+				err_display("send()");
+			}
+			retval = recv(sock, (char*)&test.IsScene, sizeof(test.IsScene), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("recvn() IsScene");
+			}
 		}
+		if (test.IsScene == 1) {//게임중
+			retval = recv(sock, (char*)&playerInfo, sizeof(playerInfo), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("recvn() playerInfo");
+			}
+			retval = send(sock, (char*)&playerInfo, sizeof(playerInfo), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("send() playerInfo");
+			}
+
+		}
+
+		printf("%d\n", playerInfo.Hp);
 
 		if (count > 5) { //테스트용 
 			test.IsReady = true;

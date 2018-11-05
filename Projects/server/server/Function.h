@@ -1,5 +1,5 @@
 //함수
-
+//////////////////
 #pragma once
 
 bool IsAllClientReady(); // 모든 클라이언트의 레디 상태를 확인
@@ -7,9 +7,10 @@ bool IsAllClientReady(); // 모든 클라이언트의 레디 상태를 확인
 void err_quit(char *msg); // 소켓 함수 오류 출력 후 종료
 void err_display(char *msg); // 소켓 함수 오류 출력
 int recvn(SOCKET s, char *buf, int len, int flags); // 사용자 정의 데이터 수신 함수
-int RecvInitData(SOCKET s, char *buf, int len, int flags); // 사용자 정의 데이터 수신 함수(Ready)
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
+PlayerInfo playerInfo;
+EnemyInfo enemyInfo;
 int ClientCount = -1; //클라이언트 번호 할당
 
 DWORD WINAPI ProcessClient(LPVOID arg) {
@@ -25,19 +26,50 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int ClientNum = ClientCount;
 	while (true)
 	{
-		retval = RecvInitData(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
-		if (retval == SOCKET_ERROR) {
-			err_display("RecvInitData()");
-			break;
+		if (clientinfotohandle[ClientNum].IsScene == 0) { //메뉴화면 일때
+			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("recv() IsReady");
+				break;
+			}
+
+			if (IsAllClientReady() == true) {
+				clientinfotohandle[ClientNum].IsScene = 1; //게임플레이로 씬전환
+				if (retval == SOCKET_ERROR) {
+					err_display("send() Scene");
+					break;
+				}
+			}
+			else {
+				printf("레디 해롸!\n");
+			}
+			retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 		}
 
-		if (IsAllClientReady() == true) {
-			printf("올레디\n");
-		}
-		else {
-			printf("쉐수쉐쉣\n");
-		}
+		if (clientinfotohandle[ClientNum].IsScene == 1) { //게임 중 일때
 
+			//초기값 설정 함수로 만들자!
+			playerInfo.Pos = {10, 10};
+			playerInfo.Hp=5;
+			playerInfo.BulletCount=1;
+			playerInfo.Shield=0;
+			playerInfo.SubWeapon=1;
+			playerInfo.Power=1;
+			playerInfo.Score=0;
+
+			retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
+			if (retval == SOCKET_ERROR) {
+				err_display("send() playerInfo");
+				break;
+			}
+			retval = recvn(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);
+			if (retval == SOCKET_ERROR) {
+				err_display("recv() playerInfo");
+				break;
+			}
+
+			printf("게임 중!\n");
+		}
 	}
 
 	closesocket(ClientSock);
@@ -54,6 +86,7 @@ bool IsAllClientReady()
 	}
 }
 
+//=======================================================================================
 void err_quit(char *msg)
 {
 	LPVOID lpMsgBuf;
@@ -77,24 +110,7 @@ void err_display(char *msg)
 	printf("[%s] %s", msg, (char *)lpMsgBuf);
 	LocalFree(lpMsgBuf);
 }
-int RecvInitData(SOCKET s, char *buf, int len, int flags)
-{
-	int received;
-	char *ptr = buf;
-	int left = len;
 
-	while (left > 0) {
-		received = recv(s, ptr, left, flags);
-		if (received == SOCKET_ERROR)
-			return SOCKET_ERROR;
-		else if (received == 0)
-			break;
-		left -= received;
-		ptr += received;
-	}
-
-	return (len - left);
-}
 int recvn(SOCKET s, char *buf, int len, int flags)
 {
 	int received;
