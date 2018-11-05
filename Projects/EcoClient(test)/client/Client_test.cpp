@@ -11,10 +11,10 @@
 //대기시간을 줄이고 용량도 크면 좋음!
 
 #pragma pack(1)
-class Test
-{
+class Test {
 public:
-	bool redy = false;
+	bool IsReady=false;
+	bool IsDead=false;
 };
 
 // 소켓 함수 오류 출력 후 종료
@@ -66,15 +66,20 @@ int main(int argc, char *argv[])
 	retval = connect(sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
-	Test files;
+	Test test;
 
+	int count = 0;
 	while (true)
 	{
-		retval = send(sock, (char*)&files, sizeof(files), 0);//구조체 보냄
+		retval = send(sock, (char*)&test.IsReady, sizeof(test.IsReady), 0);//구조체 보냄
 		if (retval == SOCKET_ERROR) {
 			err_display("send()");
 		}
 
+		if (count > 70) { //테스트용 
+			test.IsReady = true;
+		}
+		count++;
 	}
 	// closesocket()
 	closesocket(sock);
