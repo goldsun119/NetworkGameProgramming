@@ -13,12 +13,13 @@ bool IsAllClientReady(); // 모든 클라이언트의 레디 상태를 확인
 void err_quit(char *msg); // 소켓 함수 오류 출력 후 종료
 void err_display(char *msg); // 소켓 함수 오류 출력
 int recvn(SOCKET s, char *buf, int len, int flags); // 사용자 정의 데이터 수신 함수
-int RecvInitData(SOCKET s, char *buf, int len, int flags);
+int RecvInitData(SOCKET s, char *buf, int len, int flags); // 사용자 정의 데이터 수신 함수(Ready)
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
-int ClientCount = -1;
+int ClientCount = -1; //클라이언트 번호 할당
 
 DWORD WINAPI ProcessClient(LPVOID arg) {
+	ClientCount++;
 	SOCKET ClientSock = (SOCKET)arg;
 	SOCKADDR ClientAddr;
 	int AddrLen;
@@ -30,7 +31,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int ClientNum = ClientCount;
 	while (true)
 	{
-		retval = RecvInitData(ClientSock, (char*)&clientinfotohandle[ClientNum], sizeof(clientinfotohandle), 0);
+		retval = RecvInitData(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
 		if (retval == SOCKET_ERROR) {
 			err_display("RecvInitData()");
 			break;
@@ -94,10 +95,8 @@ int main(int argc, char *argv[])
 		printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 			inet_ntoa(ClientAddr.sin_addr), ntohs(ClientAddr.sin_port));
 
-		
 		CreateThread(NULL, 0, ProcessClient, (LPVOID)ClientSock, 0, NULL);
-		ClientCount++;
-		
+	
 	}
 	// closesocket()
 	closesocket(ListenSock);
@@ -107,14 +106,12 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void SetReady() //필요한가?
-{
-	
-}
+
 bool IsAllClientReady() 
 {
 	if (clientinfotohandle[0].IsReady == true && clientinfotohandle[1].IsReady == true) {
 		return true;
+		//모두 레디) 씬넘김 추가해야함
 	}
 	else {
 		return false;

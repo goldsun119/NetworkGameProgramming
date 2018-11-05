@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 			err_display("send()");
 		}
 
-		if (count > 70) { //테스트용 
+		if (count > 5) { //테스트용 
 			test.IsReady = true;
 		}
 		count++;
