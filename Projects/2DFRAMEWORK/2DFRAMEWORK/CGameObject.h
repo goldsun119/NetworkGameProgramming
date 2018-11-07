@@ -44,6 +44,7 @@ public:
 //МіСЄСп
 class Player : public CGameObject
 {
+
 private:
 	CImage pImg;
 	CImage pImgL;

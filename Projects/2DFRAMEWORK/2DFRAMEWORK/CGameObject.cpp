@@ -39,4 +39,5 @@ void CGameObject::OnDraw(HDC memdc, std::string name, POINT pos, int width, int 
 
 Player::Player()
 {
+	m_size = 50;
 }

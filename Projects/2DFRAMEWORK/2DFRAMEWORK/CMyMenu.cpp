@@ -23,16 +23,7 @@ CMyMenu::~CMyMenu()
 
 void CMyMenu::Render(HDC hdc)
 {
-	//·»´õ Ãß°¡ 
-	/*this->BeginRender();
-
-	this->BeginRender();*/
 	
-	CImage img;
-	//img.Load(*MYRENDERMANAGER->FindCImage("MenuImage"));
-
-	img.Load(TEXT("StartBackground.png"));
-	//img.Create(m_nWndClientWidth, m_nWndClientHeight, 24);
 	PAINTSTRUCT ps;
 	BeginPaint(g_hWnd, &ps);
 	{
@@ -40,14 +31,16 @@ void CMyMenu::Render(HDC hdc)
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
 
-		//img.Draw(memDc, 100, 100,200,200);
-
+		//StretchBlt(memDC, 0, 0, 403, 599, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
+		
 		BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
+	//	BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
+
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
 	EndPaint(g_hWnd, &ps);
-	img.Destroy();
+
 }
 
 void CMyMenu::EndRender()
