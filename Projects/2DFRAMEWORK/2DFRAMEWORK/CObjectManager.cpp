@@ -29,16 +29,17 @@ void CObjectManager::AddGameObject(CGameObject* obj, E_OBJECT objType)
 
 	//이 타입만들어진 맵을 확인하고
 	//그게 없다면 그떄 인서트로 만듬. 
+	//if(!m_ObjMap[objType].size())
 	std::vector<CGameObject*> ObjList;
 
 	//있나 없나 확인
 	auto iter = m_ObjMap.find(objType);
-	if (iter != m_ObjMap.end()) //있으면 리스트에 넣음
+	if (iter != m_ObjMap.end())
 		m_ObjMap[objType].push_back(obj);
-	else //없으면 리스트를 만들어서 넣음
+	else
 	{
 		ObjList.push_back(obj);
-		m_ObjMap.insert(std::make_pair(objType, ObjList)); 
+		m_ObjMap.insert(std::make_pair(objType, ObjList)); //없을 때
 
 	}
 

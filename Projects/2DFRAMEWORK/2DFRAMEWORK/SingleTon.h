@@ -9,7 +9,7 @@
 template <typename T>
 class CSingleTonBase
 {
-	//°´Ã¼ÇÏ³ª ¸¸µé¾î¼­ ´Ù ¾¸. 
+
 protected:
 
 	static T* m_Instance;

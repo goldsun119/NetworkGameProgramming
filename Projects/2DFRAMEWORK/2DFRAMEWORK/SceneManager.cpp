@@ -66,17 +66,12 @@ void CSceneManager::SetScene(E_SCENE state)
 	{
 	case E_MENU:
 		m_pScene = new CMyMenu;
-		m_SceneType = E_MENU;
 		break;
 	case E_INGAME:
 		m_pScene = new CMyInGame;
-		m_SceneType = E_INGAME;
-
 		break;
 	case E_GAMEOVER:
 		m_pScene = new CMyGameOver;
-		m_SceneType = E_GAMEOVER;
-
 		break;
 
 	}
