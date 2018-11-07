@@ -59,8 +59,9 @@ void CRenderManager::LoadCImage()
 	// 이 부분은 최적화를 위한 부분이므로 나중에 작업함.
 	// 게임 시작할 때 이미지를 전부 부르고 시작하고자 만듬.
 
-	// 아니 왜 경로가 안먹어
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
+	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
+
 }
 
 void CRenderManager::Render(HDC hdc, std::string name, POINT pos, int width, int height)
@@ -72,6 +73,51 @@ void CRenderManager::Render(HDC hdc, std::string name, POINT pos, int width, int
 	if (image)
 		image->begin()->GetCimage()->Draw(hdc, pos.x, pos.y, width, height);
 
+}
+
+void CRenderManager::PreRender(DWORD dwColor)
+{
+	HBRUSH hBrush = ::CreateSolidBrush(dwColor);
+	HBRUSH hOldBrush = (HBRUSH)::SelectObject(m_hdc, hBrush);
+	::Rectangle(m_hdc, 0, 0, m_nWndClientWidth, m_nWndClientHeight);
+	::SelectObject(m_hdc, hOldBrush);
+	::DeleteObject(hBrush);
+}
+
+void CRenderManager::BeginRender()
+{
+	HDC hDC = ::GetDC(m_hWnd);
+
+	if (!m_hdc)
+		m_hdc = ::CreateCompatibleDC(hDC);
+	if (m_hBitmapFrameBuffer)
+	{
+		::SelectObject(m_hdc, NULL);
+		::DeleteObject(m_hBitmapFrameBuffer);
+		m_hBitmapFrameBuffer = NULL;
+	}
+
+	m_hBitmapFrameBuffer = ::CreateCompatibleBitmap(hDC, m_nWndClientWidth, m_nWndClientHeight);
+	::SelectObject(m_hdc, m_hBitmapFrameBuffer);
+
+	::ReleaseDC(m_hWnd, hDC);
+	::SetBkMode(m_hdc, TRANSPARENT);
+}
+
+void CRenderManager::Render(HDC hdc)
+{
+	this->BeginRender();
+	this->Render(m_hdc);
+
+	this->EndRender();
+}
+
+void CRenderManager::EndRender()
+{
+	HDC hDC = ::GetDC(m_hWnd);
+
+	::BitBlt(hDC, 0, 0, m_nWndClientWidth, m_nWndClientHeight, m_hdc, 0, 0, SRCCOPY);
+	::ReleaseDC(m_hWnd, hDC);
 }
 
 void CRenderManager::AddRenderObject(TCHAR* FilePath, std::string name)

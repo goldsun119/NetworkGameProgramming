@@ -2,6 +2,7 @@
 
 class CGameObject
 {
+protected:
 	std::string m_name;
 	POINT m_Pos;
 	int width;
@@ -10,11 +11,15 @@ class CGameObject
 	
 	int m_size;
 	int m_hp;
+	static CGameObject* AllObjectList[MAXOBJECTNUM];
+	static unsigned long ObjIndex;
+
+	unsigned long myIdx;
 
 public:
 	CGameObject();
 	virtual ~CGameObject();
-
+	
 	
 	// Set
 	POINT GetPos() { return m_Pos; }
@@ -25,6 +30,7 @@ public:
 
 
 	// Get
+	unsigned long GetMyIdx();
 	void SetPos(int x, int y) { m_Pos.x = x, m_Pos.y = y; }
 	void SetXPos(int x) { m_Pos.x = x; }
 	void SetYPos(int y) { m_Pos.y = y; }
