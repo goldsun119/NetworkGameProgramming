@@ -74,6 +74,51 @@ void CRenderManager::Render(HDC hdc, std::string name, POINT pos, int width, int
 
 }
 
+void CRenderManager::PreRender(DWORD dwColor)
+{
+	HBRUSH hBrush = ::CreateSolidBrush(dwColor);
+	HBRUSH hOldBrush = (HBRUSH)::SelectObject(m_hdc, hBrush);
+	::Rectangle(m_hdc, 0, 0, m_nWndClientWidth, m_nWndClientHeight);
+	::SelectObject(m_hdc, hOldBrush);
+	::DeleteObject(hBrush);
+}
+
+void CRenderManager::BeginRender()
+{
+	HDC hDC = ::GetDC(m_hWnd);
+
+	if (!m_hdc)
+		m_hdc = ::CreateCompatibleDC(hDC);
+	if (m_hBitmapFrameBuffer)
+	{
+		::SelectObject(m_hdc, NULL);
+		::DeleteObject(m_hBitmapFrameBuffer);
+		m_hBitmapFrameBuffer = NULL;
+	}
+
+	m_hBitmapFrameBuffer = ::CreateCompatibleBitmap(hDC, m_nWndClientWidth, m_nWndClientHeight);
+	::SelectObject(m_hdc, m_hBitmapFrameBuffer);
+
+	::ReleaseDC(m_hWnd, hDC);
+	::SetBkMode(m_hdc, TRANSPARENT);
+}
+
+void CRenderManager::Render(HDC hdc)
+{
+	this->BeginRender();
+	this->Render(m_hdc);
+
+	this->EndRender();
+}
+
+void CRenderManager::EndRender()
+{
+	HDC hDC = ::GetDC(m_hWnd);
+
+	::BitBlt(hDC, 0, 0, m_nWndClientWidth, m_nWndClientHeight, m_hdc, 0, 0, SRCCOPY);
+	::ReleaseDC(m_hWnd, hDC);
+}
+
 void CRenderManager::AddRenderObject(TCHAR* FilePath, std::string name)
 {
 

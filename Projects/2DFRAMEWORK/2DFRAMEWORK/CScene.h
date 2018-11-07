@@ -1,5 +1,6 @@
 #pragma once
 
+
 class CScene //추상클래스. 객체화할 수 없다. 
 {
 public:
@@ -13,6 +14,7 @@ public:
 public:
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
+
 
 };
 

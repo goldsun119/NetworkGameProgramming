@@ -34,9 +34,6 @@
     <Filter Include="소스 파일\Framework\SceneManager\GameState\00. Menu">
       <UniqueIdentifier>{4bfeedf2-0588-4f95-8d7c-7dc20cc5e3e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOut">
-      <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Framework\SceneManager\GameState\01. GameIn">
       <UniqueIdentifier>{c8940910-9d95-4322-bfe4-418bc0196e70}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,9 @@
     </Filter>
     <Filter Include="소스 파일\main">
       <UniqueIdentifier>{52d28be8-55a4-4b28-8044-bfc8c0d392ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
+      <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,7 +70,7 @@
       <Filter>소스 파일\Framework\SceneManager\GameState\00. Menu</Filter>
     </ClInclude>
     <ClInclude Include="CMyGameOver.h">
-      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOut</Filter>
+      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOver</Filter>
     </ClInclude>
     <ClInclude Include="CMyInGame.h">
       <Filter>소스 파일\Framework\SceneManager\GameState\01. GameIn</Filter>
@@ -96,6 +96,9 @@
     <ClInclude Include="2DFRAMEWORK.h">
       <Filter>소스 파일\main</Filter>
     </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -108,7 +111,7 @@
       <Filter>소스 파일\Framework\SceneManager\GameState\00. Menu</Filter>
     </ClCompile>
     <ClCompile Include="CMyGameOver.cpp">
-      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOut</Filter>
+      <Filter>소스 파일\Framework\SceneManager\GameState\02. GameOver</Filter>
     </ClCompile>
     <ClCompile Include="CMyInGame.cpp">
       <Filter>소스 파일\Framework\SceneManager\GameState\01. GameIn</Filter>
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="2DFRAMEWORK.cpp">
       <Filter>소스 파일\main</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
