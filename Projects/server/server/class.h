@@ -4,10 +4,10 @@ class ClientInfoToHandle {
 public:
 	bool IsReady=false;
 	bool IsDead=false;
-	int IsScene = Scene::E_MENU;
+	int IsScene = E_MENU;
 }; 
 
-enum Scene{
+enum {
 	E_MENU,
 	E_INGAME,
 	E_GAMEOVER,

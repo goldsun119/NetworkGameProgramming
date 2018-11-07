@@ -5,6 +5,7 @@
 CMyInGame::CMyInGame()
 {
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));
 
 }
 
@@ -30,7 +31,8 @@ void CMyInGame::Render(HDC hdc)
 
 		//img.Draw(memDc, 0, 0,360,600);
 
-		StretchBlt (hdc, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0,360,600, SRCCOPY);
+//		BitBlt(hdc, 0, 0, 800, 600, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
+		StretchBlt(hdc, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
