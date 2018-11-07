@@ -1,17 +1,26 @@
-//함수
-//////////////////
 #pragma once
 
 bool IsAllClientReady(); // 모든 클라이언트의 레디 상태를 확인
+void SetInitData(PlayerInfo a, int num);
 
 void err_quit(char *msg); // 소켓 함수 오류 출력 후 종료
 void err_display(char *msg); // 소켓 함수 오류 출력
 int recvn(SOCKET s, char *buf, int len, int flags); // 사용자 정의 데이터 수신 함수
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
-PlayerInfo playerInfo;
+PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
 int ClientCount = -1; //클라이언트 번호 할당
+int KeyInput = 0;
+enum Key
+{
+	E_LEFT,
+	E_RIGHT,
+	E_UP,
+	E_DOWN,
+	E_ATTACK,
+	E_ULTIMATE
+};
 
 DWORD WINAPI ProcessClient(LPVOID arg) {
 	ClientCount++;
@@ -24,9 +33,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int retval;
 
 	int ClientNum = ClientCount;
+	SetInitData(playerInfo[ClientNum], ClientNum);
+
 	while (true)
 	{
-		if (clientinfotohandle[ClientNum].IsScene == E_MENU) { //메뉴화면 일때
+		//메뉴화면 일때
+		if (clientinfotohandle[ClientNum].IsScene == Scene::E_MENU) {
 			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
@@ -34,7 +46,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = E_INGAME; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = Scene::E_INGAME; //게임플레이로 씬전환
+				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				if (retval == SOCKET_ERROR) {
 					err_display("send() Scene");
 					break;
@@ -43,39 +56,51 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			else {
 				printf("레디 해롸!\n");
 			}
-			retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == E_INGAME) { //게임 중 일때
+		//게임 중 일때
+		else if (clientinfotohandle[ClientNum].IsScene == Scene::E_INGAME) {
+			retval = recvn(ClientSock, (char*)&KeyInput, sizeof(KeyInput), 0);	//키 입력값 받음
+			if (retval == SOCKET_ERROR) {
+				err_display("recv() KeyInput");
+				break;
+			}
+			switch (KeyInput)
+			{
+			case Key::E_LEFT:
+				playerInfo->Pos.x -= 3;
+				break;
 
-			//초기값 설정 함수로 만들자!
-			playerInfo.Pos = {10, 10};
-			playerInfo.Hp=5;
-			playerInfo.BulletCount=1;
-			playerInfo.Shield=0;
-			playerInfo.SubWeapon=1;
-			playerInfo.Power=1;
-			playerInfo.Score=0;
+			case Key::E_RIGHT:
+				playerInfo->Pos.x += 3;
+				break;
 
+
+			case Key::E_UP:
+				playerInfo->Pos.y -= 3;
+				break;
+
+
+			case Key::E_DOWN:
+				playerInfo->Pos.y += 3;
+				break;
+
+			}
 			retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
 			if (retval == SOCKET_ERROR) {
 				err_display("send() playerInfo");
 				break;
 			}
-			retval = recvn(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);
-			if (retval == SOCKET_ERROR) {
-				err_display("recv() playerInfo");
-				break;
-			}
-
 			printf("게임 중!\n");
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == E_GAMEOVER) { //게임 종료
+		//게임 종료
+		if (clientinfotohandle[ClientNum].IsScene == Scene::E_GAMEOVER) {
 		
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == E_RANK) { //랭크 출력
+		//랭크 출력
+		if (clientinfotohandle[ClientNum].IsScene == Scene::E_RANK) {
 
 		}
 	}
@@ -92,6 +117,18 @@ bool IsAllClientReady()
 	else {
 		return false;
 	}
+}
+
+void SetInitData(PlayerInfo a, int num)
+{
+	//초기값 설정 함수로 만들자!
+	a.Pos = { (num+1) * 100, 50 };
+	a.Hp = 5;
+	a.BulletCount = 1;
+	a.Shield = 0;
+	a.SubWeapon = 1;
+	a.Power = 1;
+	a.Score = 0;
 }
 
 //=======================================================================================
