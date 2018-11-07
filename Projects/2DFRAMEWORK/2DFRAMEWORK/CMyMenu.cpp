@@ -21,7 +21,7 @@ CMyMenu::~CMyMenu()
 
 }
 
-void CMyMenu::Render(HDC memDc)
+void CMyMenu::Render(HDC hdc)
 {
 	//·»´õ Ãß°¡ 
 	/*this->BeginRender();
@@ -36,15 +36,15 @@ void CMyMenu::Render(HDC memDc)
 	PAINTSTRUCT ps;
 	BeginPaint(g_hWnd, &ps);
 	{
-		//HDC memDC = CreateCompatibleDC(hdc);
-		//HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
-		//SelectObject(memDC, memBit);
+		HDC memDC = CreateCompatibleDC(hdc);
+		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
+		SelectObject(memDC, memBit);
 
 		//img.Draw(memDc, 100, 100,200,200);
 
-		BitBlt(memDc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
-		//DeleteObject(memBit);
-		//DeleteDC(memDC);
+		BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
+		DeleteObject(memBit);
+		DeleteDC(memDC);
 	}
 	EndPaint(g_hWnd, &ps);
 	img.Destroy();

@@ -4,6 +4,15 @@
 class CMyInGame : public CScene
 {
 public:
+	std::map<std::string, std::vector<MyImage>> m_IngameImageMap;
+	HDC								m_hdc;
+	HWND							m_hWnd;
+	HBITMAP							m_hBitmapFrameBuffer;
+	HBITMAP							m_hBitmapSelect;
+	DWORD							m_bBackgroundColor;
+	int								m_nWndClientWidth = 800;
+	int								m_nWndClientHeight = 600;
+public:
 	CMyInGame();
 	virtual ~CMyInGame();
 public:

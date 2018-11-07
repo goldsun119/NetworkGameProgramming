@@ -59,8 +59,9 @@ void CRenderManager::LoadCImage()
 	// 이 부분은 최적화를 위한 부분이므로 나중에 작업함.
 	// 게임 시작할 때 이미지를 전부 부르고 시작하고자 만듬.
 
-	// 아니 왜 경로가 안먹어
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
+	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
+
 }
 
 void CRenderManager::Render(HDC hdc, std::string name, POINT pos, int width, int height)
