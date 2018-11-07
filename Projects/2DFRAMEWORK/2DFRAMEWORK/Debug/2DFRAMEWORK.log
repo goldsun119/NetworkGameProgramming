@@ -1,2 +1,17 @@
-﻿  CMyInGame.cpp
+﻿  stdafx.cpp
+  2DFRAMEWORK.cpp
+  CGameObject.cpp
+  CMyGameOver.cpp
+  CMyInGame.cpp
+  CMyMenu.cpp
+  CObjectManager.cpp
+  CRenderManager.cpp
+  CScene.cpp
+  Framework.cpp
+  InputManager.cpp
+  SceneManager.cpp
+  코드를 생성하고 있습니다...
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\crendermanager.cpp(115): warning C4717: 'CRenderManager::Render': 모든 제어 경로에서 재귀적입니다. 함수로 인해 런타임 스택 오버플로가 발생합니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cobjectmanager.cpp(24): warning C4715: 'CObjectManager::FindGameObject': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  LINK : C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\2DFRAMEWORK\Debug\2DFRAMEWORK.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   2DFRAMEWORK.vcxproj -> C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\2DFRAMEWORK\Debug\2DFRAMEWORK.exe
