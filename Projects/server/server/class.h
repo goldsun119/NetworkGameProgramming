@@ -4,8 +4,15 @@ class ClientInfoToHandle {
 public:
 	bool IsReady=false;
 	bool IsDead=false;
-	int IsScene = 0; //씬 메뉴 초기값 , 1 게임플레이
+	int IsScene = E_MENU;
 }; 
+
+enum {
+	E_MENU,
+	E_INGAME,
+	E_GAMEOVER,
+	E_RANK
+};
 
 #pragma pack(1)
 class PlayerInfo {

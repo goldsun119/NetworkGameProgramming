@@ -26,7 +26,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int ClientNum = ClientCount;
 	while (true)
 	{
-		if (clientinfotohandle[ClientNum].IsScene == 0) { //메뉴화면 일때
+		if (clientinfotohandle[ClientNum].IsScene == E_MENU) { //메뉴화면 일때
 			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
@@ -34,7 +34,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = 1; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = E_INGAME; //게임플레이로 씬전환
 				if (retval == SOCKET_ERROR) {
 					err_display("send() Scene");
 					break;
@@ -46,7 +46,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == 1) { //게임 중 일때
+		if (clientinfotohandle[ClientNum].IsScene == E_INGAME) { //게임 중 일때
 
 			//초기값 설정 함수로 만들자!
 			playerInfo.Pos = {10, 10};
@@ -69,6 +69,14 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			printf("게임 중!\n");
+		}
+
+		if (clientinfotohandle[ClientNum].IsScene == E_GAMEOVER) { //게임 종료
+		
+		}
+
+		if (clientinfotohandle[ClientNum].IsScene == E_RANK) { //랭크 출력
+
 		}
 	}
 
