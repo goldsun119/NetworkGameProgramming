@@ -1,5 +1,3 @@
-//함수
-//////////////////
 #pragma once
 
 bool IsAllClientReady(); // 모든 클라이언트의 레디 상태를 확인
@@ -13,6 +11,7 @@ ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
 int ClientCount = -1; //클라이언트 번호 할당
+
 int KeyInput = 0;
 enum Key
 {
@@ -42,7 +41,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	}
 	while (true)
 	{
-		if (clientinfotohandle[ClientNum].IsScene == E_MENU) { //메뉴화면 일때
+		//메뉴화면 일때
+		if (clientinfotohandle[ClientNum].IsScene ==Scene:: E_MENU) { 
 			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
@@ -50,7 +50,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = E_INGAME; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				if (retval == SOCKET_ERROR) {
 					err_display("send() Scene");
@@ -62,7 +62,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 		}
 
-		else if (clientinfotohandle[ClientNum].IsScene == E_INGAME) { //게임 중 일때
+		//게임 중 일때
+		else if (clientinfotohandle[ClientNum].IsScene == Scene::E_INGAME) {
 			retval = recvn(ClientSock, (char*)&KeyInput, sizeof(KeyInput), 0);	//키 입력값 받음
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
@@ -89,6 +90,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				break;
 
 			}
+			////////////////////////////////충돌체크 등 연산 다 여기서
 
 			retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
 			if (retval == SOCKET_ERROR) {
@@ -98,11 +100,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			printf("게임 중!\n");
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == E_GAMEOVER) { //게임 종료
+		//게임 종료
+		if (clientinfotohandle[ClientNum].IsScene == Scene::E_GAMEOVER) {
 		
 		}
 
-		if (clientinfotohandle[ClientNum].IsScene == E_RANK) { //랭크 출력
+		if (clientinfotohandle[ClientNum].IsScene == Scene::E_RANK) { //랭크 출력
 
 		}
 	}
@@ -124,7 +127,7 @@ bool IsAllClientReady()
 void SetInitData(PlayerInfo a, int num)
 {
 	//초기값 설정 함수로 만들자!
-	a.Pos = { (num+1) * 10, 10 };
+	a.Pos = { (num+1) * 100, 50 };
 	a.Hp = 5;
 	a.BulletCount = 1;
 	a.Shield = 0;
