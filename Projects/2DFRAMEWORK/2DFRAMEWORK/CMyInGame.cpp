@@ -22,7 +22,6 @@ void CMyInGame::Render(HDC hdc)
 	int y = 500;
 	int size = 50;
 	CImage img;
-	//getClientRect
 
 	img.Load(TEXT("Player1.png"));
 	PAINTSTRUCT ps;

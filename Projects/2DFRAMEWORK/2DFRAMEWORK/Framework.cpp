@@ -33,6 +33,7 @@ void FrameWork::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 	MYRENDERMANAGER->LoadCImage();				//랜더매니저
 
 	this->Enter(E_MENU);
+	this->MakeServer();
 }
 
 
@@ -139,4 +140,30 @@ void FrameWork::Enter(E_SCENE state)
 	//씬에 들어감.
 	SCENEMANAGER->SetScene(E_MENU);
 
+}
+
+int FrameWork::MakeServer()
+{
+	int retval;
+
+	// 윈속 초기화
+	WSADATA wsa;
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+		return 1;
+
+	// socket()
+	m_sock = socket(AF_INET, SOCK_STREAM, 0);
+	//if (sock == INVALID_SOCKET) err_quit("socket()");
+
+	// connect()
+	SOCKADDR_IN serveraddr;
+	ZeroMemory(&serveraddr, sizeof(serveraddr));
+	serveraddr.sin_family = AF_INET;
+	serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
+	serveraddr.sin_port = htons(SERVERPORT);
+	retval = connect(m_sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
+	//if (retval == SOCKET_ERROR) err_quit("connect()");
+
+	
+	m_count = 0;
 }

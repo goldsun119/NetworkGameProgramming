@@ -1,11 +1,11 @@
 #pragma once
-
+#include "stdafx.h"
 #pragma pack(1)
 class ClientInfoToHandle {
 public:
 	bool IsReady = false;
 	bool IsDead = false;
-	int IsScene = Scene::E_MENU;
+	int IsScene;
 };
 
 #pragma pack(1)

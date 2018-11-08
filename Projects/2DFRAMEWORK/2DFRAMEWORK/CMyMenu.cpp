@@ -1,7 +1,8 @@
 #include "stdafx.h"
+#include "Framework.h"
 #include "CMyMenu.h"
 #include "CRenderManager.h"
-
+#include "MyPacket.h"
 CMyMenu::CMyMenu()
 {
 	
@@ -30,12 +31,8 @@ void CMyMenu::Render(HDC hdc)
 		HDC memDC = CreateCompatibleDC(hdc);
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
-
-		//StretchBlt(memDC, 0, 0, 403, 599, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
-		
+	
 		BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
-	//	BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
-
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
@@ -53,6 +50,12 @@ void CMyMenu::EndRender()
 
 void CMyMenu::Update()
 {
+	ClientInfoToHandle ClientInfo;
+	int retval;
+	//레디정보를 계속 보내준다.
+	 retval = send(FRAMEWORK->GetSock(), (char*)FRAMEWORK->GetClientInfo().IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);//구조체 보냄
+
+
 }
 
 void CMyMenu::Destroy()

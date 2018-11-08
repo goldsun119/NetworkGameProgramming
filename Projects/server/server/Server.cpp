@@ -1,4 +1,9 @@
 #include "stdafx.h"
+bool IsAllClientReady();
+void SetInitData(PlayerInfo a, int num);
+void err_quit(char *msg);
+int recvn(SOCKET s, char *buf, int len, int flags);
+void err_display(char *msg);
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];

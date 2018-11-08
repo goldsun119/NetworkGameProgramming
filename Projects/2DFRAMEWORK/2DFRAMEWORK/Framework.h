@@ -1,12 +1,12 @@
 #pragma once
-
+#include "MyPacket.h"
 class CScene;
 class FrameWork :public CSingleTonBase<FrameWork>
 {
 	std::vector<CScene*>			m_states;
 
 public:
-	//CScene* m_states[5];
+
 	HINSTANCE						m_hInstance;
 	HWND							m_hWnd;
 	FrameWork();
@@ -20,7 +20,14 @@ public:
 	float							m_fTimeElapsed;
 	int								m_nWndClientWidth;
 	int								m_nWndClientHeight;
+
 public:
+	SOCKET							m_sock;
+	int								m_retval;
+	ClientInfoToHandle				m_ClientInfo;
+	int								m_count;
+public:
+
 	void Init();
 	void OnCreate(HINSTANCE hInstance, HWND hMainWnd);
 	//void Update();
@@ -35,6 +42,18 @@ public:
 	
 	//씬에 들어가는거 만들어야지
 	void Enter(E_SCENE state);
+
+public:
+	//GET
+	SOCKET GetSock() { return m_sock; }
+	int GetRetval() { return m_retval; }
+	ClientInfoToHandle GetClientInfo() { return m_ClientInfo; }
+
+	//SET
+	void SetClientReadyInfo(bool isReady) { m_ClientInfo.IsReady = true; }
+	
+	//서버
+	int MakeServer();
 //private:
 //	CSceneManager * pSceneMgr;
 };
