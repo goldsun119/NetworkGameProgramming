@@ -10,8 +10,8 @@ public:
 	HBITMAP							m_hBitmapFrameBuffer;
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
-	int								m_nWndClientWidth;
-	int								m_nWndClientHeight;
+	int								m_nWndClientWidth = 403;
+	int								m_nWndClientHeight = 599;
 	//CGameObject						*m_pGameObj;
 	//Player							*m_pPlayer;
 public:
