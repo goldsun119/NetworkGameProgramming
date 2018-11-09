@@ -52,11 +52,13 @@
     <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
       <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
+    <Filter Include="소스 파일\Framework\TIMERMANAGER">
+      <UniqueIdentifier>{9e2102e5-1f0c-43e1-9490-5c27d89d7b33}</UniqueIdentifier>
+=======
     <Filter Include="소스 파일\Framework\Player">
       <UniqueIdentifier>{a9a3532d-6ad0-4b76-9a25-4d674f080fbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\TimeManager">
-      <UniqueIdentifier>{fc2224b9-5bf6-4649-baec-873e591e248a}</UniqueIdentifier>
+>>>>>>> 52af98795a5405301d94039e413144a0f6d30250
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,11 +110,13 @@
     <ClInclude Include="CObjectManager.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="TimerManager.h">
+      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
+=======
     <ClInclude Include="CPlayer.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TimerManager.h">
-      <Filter>소스 파일\TimeManager</Filter>
+>>>>>>> 52af98795a5405301d94039e413144a0f6d30250
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,11 +156,13 @@
     <ClCompile Include="CObjectManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
+=======
     <ClCompile Include="CPlayer.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TimerManager.cpp">
-      <Filter>소스 파일\TimeManager</Filter>
+>>>>>>> 52af98795a5405301d94039e413144a0f6d30250
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
