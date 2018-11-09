@@ -13,19 +13,11 @@
 #include "Enemy.h"
 #include "Player.h"
 
-
 #define SERVERPORT 9000
 #define BUFSIZE    1024
 
 using namespace std;
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
-
-enum Scene {
-	E_MENU,
-	E_INGAME,
-	E_GAMEOVER,
-	E_RANK
-};
 
 enum Key
 {
