@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "InputManager.h"
-
+#include "Framework.h"
 
 CInputManager::CInputManager()
 {
@@ -42,6 +42,12 @@ void CInputManager::SetKeyState()
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		m_dwKey |= KEY_LBUTTON;
+	}
+
+	if (GetAsyncKeyState(VK_F5))
+	{
+		FRAMEWORK->SetClientReadyInfo(TRUE);
+		m_dwKey |= KEY_READY;
 	}
 }
 

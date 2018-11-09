@@ -1,5 +1,6 @@
 #pragma once
 #include "CScene.h"
+#include "CObjectManager.h"
 
 class CMyInGame : public CScene
 {
@@ -11,8 +12,9 @@ public:
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
 	CImage							m_PlayerImg;
-	
-	
+
+	CObjectManager					MakeEnemy;
+
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;
 
@@ -28,5 +30,8 @@ public:
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;
+
+	virtual void CheckKey() override;
+
 };
 

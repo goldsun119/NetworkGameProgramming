@@ -36,17 +36,17 @@ void CSceneManager::Update()
 
 void CSceneManager::Destroy()
 {
-	for (auto iter : vSceneContainer)
-	{
-		if (iter != nullptr)
-		{
-			delete iter;
-			iter = nullptr;
-		}
-	}
+	//for (auto iter : vSceneContainer)
+	//{
+	//	if (iter != nullptr)
+	//	{
+	//		delete iter;
+	//		iter = nullptr;
+	//	}
+	//}
 
-	vSceneContainer.shrink_to_fit();
-	vSceneContainer.clear();
+	//vSceneContainer.shrink_to_fit();
+	//vSceneContainer.clear();
 }
 
 void CSceneManager::ChangeState(E_SCENE state)

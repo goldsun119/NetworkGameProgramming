@@ -5,7 +5,11 @@
 
 FrameWork::FrameWork()
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(215);
 	m_hdc = GetDC(g_hWnd);
+
+	
 }
 
 
@@ -16,7 +20,6 @@ FrameWork::~FrameWork()
 
 void FrameWork::Init()
 {
-	//pSceneMgr = new CSceneManager{};
 
 	MYRENDERMANAGER->LoadCImage();				//랜더매니저가 가진 이미지 전부 로드
 
@@ -102,9 +105,6 @@ void FrameWork::Render()
 	SCENEMANAGER->Render(m_hdc);
 
 	//this->EndRender();
-	//2. 그 사이에 씬별 드로우
-	//m_states
-	//m_states[0]->Enter();
 
 }
 

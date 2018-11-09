@@ -4,6 +4,7 @@ class CGameObject
 protected:
 	std::string m_name;
 	POINT m_Pos;
+
 	int width;
 	int height;
 
@@ -17,9 +18,13 @@ protected:
 
 public:
 	CGameObject();
+	CGameObject(string name, POINT, float width, float height);
+	CGameObject(string name, float destX,float destY, float width, float height);
+
+
 	virtual ~CGameObject();
 	
-public:
+	
 	// Set
 	POINT GetPos() { return m_Pos; }
 	int GetXPos() const { return m_Pos.x; }
@@ -35,10 +40,10 @@ public:
 	void SetYPos(int y) { m_Pos.y = y; }
 	void SetHp(int hp) { m_hp = hp; }
 	void SetSize(int size) { m_size = size; }
-
+// 이미지
+	void OnDraw(HDC memdc, std::string name, POINT pos, int width, int height);
+	
 public:
-	// 이미지
-	void Render(HDC memdc, std::string name, POINT pos, int width, int height);
 	virtual void Render(HDC m_hdc);
 };
 

@@ -16,6 +16,19 @@ CGameObject::CGameObject()
 	++ObjIndex;
 }
 
+CGameObject::CGameObject(string name, POINT pos, float width, float height)
+	:m_name(name),m_Pos(pos),width(width),height(height)
+{
+}
+
+CGameObject::CGameObject(string name, float destX, float destY, float width, float height)
+	: m_name(name), width(width), height(height)
+{
+	m_Pos.x = destX;
+	m_Pos.y = destY;
+
+}
+
 
 CGameObject::~CGameObject()
 {
@@ -27,13 +40,14 @@ unsigned long CGameObject::GetMyIdx()
 	return myIdx;
 }
 
-void CGameObject::Render(HDC memdc, std::string name, POINT pos, int width, int height)
+void CGameObject::OnDraw(HDC memdc, std::string name, POINT pos, int width, int height)
 {
 	MYRENDERMANAGER->Render(memdc,name,pos,width,height);
 }
 
 void CGameObject::Render(HDC m_hdc)
 {
+
 
 }
 

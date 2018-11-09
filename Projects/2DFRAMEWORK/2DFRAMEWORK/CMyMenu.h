@@ -1,7 +1,12 @@
 #pragma once
 #include "CScene.h"
+class CGameObject;
+class CMyButton;
+
 class CMyMenu : public CScene
 {
+	list<CGameObject*>		m_ListButton;
+
 public:
 	CMyMenu();
 	virtual ~CMyMenu();
@@ -13,6 +18,7 @@ public:
 	DWORD							m_bBackgroundColor;
 	int								m_nWndClientWidth = 800;
 	int								m_nWndClientHeight = 600;
+	bool							m_IsReady = false;
 
 public:
 	// CScene을(를) 통해 상속됨
@@ -22,6 +28,8 @@ public:
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;
+	virtual void CheckKey() override;
+
 	
 	virtual void PreRender(DWORD dwColor);
 	virtual void BeginRender();

@@ -28,3 +28,7 @@ void CMyGameOver::Enter()
 void CMyGameOver::Exit()
 {
 }
+
+void CMyGameOver::CheckKey()
+{
+}

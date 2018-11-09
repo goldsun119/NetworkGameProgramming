@@ -2,6 +2,9 @@
 #include "Framework.h"
 #include "CMyMenu.h"
 #include "CRenderManager.h"
+#include "InputManager.h"
+#include "CGameObject.h"
+#include "CMybutton.h"
 #include "MyPacket.h"
 CMyMenu::CMyMenu()
 {
@@ -11,8 +14,16 @@ CMyMenu::CMyMenu()
 	//m_MenuImageMap.insert(make_pair("background", MYRENDERMANAGER->FindCImage("StartBackground.png")));
 	//std::map<std::string, std::vector<MyImage>> m_ImageMap;
 	m_MenuImageMap.insert(pair<std::string, std::vector<MyImage>>("MenuBackGroundImage", *MYRENDERMANAGER->FindCImage("MenuImage")));
+	m_MenuImageMap.insert(pair<std::string, std::vector<MyImage>>("MenuStartButtonImage", *MYRENDERMANAGER->FindCImage("MenuStartButtonImage")));
+	m_MenuImageMap.insert(pair<std::string, std::vector<MyImage>>("MenuExitButtonImage", *MYRENDERMANAGER->FindCImage("MenuExitButtonImage")));
+	m_MenuImageMap.insert(pair<std::string, std::vector<MyImage>>("MenuReadyButtonImage", *MYRENDERMANAGER->FindCImage("MenuReadyButtonImage")));
 
+	m_ListButton.push_back(new CMyButton("START", 40.0f, 400.0f, 100.0f, 100.0f));
+
+	m_ListButton.push_back(new CMyButton("READY",80.0f,300.0f, 100.0f, 100.0f));
 	
+	m_ListButton.push_back(new CMyButton("EXIT", 500.0f, 200.0f, 150.0f, 150.0f));
+
 
 }
 
@@ -32,7 +43,36 @@ void CMyMenu::Render(HDC hdc)
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
 	
-		BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
+		TransparentBlt(memDC, 0, 0, 400, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0,
+			m_MenuImageMap["MenuBackGroundImage"].begin()->GetWidth(), m_MenuImageMap["MenuBackGroundImage"].begin()->GetHeight(), RGB(0,0,0));
+
+		/*TransparentBlt(memDC, 100, 400, 150, 150, m_MenuImageMap["MenuStartButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
+			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth()-3, m_MenuImageMap["MenuStartButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
+		*///BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
+	
+	/*	for (list<CGameObject*>::iterator iter = m_ListButton.begin();
+			iter != m_ListButton.end(); ++iter)
+		{
+			(*iter)->Render(memDC);
+		}*/
+		//START버튼
+		TransparentBlt(memDC, 40, 400, 100, 100, m_MenuImageMap["MenuStartButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
+			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuStartButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
+		//EXIT
+		TransparentBlt(memDC, 240, 400, 100, 100, m_MenuImageMap["MenuExitButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
+			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuExitButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
+		
+		//READY
+		if (m_IsReady == TRUE)
+		{
+
+			TransparentBlt(memDC, 80, 300, 100, 100, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
+			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
+
+		}
+
+		BitBlt(hdc, 0, 0, 800, 600, memDC, 0, 0, SRCCOPY);
+
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
@@ -50,6 +90,8 @@ void CMyMenu::EndRender()
 
 void CMyMenu::Update()
 {
+	CheckKey();
+
 	ClientInfoToHandle ClientInfo;
 	int retval;
 	//레디정보를 계속 보내준다.
@@ -69,6 +111,15 @@ void CMyMenu::Enter()
 
 void CMyMenu::Exit()
 {
+}
+
+void CMyMenu::CheckKey()
+{
+	DWORD Key = INPUTMANAGER->GetKeyState();
+	if (Key & KEY_READY)
+	{
+		m_IsReady = !m_IsReady;
+	}
 }
 
 void CMyMenu::PreRender(DWORD dwColor)
