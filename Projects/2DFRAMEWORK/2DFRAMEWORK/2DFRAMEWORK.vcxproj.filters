@@ -46,17 +46,26 @@
     <Filter Include="소스 파일\Framework\RenderManager">
       <UniqueIdentifier>{efef60e2-6242-4fbf-ac47-e6618769527a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\main">
-      <UniqueIdentifier>{52d28be8-55a4-4b28-8044-bfc8c0d392ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
       <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Framework\Player">
-      <UniqueIdentifier>{a9a3532d-6ad0-4b76-9a25-4d674f080fbd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\TimeManager">
       <UniqueIdentifier>{fc2224b9-5bf6-4649-baec-873e591e248a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{52d28be8-55a4-4b28-8044-bfc8c0d392ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\GameObject">
+      <UniqueIdentifier>{7a3df073-7950-4085-b3e4-b36bbcaec95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\GameObject\Player">
+      <UniqueIdentifier>{4e77bbad-4c8b-433e-aab8-a45fb090348b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\GameObject\Monster">
+      <UniqueIdentifier>{e92faf11-7166-45ce-b3d9-815a3aea859d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\MyButton">
+      <UniqueIdentifier>{05bfd9a1-a6e0-48a6-be16-9bc06a648fe2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +99,6 @@
     <ClInclude Include="Framework.h">
       <Filter>소스 파일\Framework\FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="CGameObject.h">
-      <Filter>소스 파일\Framework\ObjectManager</Filter>
-    </ClInclude>
     <ClInclude Include="SingleTon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -100,19 +106,28 @@
       <Filter>소스 파일\Framework\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="2DFRAMEWORK.h">
-      <Filter>소스 파일\main</Filter>
+      <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="MyPacket.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CObjectManager.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="TimerManager.h">
       <Filter>소스 파일\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>소스 파일\Framework\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonster.h">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,23 +155,29 @@
     <ClCompile Include="Framework.cpp">
       <Filter>소스 파일\Framework\FrameWork</Filter>
     </ClCompile>
-    <ClCompile Include="CGameObject.cpp">
-      <Filter>소스 파일\Framework\ObjectManager</Filter>
-    </ClCompile>
     <ClCompile Include="CRenderManager.cpp">
       <Filter>소스 파일\Framework\RenderManager</Filter>
     </ClCompile>
     <ClCompile Include="2DFRAMEWORK.cpp">
-      <Filter>소스 파일\main</Filter>
-    </ClCompile>
-    <ClCompile Include="CObjectManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
       <Filter>소스 파일\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>소스 파일\Framework\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonster.cpp">
+      <Filter>소스 파일\Framework\ObjectManager\GameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MyButton.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

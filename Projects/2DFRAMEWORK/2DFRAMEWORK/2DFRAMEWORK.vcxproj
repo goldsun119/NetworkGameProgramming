@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="2DFRAMEWORK.h" />
     <ClInclude Include="CGameObject.h" />
+    <ClInclude Include="CMonster.h" />
     <ClInclude Include="CMyInGame.h" />
     <ClInclude Include="CMyGameOver.h" />
     <ClInclude Include="CMyMenu.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="MyButton.h" />
     <ClInclude Include="MyPacket.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
@@ -169,6 +171,7 @@
   <ItemGroup>
     <ClCompile Include="2DFRAMEWORK.cpp" />
     <ClCompile Include="CGameObject.cpp" />
+    <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMyInGame.cpp" />
     <ClCompile Include="CMyGameOver.cpp" />
     <ClCompile Include="CMyMenu.cpp" />
@@ -178,6 +181,7 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="MyButton.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

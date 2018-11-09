@@ -27,13 +27,14 @@ unsigned long CGameObject::GetMyIdx()
 	return myIdx;
 }
 
-void CGameObject::OnDraw(HDC memdc, std::string name, POINT pos, int width, int height)
+void CGameObject::Render(HDC memdc, std::string name, POINT pos, int width, int height)
 {
 	MYRENDERMANAGER->Render(memdc,name,pos,width,height);
 }
 
 void CGameObject::Render(HDC m_hdc)
 {
+
 }
 
 //void Player::Draw(HDC memdc)

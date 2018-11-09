@@ -33,6 +33,8 @@ void CMyInGame::Render(HDC hdc)
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
+
+		for()
 		//img.Draw(memDC, x, y, 50, 50);
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
