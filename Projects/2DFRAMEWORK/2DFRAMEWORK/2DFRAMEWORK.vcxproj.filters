@@ -49,18 +49,8 @@
     <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
       <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="소스 파일\TimeManager">
       <UniqueIdentifier>{fc2224b9-5bf6-4649-baec-873e591e248a}</UniqueIdentifier>
-=======
-<<<<<<< HEAD
-    <Filter Include="소스 파일\Framework\TIMERMANAGER">
-      <UniqueIdentifier>{9e2102e5-1f0c-43e1-9490-5c27d89d7b33}</UniqueIdentifier>
-=======
-    <Filter Include="소스 파일\Framework\Player">
-      <UniqueIdentifier>{a9a3532d-6ad0-4b76-9a25-4d674f080fbd}</UniqueIdentifier>
->>>>>>> 52af98795a5405301d94039e413144a0f6d30250
->>>>>>> 8d8c4579c5c9e2e1e1c5ae6e32cecd59a598b639
     </Filter>
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{52d28be8-55a4-4b28-8044-bfc8c0d392ba}</UniqueIdentifier>
@@ -130,12 +120,7 @@
     <ClInclude Include="CGameObject.h">
       <Filter>소스 파일\Framework\ObjectManager\GameObject</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="TimerManager.h">
-      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
-=======
     <ClInclude Include="CPlayer.h">
-<<<<<<< HEAD
       <Filter>소스 파일\Framework\ObjectManager\GameObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="CMonster.h">
@@ -143,10 +128,6 @@
     </ClInclude>
     <ClInclude Include="MyButton.h">
       <Filter>헤더 파일</Filter>
-=======
-      <Filter>헤더 파일</Filter>
->>>>>>> 52af98795a5405301d94039e413144a0f6d30250
->>>>>>> 8d8c4579c5c9e2e1e1c5ae6e32cecd59a598b639
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,12 +170,7 @@
     <ClCompile Include="CGameObject.cpp">
       <Filter>소스 파일\Framework\ObjectManager\GameObject</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="TimerManager.cpp">
-      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
-=======
     <ClCompile Include="CPlayer.cpp">
-<<<<<<< HEAD
       <Filter>소스 파일\Framework\ObjectManager\GameObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
@@ -202,10 +178,6 @@
     </ClCompile>
     <ClCompile Include="MyButton.cpp">
       <Filter>소스 파일</Filter>
-=======
-      <Filter>소스 파일</Filter>
->>>>>>> 52af98795a5405301d94039e413144a0f6d30250
->>>>>>> 8d8c4579c5c9e2e1e1c5ae6e32cecd59a598b639
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
