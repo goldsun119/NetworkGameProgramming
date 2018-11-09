@@ -32,18 +32,11 @@ void CGameObject::OnDraw(HDC memdc, std::string name, POINT pos, int width, int 
 	MYRENDERMANAGER->Render(memdc,name,pos,width,height);
 }
 
+void CGameObject::Render(HDC m_hdc)
+{
+}
+
 //void Player::Draw(HDC memdc)
 //{
 //	//MYRENDERMANAGER->Render(memdc, name, pos, width, height);
 //}
-
-Player::Player()
-{
-//	m_size = 50;
-}
-
-Player::~Player()
-{
-}
-
-

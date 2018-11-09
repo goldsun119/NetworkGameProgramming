@@ -23,6 +23,10 @@ CGameObject* CObjectManager::FindGameObject(E_OBJECT objType, int idx)
 	
 }
 
+void CObjectManager::Update()
+{
+}
+
 void CObjectManager::AddGameObject(CGameObject* obj, E_OBJECT objType)
 {
 	//todo 게임오브젝트 상속받은 클래스를 넘겨받게. 넘겨받은대로 생성하게

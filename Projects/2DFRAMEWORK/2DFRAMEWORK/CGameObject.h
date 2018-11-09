@@ -1,5 +1,4 @@
 #pragma once
-
 class CGameObject
 {
 protected:
@@ -39,15 +38,8 @@ public:
 // 이미지
 	void OnDraw(HDC memdc, std::string name, POINT pos, int width, int height);
 	
-};
-
-//수정중
-class Player : public CGameObject
-{
-
 public:
-	Player();
-	~Player();
-
-
+	virtual void Render(HDC m_hdc);
 };
+
+

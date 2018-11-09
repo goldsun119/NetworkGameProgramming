@@ -52,6 +52,9 @@
     <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
       <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Framework\Player">
+      <UniqueIdentifier>{a9a3532d-6ad0-4b76-9a25-4d674f080fbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -102,6 +105,9 @@
     <ClInclude Include="CObjectManager.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -138,6 +144,9 @@
       <Filter>소스 파일\main</Filter>
     </ClCompile>
     <ClCompile Include="CObjectManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,15 @@
-﻿  Framework.cpp
-  CGameObject.cpp
-  코드를 생성하고 있습니다...
-c:\users\leeso\desktop\networkgameprogramming\projects\2dframework\2dframework\framework.cpp(174): warning C4715: 'FrameWork::MakeServer': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  건너뛰고 있습니다... (관련된 변경 내용 없음)
+﻿  CMyInGame.cpp
+  CMyMenu.cpp
   CObjectManager.cpp
-  CMyInGame.cpp
-  2DFRAMEWORK.vcxproj -> C:\Users\LeeSo\Desktop\NetworkGameProgramming\Projects\2DFRAMEWORK\Debug\2DFRAMEWORK.exe
+  CPlayer.cpp
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(9): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(10): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(27): warning C4244: '-=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(31): warning C4244: '+=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(35): warning C4244: '-=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cplayer.cpp(39): warning C4244: '+=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CScene.cpp
+  SceneManager.cpp
+  코드를 생성하고 있습니다...
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\cobjectmanager.cpp(24): warning C4715: 'CObjectManager::FindGameObject': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  2DFRAMEWORK.vcxproj -> C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\2DFRAMEWORK\Debug\2DFRAMEWORK.exe
