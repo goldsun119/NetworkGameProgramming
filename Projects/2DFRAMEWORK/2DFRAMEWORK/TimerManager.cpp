@@ -1,18 +1,16 @@
 #include "stdafx.h"
 #include "TimerManager.h"
-#include <mmsystem.h>
-#include "CObjectManager.h"
 
 TimeManager::TimeManager() {}
 TimeManager::~TimeManager() {}
 
 void TimeManager::SetPrevElipsedTime()
 {
-	if (m_prevElipsedTime == 0.f) m_prevElipsedTime = timeGetTime();
+	if (m_prevElipsedTime == 0.f) m_prevElipsedTime = GetTickCount();
 }
 void TimeManager::SetCurFimeElapsed()
 {
-	m_curfimeElapsed = timeGetTime();
+	m_curfimeElapsed = GetTickCount();
 }
 void TimeManager::SetFimeElapsed()
 {
@@ -31,18 +29,4 @@ DWORD TimeManager::GetCurFimeElapsed()
 DWORD TimeManager::GetFimeElapsed()
 {
 	return m_fTimeElapsed;
-}
-void TimeManager::SetEnemy()
-{
-	int eTiME = (float)m_fTimeElapsed / 1000.f;
-	switch (eTiME)
-	{
-	case 10:
-		//CObjectManager::AddGameObject(, E_ENEMY1);
-		break;
-	case 20:
-		
-		break;
-	}
-	
 }

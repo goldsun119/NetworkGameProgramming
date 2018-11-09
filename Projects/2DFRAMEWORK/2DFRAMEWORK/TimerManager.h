@@ -4,9 +4,8 @@
 class TimeManager :public CSingleTonBase<TimeManager> {
 private:
 	DWORD m_prevElipsedTime = 0.f;
-	DWORD m_curfimeElapsed;
-	DWORD m_fTimeElapsed;
-
+	DWORD m_curfimeElapsed =0.f;
+	DWORD m_fTimeElapsed =0.f;
 public:
 	TimeManager();
 	~TimeManager();
@@ -20,5 +19,4 @@ public:
 	void SetFimeElapsed();
 	DWORD GetFimeElapsed();
 
-	void SetEnemy();
 };

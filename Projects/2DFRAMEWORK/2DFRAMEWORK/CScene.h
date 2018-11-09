@@ -1,6 +1,8 @@
 #pragma once
 
 class CPlayer;
+class CMonster;
+class TimeManager;
 class CScene //추상클래스. 객체화할 수 없다. 
 {
 public:
@@ -17,5 +19,7 @@ public:
 
 protected:
 	CPlayer		*m_pPlayer;
+	CMonster	*m_pMonster;
+	TimeManager *m_pTime;
 };
 

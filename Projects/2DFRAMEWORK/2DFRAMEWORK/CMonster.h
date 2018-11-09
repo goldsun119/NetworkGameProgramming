@@ -1,6 +1,7 @@
 #pragma once
-class CGameObject;
-class CMonster 
+#include "CGameObject.h"
+
+class CMonster : public CGameObject
 {
 public:
 	CMonster();

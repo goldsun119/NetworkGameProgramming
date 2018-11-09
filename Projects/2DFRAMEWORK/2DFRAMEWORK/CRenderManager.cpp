@@ -62,7 +62,7 @@ void CRenderManager::LoadCImage()
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
 	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
 	AddRenderObject((TCHAR*)"Player1.png", "IngamePlayerImage");
-
+	AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
 
 }
 
