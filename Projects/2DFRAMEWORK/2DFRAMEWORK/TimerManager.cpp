@@ -38,7 +38,7 @@ void TimeManager::SetEnemy()
 	switch (eTiME)
 	{
 	case 10:
-		CObjectManager::AddGameObject(, E_ENEMY1);
+		//CObjectManager::AddGameObject(, E_ENEMY1);
 		break;
 	case 20:
 		
