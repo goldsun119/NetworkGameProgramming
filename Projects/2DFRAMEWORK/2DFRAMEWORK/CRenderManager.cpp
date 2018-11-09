@@ -62,21 +62,17 @@ void CRenderManager::LoadCImage()
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
 	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
 	AddRenderObject((TCHAR*)"Player1.png", "IngamePlayerImage");
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	AddRenderObject((TCHAR*)"image/STARTBUTTON.PNG", "MenuStartButtonImage");
 	AddRenderObject((TCHAR*)"image/EXITBUTTON.PNG", "MenuExitButtonImage");
 	AddRenderObject((TCHAR*)"image/ทนต๐.png", "MenuReadyButtonImage");
 
-=======
+
 	AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
->>>>>>> 578fee02186e0e0cc13a46f8495a6d479c5ce152
 
 
 
-=======
 	AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
->>>>>>> 578fee02186e0e0cc13a46f8495a6d479c5ce152
 
 }
 
