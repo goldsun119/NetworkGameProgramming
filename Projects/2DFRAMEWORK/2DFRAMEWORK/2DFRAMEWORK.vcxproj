@@ -153,6 +153,7 @@
     <ClInclude Include="CMyGameOver.h" />
     <ClInclude Include="CMyMenu.h" />
     <ClInclude Include="CObjectManager.h" />
+    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CRenderManager.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="InputManager.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="CMyGameOver.cpp" />
     <ClCompile Include="CMyMenu.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRenderManager.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
