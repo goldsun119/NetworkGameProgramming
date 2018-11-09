@@ -52,6 +52,9 @@
     <Filter Include="소스 파일\Framework\SceneManager\GameState\02. GameOver">
       <UniqueIdentifier>{0fffcb2f-fc51-40c7-8737-8e6e7f130b77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Framework\TIMERMANAGER">
+      <UniqueIdentifier>{9e2102e5-1f0c-43e1-9490-5c27d89d7b33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -102,6 +105,9 @@
     <ClInclude Include="CObjectManager.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="CObjectManager.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>소스 파일\Framework\TIMERMANAGER</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
