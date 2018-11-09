@@ -23,9 +23,8 @@ void CMyInGame::Render(HDC hdc)
 {
 
 	int size = 50;
-	CImage img;
 
-	img.Load(TEXT("Player1.png"));
+	m_PlayerImg.Load(TEXT("Player1.png"));
 	PAINTSTRUCT ps;
 	BeginPaint(g_hWnd, &ps);
 	{
@@ -33,14 +32,14 @@ void CMyInGame::Render(HDC hdc)
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
-		img.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
+		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		//img.Draw(memDC, x, y, 50, 50);
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
 	EndPaint(g_hWnd, &ps);
-	img.Destroy();
+	m_PlayerImg.Destroy();
 
 }
 

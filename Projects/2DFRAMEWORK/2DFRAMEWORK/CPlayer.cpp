@@ -48,4 +48,5 @@ void CPlayer::Update()
 
 void CPlayer::Render(HDC m_hdc)
 {
+
 }
