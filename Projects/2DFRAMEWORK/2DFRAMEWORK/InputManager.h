@@ -1,12 +1,24 @@
 #pragma once
-class InputManager :public CSingleTonBase<InputManager> //: public FrameWork
+class CInputManager :public CSingleTonBase<CInputManager> //: public FrameWork
 {
-public:
-	InputManager();
-	~InputManager();
+
+private:
+	DWORD m_dwKey;
+	POINT	m_ptMousePos;
 
 public:
+	CInputManager();
+	~CInputManager();
+
+	
+public:
+	//키보드
 	void SetKeyState();
+	DWORD GetKeyState();
+
+	//마우스
+	void SetPos(void);
+	POINT GetPos(void);
 };
 
 #pragma once

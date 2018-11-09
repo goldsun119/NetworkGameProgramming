@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FrameWork.h"
 #include "SceneManager.h"
+#include "InputManager.h"
 
 FrameWork::FrameWork()
 {
@@ -97,10 +98,10 @@ void FrameWork::Render()
 	//}
 
 	////1. 더블버퍼링 처리 위아래로
-	this->BeginRender();
+	//this->BeginRender();
 	SCENEMANAGER->Render(m_hdc);
 
-	this->EndRender();
+	//this->EndRender();
 	//2. 그 사이에 씬별 드로우
 	//m_states
 	//m_states[0]->Enter();
@@ -118,6 +119,10 @@ void FrameWork::EndRender()
 
 void FrameWork::Update()
 {
+	//장치 입력
+	INPUTMANAGER->SetPos();
+	INPUTMANAGER->SetKeyState();
+
 	//update해줌. 꼭 업데이트 해서 정보 받아오고 그려야함. 
 
 	SCENEMANAGER->Update();
