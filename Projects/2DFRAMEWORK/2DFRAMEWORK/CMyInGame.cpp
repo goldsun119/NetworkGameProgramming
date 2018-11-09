@@ -40,6 +40,9 @@ void CMyInGame::Render(HDC hdc)
 =======
 
 	
+<<<<<<< HEAD
+>>>>>>> 578fee02186e0e0cc13a46f8495a6d479c5ce152
+=======
 >>>>>>> 578fee02186e0e0cc13a46f8495a6d479c5ce152
 		//img.Draw(memDC, x, y, 50, 50);
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
