@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+
 
 class TimeManager :public CSingleTonBase<TimeManager> {
 private:

@@ -33,7 +33,7 @@ void CObjectManager::AddGameObject(CGameObject* obj, E_OBJECT objType)
 
 	//이 타입만들어진 맵을 확인하고
 	//그게 없다면 그떄 인서트로 만듬. 
-	std::vector<CGameObject*> ObjList;
+	
 
 	//있나 없나 확인
 	auto iter = m_ObjMap.find(objType);
@@ -48,4 +48,7 @@ void CObjectManager::AddGameObject(CGameObject* obj, E_OBJECT objType)
 
 	//있으면 저 오브젝트리스트로 들어가서. m_ObjMap[objType].pushback(obj)
 
+}
+void CObjectManager::SetObjlist(vector<CGameObject*> &Obj) {
+	Obj= ObjList;
 }

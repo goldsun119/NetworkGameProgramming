@@ -12,7 +12,6 @@ CPlayer::CPlayer()
 	m_size = 50;
 }
 
-
 CPlayer::~CPlayer()
 {
 }

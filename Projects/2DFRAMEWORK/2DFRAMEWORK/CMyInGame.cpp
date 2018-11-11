@@ -26,7 +26,7 @@ void CMyInGame::Render(HDC hdc)
 	int size = 50;
 
 	m_PlayerImg.Load(TEXT("Player1.png"));
-
+	m_MonsterImg.Load(TEXT("enemy1.png"));
 
 	PAINTSTRUCT ps;
 	BeginPaint(g_hWnd, &ps);
@@ -36,7 +36,13 @@ void CMyInGame::Render(HDC hdc)
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
-
+		
+		MakeEnemy.SetObjlist(ObjList);
+		for (vector<CGameObject*>::iterator iter = ObjList.begin(); iter != ObjList.end(); ++iter)
+		{
+			m_MonsterImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		}
+		
 		//img.Draw(memDC, x, y, 50, 50);
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
@@ -44,22 +50,26 @@ void CMyInGame::Render(HDC hdc)
 	}
 	EndPaint(g_hWnd, &ps);
 	m_PlayerImg.Destroy();
+	m_MonsterImg.Destroy();
 
 }
 
 void CMyInGame::Update()
 {
 	m_pPlayer->Update();
-
-	int eTime = TIMEMANAGER->GetFimeElapsed()/1000;
+	
+	//int eTime = TIMEMANAGER->GetFimeElapsed()/1000;
+	int eTime = 1;
 	switch (eTime)
 	{
-	case 10:
+	case 1:
 		MakeEnemy.AddGameObject(m_pMonster, E_ENEMY);
+		
 		break;
 	default:
 		break;
 	}
+	
 }
 
 void CMyInGame::Destroy()

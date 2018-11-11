@@ -12,8 +12,10 @@ public:
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
 	CImage							m_PlayerImg;
+	CImage							m_MonsterImg;
 
 	CObjectManager					MakeEnemy;
+	vector<CGameObject*>			ObjList;
 
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;
