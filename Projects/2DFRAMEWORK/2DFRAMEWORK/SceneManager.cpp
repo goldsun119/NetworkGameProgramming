@@ -24,14 +24,13 @@ void CSceneManager::Render(HDC memDc)
 
 void CSceneManager::Update()
 {
-	if (m_IsChangeScene)
-	{
-		m_IsChangeScene = false;
-		SetScene(E_MENU);
-	}
 
+	//TODO 천기옵 씬정보 받는거 해주세요
+	send(FRAMEWORK->GetSock(), (char*)&m_SceneType, sizeof(m_SceneType), 0); //씬타입 전송
 	if (m_pScene)
 		m_pScene->Update();
+
+
 }
 
 void CSceneManager::Destroy()
@@ -67,6 +66,7 @@ void CSceneManager::SetScene(E_SCENE state)
 	case E_MENU:
 		m_pScene = new CMyMenu;
 		m_SceneType = E_MENU;
+
 		break;
 	case E_INGAME:
 		m_pScene = new CMyInGame;

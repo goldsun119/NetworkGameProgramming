@@ -2,6 +2,7 @@
 #include "CPlayer.h"
 #include "CGameObject.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 CPlayer::CPlayer()
 {
@@ -21,27 +22,41 @@ void CPlayer::CheckKey()
 
 	DWORD Key = INPUTMANAGER->GetKeyState();
 
-	if (Key & KEY_LEFT)
+	switch (SCENEMANAGER->GetScene())
 	{
-		m_Pos.x -= Speed;
+	case E_INGAME:
+		//방향키 정보 전송
+		if (Key & KEY_LEFT)
+		{
+			// 11.11 
+			// TODO 천기 서버가 완성된 후에 플레이어의 좌표를 바꾸는 일은 서버에서
+			// AFTER 소현은 클라에서 그리는 작업만 합니다. 현재는 여기에서 좌표바꿈. 
+
+			m_Pos.x -= Speed;
+
+		}
+		if (Key & KEY_RIGHT)
+		{
+			m_Pos.x += Speed;
+		}
+		if (Key & KEY_UP)
+		{
+			m_Pos.y -= Speed;
+		}
+		if (Key & KEY_DOWN)
+		{
+			m_Pos.y += Speed;
+		}
+	
+		break;
 	}
-	if (Key & KEY_RIGHT)
-	{
-		m_Pos.x += Speed;
-	}
-	if (Key & KEY_UP)
-	{
-		m_Pos.y -= Speed;
-	}
-	if (Key & KEY_DOWN)
-	{
-		m_Pos.y += Speed;
-	}
+	
 }
 
 void CPlayer::Update()
 {
 	CheckKey();
+	//send(FRAMEWORK->GetSock(), (char*)INPUTMANAGER->GetKeyState(), sizeof(INPUTMANAGER->GetKeyState()), 0);//구조체 보냄
 
 }
 

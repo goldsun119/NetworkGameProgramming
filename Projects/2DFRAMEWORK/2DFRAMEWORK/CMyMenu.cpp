@@ -3,6 +3,7 @@
 #include "CMyMenu.h"
 #include "CRenderManager.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 #include "CGameObject.h"
 #include "CMybutton.h"
 #include "MyPacket.h"
@@ -46,15 +47,7 @@ void CMyMenu::Render(HDC hdc)
 		TransparentBlt(memDC, 0, 0, 400, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0,
 			m_MenuImageMap["MenuBackGroundImage"].begin()->GetWidth(), m_MenuImageMap["MenuBackGroundImage"].begin()->GetHeight(), RGB(0,0,0));
 
-		/*TransparentBlt(memDC, 100, 400, 150, 150, m_MenuImageMap["MenuStartButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
-			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth()-3, m_MenuImageMap["MenuStartButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
-		*///BitBlt(hdc, 0, 0, 800, 600, m_MenuImageMap["MenuBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, SRCCOPY);
-	
-	/*	for (list<CGameObject*>::iterator iter = m_ListButton.begin();
-			iter != m_ListButton.end(); ++iter)
-		{
-			(*iter)->Render(memDC);
-		}*/
+		
 		//START버튼
 		TransparentBlt(memDC, 40, 400, 100, 100, m_MenuImageMap["MenuStartButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
 			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuStartButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
@@ -63,7 +56,7 @@ void CMyMenu::Render(HDC hdc)
 			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuExitButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
 		
 		//READY
-		if (m_IsReady == TRUE)
+		if (FRAMEWORK->GetClientInfo().IsReady)
 		{
 
 			TransparentBlt(memDC, 80, 300, 100, 100, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
@@ -92,11 +85,9 @@ void CMyMenu::Update()
 {
 	CheckKey();
 
-	ClientInfoToHandle ClientInfo;
-	int retval;
 	//레디정보를 계속 보내준다.
-	 retval = send(FRAMEWORK->GetSock(), (char*)FRAMEWORK->GetClientInfo().IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);//구조체 보냄
-
+	if(FRAMEWORK->GetClientInfo().IsReady)
+		send(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);//구조체 보냄
 
 }
 
@@ -118,7 +109,12 @@ void CMyMenu::CheckKey()
 	DWORD Key = INPUTMANAGER->GetKeyState();
 	if (Key & KEY_READY)
 	{
-		m_IsReady = !m_IsReady;
+		FRAMEWORK->SetClientReadyInfo();
+	}
+
+	if (Key & KEY_ENTER)
+	{
+		SCENEMANAGER->SetScene(E_INGAME);
 	}
 }
 

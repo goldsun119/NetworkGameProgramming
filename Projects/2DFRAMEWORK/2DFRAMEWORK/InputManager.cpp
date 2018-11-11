@@ -46,7 +46,6 @@ void CInputManager::SetKeyState()
 
 	if (GetAsyncKeyState(VK_F5))
 	{
-		FRAMEWORK->SetClientReadyInfo(TRUE);
 		m_dwKey |= KEY_READY;
 	}
 }

@@ -18,7 +18,7 @@ public:
 	DWORD							m_bBackgroundColor;
 	int								m_nWndClientWidth = 800;
 	int								m_nWndClientHeight = 600;
-	bool							m_IsReady = false;
+	//bool							m_IsReady = false;
 
 public:
 	// CScene을(를) 통해 상속됨

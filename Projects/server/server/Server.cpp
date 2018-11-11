@@ -92,7 +92,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 		switch (Snum) {
 		case Scene::E_MENU: //메뉴화면일때
+			printf("메뉴씬입니다!\n");
+
 			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
+			//printf("레디 했음!\n");
+
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
 				break;
@@ -113,6 +117,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			//게임 중 일때
 		case Scene::E_INGAME:
+			printf("인게임씬입니다\n");
+
 			retval = recvn(ClientSock, (char*)&KeyInput, sizeof(KeyInput), 0);	//키 입력값 받음
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
@@ -121,21 +127,30 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			switch (KeyInput) //키상태 더 자세하게
 			{
 			case Key::E_LEFT:
-				playerInfo->Pos.x -= 3;
+				//playerInfo->Pos.x -= 3;
+				printf("좌!\n");
+
 				break;
 
 			case Key::E_RIGHT:
-				playerInfo->Pos.x += 3;
+				//playerInfo->Pos.x += 3;
+				printf("우!\n");
+
 				break;
 
 
 			case Key::E_UP:
-				playerInfo->Pos.y -= 3;
+				//playerInfo->Pos.y -= 3;
+				printf("상!\n");
+
 				break;
 
 
 			case Key::E_DOWN:
-				playerInfo->Pos.y += 3;
+
+				//playerInfo->Pos.y += 3;
+				printf("하!\n");
+
 				break;
 			}
 			retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
