@@ -54,7 +54,11 @@ int recvn(SOCKET s, char *buf, int len, int flags)
 //=============================================================
 bool IsAllClientReady()
 {
-	if (clientinfotohandle[0].IsReady == true && clientinfotohandle[1].IsReady == true) {
+	//todo 은선
+	if (playerInfo[0].IsReady == true && playerInfo[1].IsReady == true) { //11.12 소현 고친곳
+		clientinfotohandle[0].IsReady == true;
+		clientinfotohandle[1].IsReady == true;
+
 		return true;
 	}
 	else {
@@ -82,7 +86,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	AddrLen = sizeof(ClientAddr);
 	getpeername(ClientSock, (SOCKADDR*)&ClientAddr, &AddrLen);
 
-	int retval;
+	int retval = 0;
 
 	int ClientNum = ClientCount;
 	SetInitData(playerInfo[ClientNum], ClientNum);
@@ -92,38 +96,39 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		int Snum=clientinfotohandle[ClientNum].IsScene;
 
 		switch (Snum) {
-		case Scene::E_MENU: //메뉴화면일때
+		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
 
-			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
+			retval = recvn(ClientSock, (char*)&playerInfo[ClientNum].IsReady, sizeof(playerInfo[ClientNum].IsReady), 0);
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
 				break;
 			}
 
 			if (IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = Scene::E_INGAME; //게임플레이로 씬전환
-				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
+				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
+				//for(int i = 0;i<ClientNum;++i)
+					retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				if (retval == SOCKET_ERROR) {
 					err_display("send() Scene");
 					break;
 				}
 			}
 			else {
-				printf("레디 해롸!\n");
+				printf("레디 해!\n");
 			}
 			break;
 
 			//게임 중 일때
-		case Scene::E_INGAME:
+		case E_Scene::E_INGAME:
 			printf("인게임씬입니다\n");
 
-			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
+			//retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
 				break;
 			}
-			KeyInput = Input.KeyState();
+			KeyInput = -1;
 			switch (KeyInput) //키상태 더 자세하게
 			{
 			case Key::E_LEFT:
@@ -151,7 +156,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 				break;
 			}
-			retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
+			//retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
 			if (retval == SOCKET_ERROR) {
 				err_display("send() playerInfo");
 				break;
@@ -160,10 +165,10 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			break;
 
 			//게임 종료
-		case Scene::E_GAMEOVER:
+		case E_Scene::E_GAMEOVER:
 			break;
 			//랭크 출력
-		case Scene::E_RANK:
+		case E_Scene::E_RANK:
 			break;
 		}
 	}

@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-enum Scene {
+enum E_Scene {
 	E_TITLE,
 	E_MENU,
 	E_INGAME,
@@ -20,6 +20,7 @@ public:
 #pragma pack(1)
 class PlayerInfo {
 public:
+	bool IsReady = FALSE;
 	POINT Pos;
 	int Hp;
 	int BulletCount;

@@ -5,10 +5,7 @@
 #include "CMyGameOver.h"
 CSceneManager::CSceneManager()
 {
-	//CScene* pScene = new CMyMenu{};
 
-	//vSceneContainer.push_back(pScene);
-	//this->Render()
 }
 
 
@@ -26,7 +23,10 @@ void CSceneManager::Update()
 {
 
 	//TODO 천기옵 씬정보 받는거 해주세요
-	send(FRAMEWORK->GetSock(), (char*)&m_SceneType, sizeof(m_SceneType), 0); //씬타입 전송
+	//send(FRAMEWORK->GetSock(), (char*)&m_SceneType, sizeof(m_SceneType), 0); //씬타입 전송
+	
+	
+
 	if (m_pScene)
 		m_pScene->Update();
 
@@ -51,7 +51,7 @@ void CSceneManager::Destroy()
 void CSceneManager::ChangeState(E_SCENE state)
 {
 	m_IsChangeScene = false;
-	SetScene(state);
+	//SetScene(state);
 }
 
 void CSceneManager::SetScene(E_SCENE state)

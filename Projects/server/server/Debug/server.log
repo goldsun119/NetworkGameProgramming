@@ -1,2 +1,4 @@
 ﻿  Server.cpp
+c:\users\이소현\desktop\networkgameprogramming\projects\server\server\server.cpp(59): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+c:\users\이소현\desktop\networkgameprogramming\projects\server\server\server.cpp(60): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
   server.vcxproj -> C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\server\Debug\server.exe

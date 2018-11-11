@@ -7,6 +7,7 @@
 #include "CGameObject.h"
 #include "CMybutton.h"
 #include "MyPacket.h"
+#include "CPlayer.h"
 CMyMenu::CMyMenu()
 {
 	
@@ -55,12 +56,12 @@ void CMyMenu::Render(HDC hdc)
 		TransparentBlt(memDC, 240, 400, 100, 100, m_MenuImageMap["MenuExitButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
 			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuExitButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
 		
-		//READY
-		if (FRAMEWORK->GetClientInfo().IsReady)
+		//READY. 레디상태가 아니면 알유레디 버튼이 그려짐
+		if (m_pPlayer->GetIsReady() == FALSE)
 		{
 
 			TransparentBlt(memDC, 80, 300, 100, 100, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetCimage()->GetDC(), 0, 0,
-			m_MenuImageMap["MenuStartButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetHeight() - 15, RGB(0, 0, 0));
+			m_MenuImageMap["MenuReadyButtonImage"].begin()->GetWidth() - 3, m_MenuImageMap["MenuReadyButtonImage"].begin()->GetHeight() - 15, RGB(255, 0, 0));
 
 		}
 
@@ -77,8 +78,8 @@ void CMyMenu::EndRender()
 {
 	HDC hDC = ::GetDC(m_hWnd);
 
-	::BitBlt(hDC, 0, 0, m_nWndClientWidth, m_nWndClientHeight, m_hdc, 0, 0, SRCCOPY);
-	::ReleaseDC(m_hWnd, hDC);
+	BitBlt(hDC, 0, 0, m_nWndClientWidth, m_nWndClientHeight, m_hdc, 0, 0, SRCCOPY);
+	ReleaseDC(m_hWnd, hDC);
 }
 
 void CMyMenu::Update()
@@ -86,9 +87,30 @@ void CMyMenu::Update()
 	CheckKey();
 
 	//레디정보를 계속 보내준다.
-	if(FRAMEWORK->GetClientInfo().IsReady)
-		send(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);//구조체 보냄
+	if (m_pPlayer->GetIsReady())
+	{
+		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0); //고친곳
+	}
 
+	//todo 은선
+	if (m_pPlayer->GetIsReady()) //내가 레디일 때
+	{
+		//씬 정보받음 
+		int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsScene, sizeof(FRAMEWORK->m_ClientInfo.IsScene), 0);
+		if (retval == SOCKET_ERROR) 
+		{
+			FRAMEWORK->err_display("recv() IsReady");
+		}
+		else
+		{
+
+		if (FRAMEWORK->GetClientInfo().IsReady) //받은 정보가 true면
+		{
+			//씬 넘김
+			SCENEMANAGER->SetScene(E_INGAME);
+		}
+		}
+	}
 }
 
 void CMyMenu::Destroy()
@@ -107,10 +129,11 @@ void CMyMenu::Exit()
 void CMyMenu::CheckKey()
 {
 	DWORD Key = INPUTMANAGER->GetKeyState();
-	if (Key & KEY_READY)
+	if (Key == KEY_READY)
 	{
-		FRAMEWORK->SetClientReadyInfo();
+		m_pPlayer->SetReady(TRUE);
 	}
+
 	//recv(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);
 	//if (Key & KEY_ENTER) //인게임으로 바꾸라는 리시브를 받고 씬 변경
 	//{
@@ -122,9 +145,9 @@ void CMyMenu::PreRender(DWORD dwColor)
 {
 	HBRUSH hBrush = ::CreateSolidBrush(dwColor);
 	HBRUSH hOldBrush = (HBRUSH)::SelectObject(m_hdc, hBrush);
-	::Rectangle(m_hdc, 0, 0, m_nWndClientWidth, m_nWndClientHeight);
-	::SelectObject(m_hdc, hOldBrush);
-	::DeleteObject(hBrush);
+	Rectangle(m_hdc, 0, 0, m_nWndClientWidth, m_nWndClientHeight);
+	SelectObject(m_hdc, hOldBrush);
+	DeleteObject(hBrush);
 }
 
 void CMyMenu::BeginRender()
@@ -141,8 +164,8 @@ void CMyMenu::BeginRender()
 	}
 
 	m_hBitmapFrameBuffer = ::CreateCompatibleBitmap(hDC, m_nWndClientWidth, m_nWndClientHeight);
-	::SelectObject(m_hdc, m_hBitmapFrameBuffer);
+	SelectObject(m_hdc, m_hBitmapFrameBuffer);
 
-	::ReleaseDC(m_hWnd, hDC);
-	::SetBkMode(m_hdc, TRANSPARENT);
+	ReleaseDC(m_hWnd, hDC);
+	SetBkMode(m_hdc, TRANSPARENT);
 }

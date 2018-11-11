@@ -31,12 +31,14 @@ void FrameWork::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 	m_hInstance = hInstance;
 
 	//매니저 생성
+	m_ClientInfo.IsScene = E_MENU;
+	m_ClientInfo.IsReady = FALSE;
 
 	//TODO 타이머, 사운드매니저
-	//SCENEMANAGER->SetScene(E_MENU);
 	MYRENDERMANAGER->LoadCImage();				//랜더매니저
+	SCENEMANAGER->SetScene(E_MENU);
 
-	this->Enter(E_MENU);
+	//this->Enter(E_MENU);
 	this->MakeServer();
 }
 
@@ -171,4 +173,36 @@ int FrameWork::MakeServer()
 
 	
 	m_count = 0;
+}
+
+int FrameWork::recvn(SOCKET s, char *buf, int len, int flags)
+{
+	int received;
+	char *ptr = buf;
+	int left = len;
+
+	while (left > 0) {
+		received = recv(s, ptr, left, flags);
+		if (received == SOCKET_ERROR)
+			return SOCKET_ERROR;
+		else if (received == 0)
+			break;
+		left -= received;
+		ptr += received;
+	}
+
+	return (len - left);
+	
+}
+
+void FrameWork::err_display(const char * msg)
+{
+	LPVOID lpMsgBuf;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL, WSAGetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf, 0, NULL);
+	printf("[%s] %s", msg, (char *)lpMsgBuf);
+	LocalFree(lpMsgBuf);
 }

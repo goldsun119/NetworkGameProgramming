@@ -47,13 +47,21 @@ public:
 	//GET
 	SOCKET GetSock() { return m_sock; }
 	int GetRetval() { return m_retval; }
+	bool GetReadyInfo() { return m_ClientInfo.IsReady; }
+
 	ClientInfoToHandle GetClientInfo() { return m_ClientInfo; }
 
 	//SET
 	void SetClientReadyInfo() { m_ClientInfo.IsReady = true; }
+	void SetClientInfo(ClientInfoToHandle CInfoFromServer) { m_ClientInfo = CInfoFromServer; }
+
 	
 	//¼­¹ö
 	int MakeServer();
+	int recvn(SOCKET s, char *buf, int len, int flags);
+	void err_display(const char *msg);
+
+
 //private:
 //	CSceneManager * pSceneMgr;
 };
