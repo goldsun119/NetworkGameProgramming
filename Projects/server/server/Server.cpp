@@ -4,8 +4,9 @@ ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
 int ClientCount = -1; //클라이언트 번호 할당
-int KeyInput = 0;
 
+InputManager Input;
+DWORD KeyInput;
 
 //=======================================================================================
 void err_quit(char *msg)
@@ -95,8 +96,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			printf("메뉴씬입니다!\n");
 
 			retval = recvn(ClientSock, (char*)&clientinfotohandle[ClientNum].IsReady, sizeof(clientinfotohandle[ClientNum].IsReady), 0);
-			//printf("레디 했음!\n");
-
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
 				break;
@@ -119,11 +118,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		case Scene::E_INGAME:
 			printf("인게임씬입니다\n");
 
-			retval = recvn(ClientSock, (char*)&KeyInput, sizeof(KeyInput), 0);	//키 입력값 받음
+			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
 				break;
 			}
+			KeyInput = Input.KeyState();
 			switch (KeyInput) //키상태 더 자세하게
 			{
 			case Key::E_LEFT:
@@ -138,13 +138,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 				break;
 
-
 			case Key::E_UP:
 				//playerInfo->Pos.y -= 3;
 				printf("상!\n");
 
 				break;
-
 
 			case Key::E_DOWN:
 
@@ -158,7 +156,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				err_display("send() playerInfo");
 				break;
 			}
-			printf("게임 중!\n");
+			//printf("게임 중!\n");
 			break;
 
 			//게임 종료

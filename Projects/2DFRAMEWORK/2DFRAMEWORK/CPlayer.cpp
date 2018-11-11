@@ -56,7 +56,8 @@ void CPlayer::CheckKey()
 void CPlayer::Update()
 {
 	CheckKey();
-	//send(FRAMEWORK->GetSock(), (char*)INPUTMANAGER->GetKeyState(), sizeof(INPUTMANAGER->GetKeyState()), 0);//±¸Á¶Ã¼ º¸³¿
+	DWORD Key = INPUTMANAGER->GetKeyState();
+	send(FRAMEWORK->GetSock(), (char*)&Key, sizeof(Key), 0);
 
 }
 

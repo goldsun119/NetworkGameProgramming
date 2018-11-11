@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "Enemy.h"
 #include "Player.h"
+#include "Input.h"
 
 #define SERVERPORT 9000
 #define BUFSIZE    1024

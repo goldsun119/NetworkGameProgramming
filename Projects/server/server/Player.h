@@ -2,6 +2,7 @@
 #include "stdafx.h"
 
 enum Scene {
+	E_TITLE,
 	E_MENU,
 	E_INGAME,
 	E_GAMEOVER,
@@ -13,7 +14,7 @@ class ClientInfoToHandle {
 public:
 	bool IsReady = false;
 	bool IsDead = false;
-	int IsScene = Scene::E_MENU;
+	int IsScene = E_MENU;
 };
 
 #pragma pack(1)

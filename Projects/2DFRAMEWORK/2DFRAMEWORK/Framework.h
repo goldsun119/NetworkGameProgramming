@@ -50,7 +50,7 @@ public:
 	ClientInfoToHandle GetClientInfo() { return m_ClientInfo; }
 
 	//SET
-	void SetClientReadyInfo() { m_ClientInfo.IsReady = !m_ClientInfo.IsReady; }
+	void SetClientReadyInfo() { m_ClientInfo.IsReady = true; }
 	
 	//¼­¹ö
 	int MakeServer();

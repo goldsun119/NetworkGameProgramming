@@ -111,11 +111,11 @@ void CMyMenu::CheckKey()
 	{
 		FRAMEWORK->SetClientReadyInfo();
 	}
-
-	if (Key & KEY_ENTER)
-	{
-		SCENEMANAGER->SetScene(E_INGAME);
-	}
+	//recv(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);
+	//if (Key & KEY_ENTER) //인게임으로 바꾸라는 리시브를 받고 씬 변경
+	//{
+	//	SCENEMANAGER->SetScene(E_INGAME);
+	//}
 }
 
 void CMyMenu::PreRender(DWORD dwColor)
