@@ -37,7 +37,7 @@ void CMyInGame::Render(HDC hdc)
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		
-		MakeEnemy.SetObjlist(ObjList);
+		
 		for (vector<CGameObject*>::iterator iter = ObjList.begin(); iter != ObjList.end(); ++iter)
 		{
 			m_MonsterImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
@@ -64,7 +64,7 @@ void CMyInGame::Update()
 	{
 	case 1:
 		MakeEnemy.AddGameObject(m_pMonster, E_ENEMY);
-		
+		MakeEnemy.SetObjlist(ObjList);
 		break;
 	default:
 		break;
