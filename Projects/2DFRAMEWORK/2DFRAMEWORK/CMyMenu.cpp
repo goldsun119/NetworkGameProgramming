@@ -93,7 +93,11 @@ void CMyMenu::Update()
 		if (m_pPlayer->m_IsReady)
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
+=======
+			send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
+>>>>>>> a6cf46ed27dface0c0cbbfccd518359ceb127aa3
 =======
 			send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
 >>>>>>> a6cf46ed27dface0c0cbbfccd518359ceb127aa3
