@@ -58,11 +58,11 @@ void CMyInGame::Update()
 {
 	m_pPlayer->Update();
 	
-	//int eTime = TIMEMANAGER->GetFimeElapsed()/1000;
-	int eTime = 1;
+	int eTime = TIMEMANAGER->GetFimeElapsed()/1000;
+	
 	switch (eTime)
 	{
-	case 1:
+	case 5:
 		MakeEnemy.AddGameObject(m_pMonster, E_ENEMY);
 		MakeEnemy.SetObjlist(ObjList);
 		break;

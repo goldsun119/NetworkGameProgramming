@@ -90,6 +90,7 @@ void CMyMenu::Update()
 	if (m_pPlayer->GetIsReady())
 	{
 		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0); //고친곳
+	
 	}
 
 	//todo 은선
@@ -101,14 +102,11 @@ void CMyMenu::Update()
 		{
 			FRAMEWORK->err_display("recv() IsReady");
 		}
-		else
-		{
 
 		if (FRAMEWORK->GetClientInfo().IsReady) //받은 정보가 true면
 		{
 			//씬 넘김
 			SCENEMANAGER->SetScene(E_INGAME);
-		}
 		}
 	}
 }

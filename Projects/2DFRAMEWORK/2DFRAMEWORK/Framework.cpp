@@ -32,7 +32,7 @@ void FrameWork::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 
 	//매니저 생성
 	m_ClientInfo.IsScene = E_MENU;
-	m_ClientInfo.IsReady = FALSE;
+	//m_ClientInfo.IsReady = FALSE; todo소현 이거때문에 안넘어 갔음
 
 	//TODO 타이머, 사운드매니저
 	MYRENDERMANAGER->LoadCImage();				//랜더매니저
