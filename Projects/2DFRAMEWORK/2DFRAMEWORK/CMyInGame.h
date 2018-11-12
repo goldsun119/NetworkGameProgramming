@@ -16,7 +16,7 @@ public:
 
 	CObjectManager					MakeEnemy;
 	vector<CGameObject*>			ObjList;
-
+	
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;
 

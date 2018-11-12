@@ -19,6 +19,7 @@ public:
 	virtual void CheckKey() = 0;
 	
 	
+	
 
 protected:
 	CPlayer		*m_pPlayer;

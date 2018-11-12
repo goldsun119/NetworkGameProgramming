@@ -19,7 +19,8 @@ public:
 	int								m_nWndClientWidth = 800;
 	int								m_nWndClientHeight = 600;
 	//bool							m_IsReady = false;
-
+	bool OneReady = false;
+	;
 public:
 	// CScene을(를) 통해 상속됨
 	virtual void Render(HDC memDc) override;

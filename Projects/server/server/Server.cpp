@@ -123,7 +123,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		case E_Scene::E_INGAME:
 			printf("인게임씬입니다\n");
 
-			//retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
+			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
 				break;
