@@ -92,15 +92,7 @@ void CMyMenu::Update()
 	}
 		if (m_pPlayer->m_IsReady)
 		{
-<<<<<<< HEAD
-<<<<<<< HEAD
 		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
-=======
-			send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
->>>>>>> a6cf46ed27dface0c0cbbfccd518359ceb127aa3
-=======
-			send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
->>>>>>> a6cf46ed27dface0c0cbbfccd518359ceb127aa3
 			//씬 정보받음 
 			//싱글톤의 이라서 값이 안들어가나? todo 은선 소현
 			int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.IsScene, sizeof(m_ClientInfo.IsScene), 0);
