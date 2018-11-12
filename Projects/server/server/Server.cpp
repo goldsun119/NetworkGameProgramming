@@ -107,14 +107,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			if (IsAllClientReady() == true) {
 				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
-				//for(int i = 0;i<ClientNum;++i)
-					retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
+				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
+			}
+			else {
+				//준비가 아닐때는 메뉴씬을 넘겨줘야함
+				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);
 				if (retval == SOCKET_ERROR) {
 					err_display("send() Scene");
 					break;
 				}
-			}
-			else {
 				printf("레디 해!\n");
 			}
 			break;

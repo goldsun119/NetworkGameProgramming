@@ -1,7 +1,9 @@
 #pragma once
+#include "Framework.h"
 #include "CScene.h"
 class CGameObject;
 class CMyButton;
+class FrameWork;
 
 class CMyMenu : public CScene
 {
@@ -20,7 +22,7 @@ public:
 	int								m_nWndClientHeight = 600;
 	//bool							m_IsReady = false;
 	bool OneReady = false;
-	;
+	ClientInfoToHandle				m_ClientInfo;
 public:
 	// CScene을(를) 통해 상속됨
 	virtual void Render(HDC memDc) override;

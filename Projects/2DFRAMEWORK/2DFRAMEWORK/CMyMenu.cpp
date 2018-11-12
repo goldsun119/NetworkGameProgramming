@@ -85,32 +85,28 @@ void CMyMenu::EndRender()
 void CMyMenu::Update()
 {
 	CheckKey();
-
+	FRAMEWORK->SetClientInfo(m_ClientInfo);
 	//메뉴 일때 레디정보를 계속 보내준다.
 	if (SCENEMANAGER->m_SceneType == E_MENU) {
 		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
-		
+
+	}
 		if (m_pPlayer->m_IsReady)
 		{
 			//씬 정보받음 
-			while (FRAMEWORK->GetClientInfo().IsReady==false)
+			//싱글톤의 이라서 값이 안들어가나? todo 은선 소현
+			int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.IsScene, sizeof(m_ClientInfo.IsScene), 0);
+			/*if (retval == SOCKET_ERROR)
 			{
-				//싱글톤의 이라서 값이 안들어가나? todo 은선 소현
-				int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsScene, sizeof(FRAMEWORK->m_ClientInfo.IsScene), 0);
-				if (retval == SOCKET_ERROR)
-				{
-					FRAMEWORK->err_display("recv() IsReady");
-				}
-				if (FRAMEWORK->GetClientInfo().IsReady==true)
-				{
-					//씬 넘김
-					SCENEMANAGER->SetScene(E_INGAME);
-					break;
-				}
+				FRAMEWORK->err_display("recv() IsReady");
+			}*/
+			if (m_ClientInfo.IsScene == E_INGAME)
+			{
+				//씬 넘김
+				SCENEMANAGER->SetScene(E_INGAME);
 			}
+				
 		}
-	}
-	
 }
 
 void CMyMenu::Destroy()
