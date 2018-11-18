@@ -13,7 +13,7 @@ public:
 	DWORD							m_bBackgroundColor;
 	CImage							m_PlayerImg;
 	CImage							m_MonsterImg;
-
+	CImage							m_PlayerBulletImg;
 	CObjectManager					MakeEnemy;
 	vector<CGameObject*>			ObjList;
 	

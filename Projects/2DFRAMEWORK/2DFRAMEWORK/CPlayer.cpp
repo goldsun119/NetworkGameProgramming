@@ -3,7 +3,7 @@
 #include "CGameObject.h"
 #include "InputManager.h"
 #include "SceneManager.h"
-
+#include "CBullet.h"
 CPlayer::CPlayer()
 {
 	Speed = 3.0f;
@@ -11,6 +11,8 @@ CPlayer::CPlayer()
 	m_Pos.y = 500.0f;
 	Size = 30;
 	m_size = 50;
+	m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
+
 }
 
 CPlayer::~CPlayer()
@@ -47,7 +49,16 @@ void CPlayer::CheckKey()
 		{
 			m_Pos.y += Speed;
 		}
-	
+		if (Key & KEY_SPACE)
+		{
+			POINT TempPos = this->GetPos();
+			//위치지정
+			TempPos.x = this->GetPos().x - 40;
+			TempPos.y = this->GetPos().y + 25;
+			//총알만들기
+			m_PlayerBullet.emplace_back(TempPos, -1);
+
+		}
 		break;
 	}
 	send(FRAMEWORK->GetSock(), (char*)&Key, sizeof(Key), 0);
@@ -63,6 +74,20 @@ void CPlayer::Update()
 {
 	CheckKey();
 	
+	//총알 이동
+	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end(); ++p)
+		p->SetYPos(p->GetYPos() - 13);
+
+	//화면 밖 총알 삭제
+	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)
+	{
+		if (p->GetYPos() < 250 && p->GetXPos() > 270 && p->GetXPos() < 350)
+		{
+			p = m_PlayerBullet.erase(p);
+		}
+		else
+			++p;
+	}
 }
 
 void CPlayer::Render(HDC m_hdc)

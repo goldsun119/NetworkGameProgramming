@@ -48,6 +48,11 @@ void CInputManager::SetKeyState()
 	{
 		m_dwKey |= KEY_READY;
 	}
+	if (GetAsyncKeyState(VK_F8))
+	{
+		m_dwKey |= KEY_CHEATREADY;
+	}
+
 }
 
 DWORD CInputManager::GetKeyState()

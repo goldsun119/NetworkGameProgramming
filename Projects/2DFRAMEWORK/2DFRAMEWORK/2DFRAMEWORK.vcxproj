@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="2DFRAMEWORK.h" />
+    <ClInclude Include="CBullet.h" />
     <ClInclude Include="CGameObject.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CMybutton.h" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DFRAMEWORK.cpp" />
+    <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMybutton.cpp" />

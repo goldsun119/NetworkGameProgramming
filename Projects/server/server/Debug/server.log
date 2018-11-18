@@ -1,8 +1,5 @@
 ﻿  Server.cpp
-<<<<<<< HEAD
 c:\users\이소현\desktop\networkgameprogramming\projects\server\server\server.cpp(59): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
 c:\users\이소현\desktop\networkgameprogramming\projects\server\server\server.cpp(60): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+  LINK : C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\server\Debug\server.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   server.vcxproj -> C:\Users\이소현\Desktop\NetworkGameProgramming\Projects\server\Debug\server.exe
-=======
-  server.vcxproj -> C:\Users\blueb\Documents\GitHub\NetworkGameProgramming\Projects\server\Debug\server.exe
->>>>>>> 6046fa23c2d6f1cee8013eafda9f8991c9d95abf

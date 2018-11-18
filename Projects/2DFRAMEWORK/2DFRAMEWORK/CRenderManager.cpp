@@ -56,8 +56,7 @@ std::vector<MyImage>* CRenderManager::FindCImage(std::string name)
 void CRenderManager::LoadCImage()
 {
 	// 맵을 돌면서 이미지들을 불러온다.find만듬. 
-	// 이 부분은 최적화를 위한 부분이므로 나중에 작업함.
-	// 게임 시작할 때 이미지를 전부 부르고 시작하고자 만듬.
+	// 게임 시작할 때 이미지를 전부 부르고 시작하고자 만듬. 게임 중에 부르지 않으려고
 
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
 	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
@@ -67,12 +66,15 @@ void CRenderManager::LoadCImage()
 	AddRenderObject((TCHAR*)"image/EXITBUTTON.PNG", "MenuExitButtonImage");
 	AddRenderObject((TCHAR*)"image/레디.png", "MenuReadyButtonImage");
 
-
+	//몬스터
 	AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
 
+	//플레이어총알
+	AddRenderObject((TCHAR*)"image/총알기본.png", "PlayerDefaultBulletImage");
 
 
-	AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
+	//TODO 1118 천기오빠 이 같은이름은뭐죠
+	//AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");
 
 }
 

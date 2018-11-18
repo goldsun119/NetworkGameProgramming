@@ -70,6 +70,9 @@
     <Filter Include="소스 파일\Framework\ObjectManager\CGameObject\MyButton">
       <UniqueIdentifier>{d45f75b8-f880-435e-903a-5f6427e567dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\CGameObject\Bullet">
+      <UniqueIdentifier>{e494d54a-190c-4cc4-92dc-9363379d7b48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -132,6 +135,9 @@
     <ClInclude Include="CMonster.h">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>소스 파일\Framework\ObjectManager\CGameObject\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -181,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="CMonster.cpp">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>소스 파일\Framework\ObjectManager\CGameObject\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

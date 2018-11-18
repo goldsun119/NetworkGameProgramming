@@ -99,6 +99,12 @@ void CMyMenu::Update()
 			SCENEMANAGER->SetScene(E_INGAME);
 		}
 	}
+
+	//클라 작업을 위한 인게임치트키 F8을 누르세여 응 버그
+	/*if (Key == KEY_CHEATREADY)
+	{
+		SCENEMANAGER->SetScene(E_INGAME);
+	}*/
 }
 
 void CMyMenu::Destroy()
@@ -122,11 +128,8 @@ void CMyMenu::CheckKey()
 		m_pPlayer->SetReady(TRUE);
 	}
 
-	//recv(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.IsReady, sizeof(FRAMEWORK->m_ClientInfo.IsReady), 0);
-	//if (Key & KEY_ENTER) //인게임으로 바꾸라는 리시브를 받고 씬 변경
-	//{
-	//	SCENEMANAGER->SetScene(E_INGAME);
-	//}
+	
+
 }
 
 void CMyMenu::PreRender(DWORD dwColor)
