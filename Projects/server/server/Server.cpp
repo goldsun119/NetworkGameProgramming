@@ -129,31 +129,30 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				err_display("recv() KeyInput");
 				break;
 			}
-			KeyInput = -1;
-			switch (KeyInput) //키상태 더 자세하게
+			switch (Input.m_dwKey) //키상태 더 자세하게
 			{
-			case Key::E_LEFT:
+			case KEY_LEFT:
 				//playerInfo->Pos.x -= 3;
-				printf("좌!\n");
+				printf("%d번클라 좌!\n",ClientNum);
 
 				break;
 
-			case Key::E_RIGHT:
+			case KEY_RIGHT:
 				//playerInfo->Pos.x += 3;
-				printf("우!\n");
+				printf("%d번클라 우!\n", ClientNum);
 
 				break;
 
-			case Key::E_UP:
+			case KEY_UP:
 				//playerInfo->Pos.y -= 3;
-				printf("상!\n");
+				printf("%d번클라 상!\n", ClientNum);
 
 				break;
 
-			case Key::E_DOWN:
+			case KEY_DOWN:
 
 				//playerInfo->Pos.y += 3;
-				printf("하!\n");
+				printf("%d번클라 하!\n", ClientNum);
 
 				break;
 			}
