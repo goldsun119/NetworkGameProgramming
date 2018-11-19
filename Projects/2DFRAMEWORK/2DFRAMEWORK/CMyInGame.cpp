@@ -5,6 +5,7 @@
 #include "CGameObject.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CBullet.h"
 
 CMyInGame::CMyInGame()
 {
@@ -31,7 +32,7 @@ void CMyInGame::Render(HDC hdc)
 	m_PlayerImg.Load(TEXT("Player1.png"));
 	m_MonsterImg.Load(TEXT("enemy1.png"));
 
-	m_PlayerBulletImg.Load(TEXT("enemy1.png"));
+	m_PlayerBulletImg.Load(TEXT("image/총알기본.png"));
 
 
 	//m_PlayerImg = MYRENDERMANAGER->FindCImage("IngamePlayerImage")->begin()->GetCimage();
@@ -51,10 +52,16 @@ void CMyInGame::Render(HDC hdc)
 		}
 		//플레이어 총알 그리기
 		//1119 stl고수 천기님
-		/*for (vector<CBullet>::iterator iter = m_pPlayer->m_PlayerBullet.begin(); iter != m_pPlayer->m_PlayerBullet.end(); ++iter)
+		//for (vector<CBullet>::iterator iter = m_pPlayer->m_PlayerBullet.begin(); iter != m_pPlayer->m_PlayerBullet.end(); ++iter)
+		//{
+		//	m_PlayerBulletImg.Draw(memDC, iter->GetPos().x, (iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		//}
+		vector<CBullet>::iterator iter = m_pPlayer->m_PlayerBullet.begin();
+		while (iter != m_pPlayer->m_PlayerBullet.end())
 		{
-			m_PlayerBulletImg.Draw(memDC, iter->GetPos().x, (iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
-		}*/
+				m_PlayerBulletImg.Draw(memDC, (*iter).GetPos().x, (*iter).GetPos().y, (*iter).GetSize(), (*iter).GetSize());
+			iter++;
+		}
 
 
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);

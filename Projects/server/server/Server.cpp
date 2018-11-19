@@ -77,7 +77,7 @@ void SetInitData(PlayerInfo a, int num)
 	a.Score = 0;
 }
 
-void SendAllPlayerInfo(PlayerInfo P)
+void SendAllPlayerInfo(PlayerInfo P[])
 {	
 	send(clientinfotohandle[0].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
 	send(clientinfotohandle[1].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
@@ -161,7 +161,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 				break;
 			}
-			SendAllPlayerInfo(playerInfo[ClientNum]);
+			SendAllPlayerInfo(playerInfo);
 
 			//retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
 			

@@ -12,7 +12,6 @@ CPlayer::CPlayer()
 	Size = 30;
 	m_size = 50;
 	m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
-
 }
 
 CPlayer::~CPlayer()
