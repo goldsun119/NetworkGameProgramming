@@ -56,8 +56,8 @@ bool IsAllClientReady()
 {
 	//todo 은선
 	if (playerInfo[0].IsReady == true && playerInfo[1].IsReady == true) { //11.12 소현 고친곳
-		clientinfotohandle[0].IsReady == true;
-		clientinfotohandle[1].IsReady == true;
+		clientinfotohandle[0].IsReady = true;
+		clientinfotohandle[1].IsReady = true;
 
 		return true;
 	}
@@ -77,6 +77,11 @@ void SetInitData(PlayerInfo a, int num)
 	a.Score = 0;
 }
 
+void SendAllPlayerInfo(PlayerInfo P)
+{	
+	send(clientinfotohandle[0].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
+	send(clientinfotohandle[1].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
+}
 
 DWORD WINAPI ProcessClient(LPVOID arg) {
 	ClientCount++;
@@ -132,31 +137,34 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			switch (Input.m_dwKey) //키상태 더 자세하게
 			{
 			case KEY_LEFT:
-				//playerInfo->Pos.x -= 3;
+				playerInfo[ClientNum].Pos.x -= 3;
 				printf("%d번클라 좌!\n",ClientNum);
 
 				break;
 
 			case KEY_RIGHT:
-				//playerInfo->Pos.x += 3;
+				playerInfo[ClientNum].Pos.x += 3;
 				printf("%d번클라 우!\n", ClientNum);
 
 				break;
 
 			case KEY_UP:
-				//playerInfo->Pos.y -= 3;
+				playerInfo[ClientNum].Pos.y -= 3;
 				printf("%d번클라 상!\n", ClientNum);
 
 				break;
 
 			case KEY_DOWN:
 
-				//playerInfo->Pos.y += 3;
+				playerInfo[ClientNum].Pos.y += 3;
 				printf("%d번클라 하!\n", ClientNum);
 
 				break;
 			}
+			SendAllPlayerInfo(playerInfo[ClientNum]);
+
 			//retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
+			
 			if (retval == SOCKET_ERROR) {
 				err_display("send() playerInfo");
 				break;
@@ -212,23 +220,20 @@ int main(int argc, char *argv[])
 	if (retval == SOCKET_ERROR) err_quit("listen()");
 
 	// 데이터 통신에 사용할 변수
-	SOCKET ClientSock;
-	SOCKADDR_IN ClientAddr;
 	int addrlen;
 
 	while (1)
 	{
-		addrlen = sizeof(ClientAddr);
-		ClientSock = accept(ListenSock, (SOCKADDR *)&ClientAddr, &addrlen);
-		if (ClientSock == INVALID_SOCKET) {
+		addrlen = sizeof(clientinfotohandle[ClientCount].Addr);
+		clientinfotohandle[ClientCount].Sock = accept(ListenSock, (SOCKADDR *)&clientinfotohandle[ClientCount].Addr, &addrlen);
+		if (clientinfotohandle[ClientCount].Sock == INVALID_SOCKET) {
 			err_display("accept()");
 			exit(1);
 		}
 		// 접속한 클라이언트 정보 출력
 		printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
-			inet_ntoa(ClientAddr.sin_addr), ntohs(ClientAddr.sin_port));
-
-		CreateThread(NULL, 0, ProcessClient, (LPVOID)ClientSock, 0, NULL);
+			inet_ntoa(clientinfotohandle[ClientCount].Addr.sin_addr), ntohs(clientinfotohandle[ClientCount].Addr.sin_port));
+		CreateThread(NULL, 0, ProcessClient, (LPVOID)clientinfotohandle[ClientCount].Sock, 0, NULL);
 	
 	}
 	// closesocket()

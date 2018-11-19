@@ -15,6 +15,8 @@ public:
 	bool IsReady = false;
 	bool IsDead = false;
 	int IsScene = E_MENU;
+	SOCKET Sock;
+	SOCKADDR_IN Addr;
 };
 
 #pragma pack(1)
