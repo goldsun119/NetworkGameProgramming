@@ -23,7 +23,11 @@ public:
 
 protected:
 	CPlayer		*m_pPlayer;
-	CMonster	*m_pMonster;
+	CMonster	*m_pMonster1;
+	CMonster	*m_pMonster2;
+	CMonster	*m_pMonster3;
+	CMonster	*m_pBoss1;
+	CMonster	*m_pBoss2;
 	TimeManager *m_pTime;
 };
 

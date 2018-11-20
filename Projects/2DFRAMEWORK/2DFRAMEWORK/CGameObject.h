@@ -8,7 +8,8 @@ protected:
 	int width;
 	int height;
 
-	
+	int myType;
+
 	int m_size;
 	int m_hp;
 	static CGameObject* AllObjectList[MAXOBJECTNUM];
@@ -25,21 +26,22 @@ public:
 	virtual ~CGameObject();
 	
 	
-	// Set
+	// Get
 	POINT GetPos() { return m_Pos; }
 	int GetXPos() const { return m_Pos.x; }
 	int GetYPos() const { return m_Pos.y; }
 	int GetHp() { return m_hp; }
 	int GetSize() { return m_size; }
+	int GetType() {return myType;}
 
-
-	// Get
 	unsigned long GetMyIdx();
+	// Set
 	void SetPos(int x, int y) { m_Pos.x = x, m_Pos.y = y; }
 	void SetXPos(int x) { m_Pos.x = x; }
 	void SetYPos(int y) { m_Pos.y = y; }
 	void SetHp(int hp) { m_hp = hp; }
 	void SetSize(int size) { m_size = size; }
+	void SetType(int type) { myType = type; }
 // ¿ÃπÃ¡ˆ
 	void OnDraw(HDC memdc, std::string name, POINT pos, int width, int height);
 	

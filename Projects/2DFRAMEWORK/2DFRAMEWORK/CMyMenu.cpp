@@ -8,6 +8,8 @@
 #include "CMybutton.h"
 #include "MyPacket.h"
 #include "CPlayer.h"
+#include "TimerManager.h"
+
 CMyMenu::CMyMenu()
 {
 	
@@ -97,6 +99,7 @@ void CMyMenu::Update()
 		{
 			//¾À ³Ñ±è
 			SCENEMANAGER->SetScene(E_INGAME);
+			TIMEMANAGER->SetPrevElipsedTime();
 		}
 	}
 

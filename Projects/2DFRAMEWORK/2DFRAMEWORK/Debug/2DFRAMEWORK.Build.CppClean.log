@@ -1,29 +1,57 @@
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\vc141.pdb
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\vc141.idb
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cgameobject.obj
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\scenemanager.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\framework.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\inputmanager.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cscene.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\crendermanager.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cplayer.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cobjectmanager.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cmymenu.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cmygameover.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cmyingame.obj
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\crendermanager.obj
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\inputmanager.obj
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cobjectmanager.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cgameobject.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\timermanager.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cmybutton.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cmonster.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.pch
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\stdafx.obj
+c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cbullet.obj
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\debug\2dframework.exe
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\debug\2dframework.ilk
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\debug\2dframework.pdb
 c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.res
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\cobject.obj
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\cl.command.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\cl.read.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\cl.write.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\link.command.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\link.read.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\link.write.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\rc.command.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\rc.read.1.tlog
-c:\users\이소현\desktop\networkgameprogramming\projects\2dframework\2dframework\debug\2dframework.tlog\rc.write.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cbullet.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cgameobject.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cmonster.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cmybutton.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cmygameover.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cmyingame.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cmymenu.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cobjectmanager.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cplayer.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\crendermanager.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\cscene.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\framework.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\inputmanager.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\scenemanager.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\stdafx.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\timermanager.obj
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.res
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.pch
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\vc141.idb
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\vc141.pdb
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\debug\2dframework.pdb
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\debug\2dframework.exe
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\debug\2dframework.ilk
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\cl.command.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\cl.read.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\cl.write.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\link.command.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\link.read.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\link.write.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\rc.command.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\rc.read.1.tlog
+c:\users\blueb\documents\카카오톡 받은 파일\1119백업\2dframework\2dframework\debug\2dframework.tlog\rc.write.1.tlog

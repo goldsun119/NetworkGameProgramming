@@ -19,35 +19,35 @@ CBullet::CBullet(POINT pos, int typeNum)
 	case 0:
 	case -1:
 	case -2:
-		m_Pos.x += 25;
+		m_Pos.x += 14;
 		m_size = 20;
 		break;
 	case 1:
-		m_Pos.x += 25;
+		m_Pos.x += 15;
 		m_size = 15;
 		break;
 	case 2:
-		m_Pos.x += 25;
+		m_Pos.x += 63;
 		m_Pos.y += 25;
 		m_size = 20;
 		break;
 	case 3:
-		m_Pos.x += 25;
+		m_Pos.x += 91;
 		m_Pos.y += 150;
 		m_size = 20;
 		break;
 	case 4:
-		m_Pos.x += 25;
+		m_Pos.x += 285;
 		m_Pos.y += 280;
 		m_size = 25;
 		break;
 	case 5:
-		m_Pos.x += 25;
+		m_Pos.x += 0;
 		m_Pos.y += 15;
 		m_size = 25;
 		break;
 	case 6:
-		m_Pos.x += 25;
+		m_Pos.x += 270;
 		m_Pos.y += 280;
 		m_size = 50;
 		break;

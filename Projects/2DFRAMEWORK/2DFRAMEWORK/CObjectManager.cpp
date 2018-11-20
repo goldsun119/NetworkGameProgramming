@@ -45,7 +45,7 @@ void CObjectManager::AddGameObject(CGameObject* obj, E_OBJECT objType)
 		m_ObjMap.insert(std::make_pair(objType, ObjList)); 
 
 	}
-
+	
 	//있으면 저 오브젝트리스트로 들어가서. m_ObjMap[objType].pushback(obj)
 
 }

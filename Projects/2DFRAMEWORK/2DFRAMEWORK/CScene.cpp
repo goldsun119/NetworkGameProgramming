@@ -5,7 +5,11 @@
 CScene::CScene()
 {
 	m_pPlayer = new CPlayer;
-	m_pMonster = new CMonster;
+	m_pMonster1 = new CMonster;
+	m_pMonster2 = new CMonster;
+	m_pMonster3 = new CMonster;
+	m_pBoss1 = new CMonster;
+	m_pBoss2 = new CMonster;
 }
 
 CScene::~CScene()
