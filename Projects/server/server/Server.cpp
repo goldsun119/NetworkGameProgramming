@@ -3,10 +3,16 @@
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
-int ClientCount = -1; //클라이언트 번호 할당
+int ClientCount = 0; //클라이언트 번호 할당
 
 InputManager Input;
 DWORD KeyInput;
+
+typedef pair<int, string> Score;
+
+vector<Score> Rank;
+CRITICAL_SECTION cs;
+int score = 1;
 
 //=======================================================================================
 void err_quit(char *msg)
@@ -52,6 +58,27 @@ int recvn(SOCKET s, char *buf, int len, int flags)
 	return (len - left);
 }
 //=============================================================
+istream& ReadInputFile(istream& in, vector<Score>& vec) 
+{
+	 if (in) 
+	 {
+		vec.clear();
+		Score mem;
+		
+		while (in >> mem.first >> mem.second)
+		{
+			vec.emplace_back(mem);
+		}
+		in.clear();
+	}
+	return in;
+}
+
+int SortFunc(Score a, Score b)
+{
+	return a.first > b.first;
+}
+
 bool IsAllClientReady()
 {
 	//todo 은선
@@ -84,7 +111,6 @@ void SendAllPlayerInfo(PlayerInfo P[])
 }
 
 DWORD WINAPI ProcessClient(LPVOID arg) {
-	ClientCount++;
 	SOCKET ClientSock = (SOCKET)arg;
 	SOCKADDR ClientAddr;
 	int AddrLen;
@@ -93,8 +119,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 	int retval = 0;
 
-	int ClientNum = ClientCount;
+	int ClientNum = ClientCount - 1;
 	SetInitData(playerInfo[ClientNum], ClientNum);
+	
+	EnterCriticalSection(&cs);
+	Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
+	LeaveCriticalSection(&cs);
 
 	while (true)
 	{
@@ -111,7 +141,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 			}
 			else {
@@ -162,8 +192,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				break;
 			}
 			SendAllPlayerInfo(playerInfo);
-
-			//retval = send(ClientSock, (char*)&playerInfo, sizeof(playerInfo), 0);//플레이어 정보 전송
 			
 			if (retval == SOCKET_ERROR) {
 				err_display("send() playerInfo");
@@ -174,13 +202,16 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			//게임 종료
 		case E_Scene::E_GAMEOVER:
+			//EnterCriticalSection(&cs);
+			//for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
+			//	cout << iter->second << " " << iter->first << endl;
+			//LeaveCriticalSection(&cs);
 			break;
 			//랭크 출력
 		case E_Scene::E_RANK:
 			break;
 		}
 	}
-
 	closesocket(ClientSock);
 
 	return 0;
@@ -196,6 +227,13 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 int main(int argc, char *argv[])
 {
 	int retval;
+	InitializeCriticalSection(&cs);
+
+	Rank.reserve(100);
+	ifstream in("score.txt");
+	if(!in.is_open())
+		err_quit("Can't File Open");
+	ReadInputFile(in, Rank);
 
 	// 윈속 초기화
 	WSADATA wsa;
@@ -221,6 +259,7 @@ int main(int argc, char *argv[])
 
 	// 데이터 통신에 사용할 변수
 	int addrlen;
+	HANDLE hThread;
 
 	while (1)
 	{
@@ -233,10 +272,23 @@ int main(int argc, char *argv[])
 		// 접속한 클라이언트 정보 출력
 		printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 			inet_ntoa(clientinfotohandle[ClientCount].Addr.sin_addr), ntohs(clientinfotohandle[ClientCount].Addr.sin_port));
-		CreateThread(NULL, 0, ProcessClient, (LPVOID)clientinfotohandle[ClientCount].Sock, 0, NULL);
-	
+		hThread = CreateThread(NULL, 0, ProcessClient, (LPVOID)clientinfotohandle[ClientCount].Sock, 0, NULL);
+		if (hThread == NULL) { closesocket(ListenSock); }
+		else 
+		{ 
+			CloseHandle(hThread); 
+			ClientCount++; 
+		}
 	}
-	// closesocket()
+	sort(Rank.begin(), Rank.end(), SortFunc);
+	ofstream out("Score.txt");
+	for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
+	{
+		out << iter->first << " " << iter->second << endl;
+	}
+	out.close();
+
+	DeleteCriticalSection(&cs);
 	closesocket(ListenSock);
 
 	// 윈속 종료
