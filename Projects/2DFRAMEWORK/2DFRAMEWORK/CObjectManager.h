@@ -2,7 +2,8 @@
 #include <map>
 class CGameObject;
 //class CPlayer;
-class CObjectManager : public CSingleTonBase<CRenderManager>
+class CBullet;
+class CObjectManager : public CSingleTonBase<CObjectManager>
 {
 	std::map<E_OBJECT, std::vector<CGameObject*>> m_ObjMap;
 public:
@@ -14,8 +15,9 @@ public:
 	void Update();
 
 
-	void AddGameObject(CGameObject* obj, E_OBJECT eType);
+	void AddGameObject(CGameObject* obj, E_OBJECT objType, int xPos, int yPos, int size);
 	void SetObjlist(vector<CGameObject*> &Obj);
 	CGameObject* FindGameObject(E_OBJECT objType, int idx);
+	void CheckEnemybyPlayerBulletCollision(vector<CBullet*> bullet, vector<CGameObject*> Target);
 };
 

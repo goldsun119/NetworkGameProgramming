@@ -20,6 +20,6 @@ public:
 	void SetReady(bool ready);
 	virtual void Update();
 	virtual void Render(HDC m_hdc);
-	vector<CBullet> m_PlayerBullet;
+	vector<CBullet*> m_PlayerBullet;
 };
 

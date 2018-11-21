@@ -2,6 +2,7 @@
 #include "FrameWork.h"
 #include "SceneManager.h"
 #include "InputManager.h"
+#include "TimerManager.h"
 
 FrameWork::FrameWork()
 {
@@ -126,7 +127,7 @@ void FrameWork::Update()
 	INPUTMANAGER->SetKeyState();
 
 	//update해줌. 꼭 업데이트 해서 정보 받아오고 그려야함. 
-
+	
 	SCENEMANAGER->Update();
 }
 

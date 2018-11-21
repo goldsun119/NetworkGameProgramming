@@ -65,6 +65,32 @@ CBullet::~CBullet()
 {
 }
 
+bool CBullet::IsCrashtoEnemy(CGameObject* enemy)
+{
+	RECT rt1, rt2, rt3;
+	rt1.top = m_Pos.y, rt1.bottom = m_Pos.y + m_size, rt1.left = m_Pos.x, rt1.right = m_Pos.x + m_size;
+	switch (enemy->GetType())
+	{
+	case 1:
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetYPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		break;
+	case 2:
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		break;
+	case 3:
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+		break;
+	case 4:
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+		break;
+	}
+
+	if (IntersectRect(&rt3, &rt1, &rt2))
+		return true;
+	else
+		return false;
+}
+
 void CBullet::Render(HDC m_hdc)
 {
 }

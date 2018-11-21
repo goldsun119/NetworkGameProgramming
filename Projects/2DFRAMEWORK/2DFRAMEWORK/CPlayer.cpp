@@ -6,7 +6,7 @@
 #include "CBullet.h"
 CPlayer::CPlayer()
 {
-	Speed = 3.0f;
+	Speed = 1.0f;
 	m_Pos.x = 200.0f;
 	m_Pos.y = 500.0f;
 	Size = 30;
@@ -53,10 +53,10 @@ void CPlayer::CheckKey()
 		{
 			POINT TempPos = this->GetPos();
 			//위치지정
-			TempPos.x = this->GetPos().x - 40;
-			TempPos.y = this->GetPos().y + 25;
+			TempPos.x = this->GetPos().x;
+			TempPos.y = this->GetPos().y;
 			//총알만들기
-			m_PlayerBullet.emplace_back(TempPos, -1);
+			m_PlayerBullet.emplace_back(TempPos, 0);
 
 		}
 		break;
@@ -76,12 +76,12 @@ void CPlayer::Update()
 	
 	//총알 이동
 	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end(); ++p)
-		p->SetYPos(p->GetYPos() - 13);
+		(*p)->SetYPos((*p)->GetYPos() - 13);
 
 	//화면 밖 총알 삭제
 	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)
 	{
-		if (p->GetYPos() < 250 && p->GetXPos() > 270 && p->GetXPos() < 350)
+		if ((*p)->GetYPos() < 250 && (*p)->GetXPos() > 270 && (*p)->GetXPos() < 350)
 		{
 			p = m_PlayerBullet.erase(p);
 		}
