@@ -10,6 +10,7 @@ CMonster::CMonster()
 }
 CMonster::~CMonster()
 {
+
 }
 
 void CMonster::Update()

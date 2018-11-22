@@ -17,6 +17,7 @@ public:
 
 	void AddGameObject(CGameObject* obj, E_OBJECT objType, int xPos, int yPos, int size);
 	void SetObjlist(vector<CGameObject*> &Obj);
+	std::vector<CGameObject*> GetObjlist() {return ObjList; }
 	CGameObject* FindGameObject(E_OBJECT objType, int idx);
 	void CheckEnemybyPlayerBulletCollision(vector<CBullet*> bullet, vector<CGameObject*> Target);
 };

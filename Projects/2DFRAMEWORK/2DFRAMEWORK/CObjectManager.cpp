@@ -30,29 +30,16 @@ void CObjectManager::CheckEnemybyPlayerBulletCollision(vector<CBullet*> Bullet, 
 		for (vector<CGameObject*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
 
-			//if ((*bulletIterIsCrashtoEnemy(*enemy))
 			if((*bulletIter)->IsCrashtoEnemy(*enemy))
 			{
 				if ((*bulletIter)->getType() == -1)
-					(*enemy)->SetHp((*enemy)->GetHp() - 1);
+					(*enemy)->SetHp((*enemy)->GetHp() - 10);
 				else if ((*bulletIter)->getType() == 0)
 				{
-					/*if (!player.getPowerUp())
-						(*enemy)->SetHp((*enemy)->GetHp() - 2);
-					else
-						(*enemy)->SetHp((*enemy)->GetHp() - 3);*/
-					(*enemy)->SetHp((*enemy)->GetHp() - 3);
+
+					(*enemy)->SetHp((*enemy)->GetHp() - 10);
 
 				}
-				//if (!q->IsBoom())
-				//{
-				//	//Ui_Score.setScore(Ui_Score.getScore() + 1);
-				//	//(*bulletIter) = Bullet.erase((*bulletIter));
-				//}
-				//else
-				//	++(*bulletIter);
-				//if ((*bulletIter) == Bullet.end())
-				//	break;
 			}
 	
 		}

@@ -56,7 +56,7 @@ void CPlayer::CheckKey()
 			TempPos.x = this->GetPos().x;
 			TempPos.y = this->GetPos().y;
 			//ÃÑ¾Ë¸¸µé±â
-			m_PlayerBullet.emplace_back(TempPos, 0);
+			m_PlayerBullet.emplace_back(new CBullet(TempPos, 0));
 
 		}
 		break;

@@ -93,6 +93,7 @@ void CMyInGame::Render(HDC hdc)
 void CMyInGame::Update()
 {
 	m_pPlayer->Update();
+
 	//모든 게임의 timer를 돌려줘야하. 이씬에서만 타이머를 돌리면 안됌.
 	//죽이는거까지 하고 다된거하고 타이머클래스 재설계필요.
 	TIMEMANAGER->SetCurFimeElapsed();
@@ -179,7 +180,7 @@ void CMyInGame::Update()
 		}
 	}
 
-	OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, ObjList);
+	OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, OBJECTMANAGER->GetObjlist());
 }
 
 void CMyInGame::Destroy()
