@@ -145,7 +145,7 @@ void CMyInGame::Update()
 	
 
 	//적 이동
-	for (vector<CGameObject*>::iterator iter = ObjList.begin(); iter != ObjList.end(); ++iter)
+	for (auto iter = ObjList.begin(); iter != ObjList.end(); ++iter)
 	{
 		if ((*iter)->GetYPos() < WndY)
 		{
@@ -158,6 +158,37 @@ void CMyInGame::Update()
 				(*iter)->SetYPos((*iter)->GetYPos() + 2);
 
 			}
+
+			for (auto bullet = m_pPlayer->m_PlayerBullet.begin(); bullet < m_pPlayer->m_PlayerBullet.end(); ++bullet)
+			{
+				RECT rt1, rt2, rt3;
+				rt1.top = (*bullet)->GetYPos(), rt1.bottom = (*bullet)->GetYPos() + (*bullet)->GetSize(), rt1.left = (*bullet)->GetXPos(), rt1.right = (*bullet)->GetXPos() + (*bullet)->GetSize();
+				switch ((*iter)->GetType())
+				{
+				case 1:
+					rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+					break;
+				case 2:
+					rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+					//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+					break;
+				/*case 3:
+					rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+					break;
+				case 4:
+					rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+					break;*/
+				}
+
+				if (IntersectRect(&rt3, &rt1, &rt2))
+				{
+					(*iter)->SetHp((*iter)->GetHp() - 10);
+
+				}
+			}
+
+
 		
 		}
 
@@ -165,7 +196,7 @@ void CMyInGame::Update()
 		{
 			//벡터 지워라.
 			//swap쓰면 되는데 왜 접근안되냐 아오
-			if (ObjList.size() > 2)
+			if (ObjList.size() > 2 )
 			{
 				iter_swap(iter, ObjList.end());
 				ObjList.pop_back();
@@ -180,7 +211,7 @@ void CMyInGame::Update()
 		}
 	}
 
-	OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, OBJECTMANAGER->GetObjlist());
+	//OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, ObjList);
 }
 
 void CMyInGame::Destroy()

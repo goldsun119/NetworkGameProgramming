@@ -8,7 +8,7 @@ protected:
 	int width;
 	int height;
 
-	int myType;
+	int m_Type;
 
 	int m_size;
 	int m_hp;
@@ -32,7 +32,7 @@ public:
 	int GetYPos() const { return m_Pos.y; }
 	int GetHp() { return m_hp; }
 	int GetSize() { return m_size; }
-	int GetType() {return myType;}
+	int GetType() {return m_Type;}
 
 	unsigned long GetMyIdx();
 	// Set
@@ -41,7 +41,7 @@ public:
 	void SetYPos(int y) { m_Pos.y = y; }
 	void SetHp(int hp) { m_hp = hp; }
 	void SetSize(int size) { m_size = size; }
-	void SetType(int type) { myType = type; }
+	void SetType(int type) { m_Type = type; }
 // ¿ÃπÃ¡ˆ
 	void OnDraw(HDC memdc, std::string name, POINT pos, int width, int height);
 	

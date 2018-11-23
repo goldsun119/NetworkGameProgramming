@@ -3,7 +3,7 @@
 class CBullet : public CGameObject
 {
 	int m_Type; // -2 - 강화총알, -1 - 보조 총알, 0 - 플레이어 총알, 1 - 적1 총알 , 2 - 적2 총알 , 3 - 적3 총알, 4 - 보스 총알
-
+	bool m_IsRender;
 public:
 	CBullet(POINT pos, int typeNum);
 	CBullet();

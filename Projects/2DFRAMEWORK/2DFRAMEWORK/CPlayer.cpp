@@ -6,7 +6,7 @@
 #include "CBullet.h"
 CPlayer::CPlayer()
 {
-	Speed = 1.0f;
+	Speed = 5.0f;
 	m_Pos.x = 200.0f;
 	m_Pos.y = 500.0f;
 	Size = 30;
@@ -81,9 +81,15 @@ void CPlayer::Update()
 	//화면 밖 총알 삭제
 	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)
 	{
+		{
+
+		}
 		if ((*p)->GetYPos() < 250 && (*p)->GetXPos() > 270 && (*p)->GetXPos() < 350)
 		{
+		//if (m_PlayerBullet.size() > 2)
+
 			p = m_PlayerBullet.erase(p);
+			iter_swap(p, m_PlayerBullet.end());
 		}
 		else
 			++p;
