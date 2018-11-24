@@ -55,7 +55,8 @@ void CMyInGame::Render(HDC hdc)
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		
 		//몬스터 그리기
-		for (vector<CGameObject*>::iterator iter = ObjList.begin(); iter != ObjList.end(); ++iter)
+		for (vector<CMonster*>::iterator iter = m_Monster.begin();
+			iter != m_Monster.end(); ++iter)
 		{	
 			if ((*iter)->GetHp() > 0)
 			{
@@ -94,58 +95,38 @@ void CMyInGame::Update()
 {
 	m_pPlayer->Update();
 
-	//모든 게임의 timer를 돌려줘야하. 이씬에서만 타이머를 돌리면 안됌.
-	//죽이는거까지 하고 다된거하고 타이머클래스 재설계필요.
-	TIMEMANAGER->SetCurFimeElapsed();
-	TIMEMANAGER->SetFimeElapsed();
-	int eTime = TIMEMANAGER->GetFimeElapsed() / 1000;
-	
 	//적 비행기 생성
 	switch (eTime)
 	{
-	case 3: //1번 적비행기 3초마다 생성
-		OBJECTMANAGER->AddGameObject(m_pMonster1, E_ENEMY1, 30,30,30);
-		OBJECTMANAGER->SetObjlist(ObjList);
-		/*m_pMonster1->SetSize(50);
-		m_pMonster1->SetType(E_ENEMY1);*/
+	case 30: //1번 적비행기 3초마다 생성
+		m_Monster.push_back(new CMonster(E_ENEMY1));
 		break;
-	case 7: //2번 적비행기 7초마다 생성
-		OBJECTMANAGER->AddGameObject(m_pMonster2, E_ENEMY2, 100,100,50);
-		OBJECTMANAGER->SetObjlist(ObjList);
-	/*	m_pMonster2->SetSize(100);
-		m_pMonster2->SetType(E_ENEMY2);*/
+	case 70: //2번 적비행기 7초마다 생성
+		m_Monster.push_back(new CMonster(E_ENEMY2));
 		break;
-	//case 11: //3번 적비행기 11초마다 생성
-	//	MakeEnemy.AddGameObject(m_pMonster3, E_ENEMY3);
-	//	MakeEnemy.SetObjlist(ObjList);
-	//	m_pMonster3->SetSize(130);
-	//	m_pMonster3->SetType(E_ENEMY3);
-	//	break;
-	//case 61: //1번 보스 61초에 생성
-	//	if (m_pBoss1->Boss1_Appear == false) {  //이미 생성 되있는지 확인
-	//		MakeEnemy.AddGameObject(m_pBoss1, E_BOSS1);
-	//		MakeEnemy.SetObjlist(ObjList);
-	//		m_pBoss1->SetSize(130);
-	//		m_pBoss1->Boss1_Appear = true;
-	//		m_pBoss1->SetType(E_BOSS1);
-	//		break;
-	//	}
-	//	break;
-	//case 91: //2번 보스91초에 생성
-	//	if (m_pBoss2->Boss2_Appear == false) { //이미 생성 되있는지 확인
-	//		MakeEnemy.AddGameObject(m_pBoss2, E_BOSS2);
-	//		MakeEnemy.SetObjlist(ObjList);
-	//		m_pBoss2->SetSize(150);
-	//		m_pBoss2->Boss2_Appear = true;
-	//		m_pBoss2->SetType(E_BOSS2);
-	//		break;
-	//	}
-	//	break;
+	case 110: //3번 적비행기 11초마다 생성
+		m_Monster.push_back(new CMonster(E_ENEMY3));
+		break;
+	case 61: //1번 보스 61초에 생성
+		if (Boss1_Appear == false) {  //이미 생성 되있는지 확인
+			m_Monster.push_back(new CMonster(E_BOSS1));
+			Boss1_Appear = true;
+			break;
+		}
+		break;
+	case 91: //2번 보스91초에 생성
+		if (Boss2_Appear == false) { //이미 생성 되있는지 확인
+			m_Monster.push_back(new CMonster(E_BOSS2));
+			Boss2_Appear = true;
+			break;
+		}
+		break;
 	}
+	eTime++;
 	
 
 	//적 이동
-	for (auto iter = ObjList.begin(); iter != ObjList.end(); ++iter)
+	for (auto iter = m_Monster.begin(); iter != m_Monster.end(); ++iter)
 	{
 		if ((*iter)->GetYPos() < WndY)
 		{
@@ -196,10 +177,10 @@ void CMyInGame::Update()
 		{
 			//벡터 지워라.
 			//swap쓰면 되는데 왜 접근안되냐 아오
-			if (ObjList.size() > 2 )
+			if (m_Monster.size() > 2 )
 			{
-				iter_swap(iter, ObjList.end());
-				ObjList.pop_back();
+				iter_swap(iter, m_Monster.end());
+				m_Monster.pop_back();
 
 			}
 			else {

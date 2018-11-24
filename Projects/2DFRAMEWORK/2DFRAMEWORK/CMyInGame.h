@@ -2,6 +2,7 @@
 #include "CScene.h"
 #include "CObjectManager.h"
 
+class CMonster;
 class CMyInGame : public CScene
 {
 public:
@@ -15,8 +16,13 @@ public:
 	
 	CImage							m_PlayerBulletImg;
 	CObjectManager					MakeEnemy;
-	vector<CGameObject*>			ObjList;
-	
+
+
+	vector<CMonster*>				m_Monster;
+	int								eTime = 0;
+
+	bool							Boss1_Appear = false;
+	bool							Boss2_Appear = false;
 	//적 이미지
 	CImage							m_MonsterImg1;
 	CImage							m_MonsterImg2;

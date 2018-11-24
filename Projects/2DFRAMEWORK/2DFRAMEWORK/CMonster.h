@@ -12,6 +12,7 @@ public:
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 
+	CMonster(int typeNum);
 	CMonster();
 	~CMonster();
 public:
