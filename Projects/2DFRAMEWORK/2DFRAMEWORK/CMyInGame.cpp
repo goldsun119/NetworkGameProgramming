@@ -123,77 +123,170 @@ void CMyInGame::Update()
 		break;
 	}
 	eTime++;
-	
-
+	// 문제인부분이 
 	//적 이동
-	for (auto iter = m_Monster.begin(); iter != m_Monster.end(); ++iter)
+	//if (m_Monster.size() > 0)
 	{
-		if ((*iter)->GetYPos() < WndY)
+		for (int i = 0; i < m_Monster.size(); ++i)
 		{
-			if ((*iter)->GetType() == E_ENEMY1)
-			{
-				(*iter)->SetYPos((*iter)->GetYPos() + 1);
-			}
-			else
-			{
-				(*iter)->SetYPos((*iter)->GetYPos() + 2);
-
-			}
-
-			for (auto bullet = m_pPlayer->m_PlayerBullet.begin(); bullet < m_pPlayer->m_PlayerBullet.end(); ++bullet)
-			{
-				RECT rt1, rt2, rt3;
-				rt1.top = (*bullet)->GetYPos(), rt1.bottom = (*bullet)->GetYPos() + (*bullet)->GetSize(), rt1.left = (*bullet)->GetXPos(), rt1.right = (*bullet)->GetXPos() + (*bullet)->GetSize();
-				switch ((*iter)->GetType())
+			
+				if (m_Monster[i]->GetYPos() < WndY)
 				{
-				case 1:
-					rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
-					break;
-				case 2:
-					rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+					if (m_Monster[i]->GetType() == E_ENEMY1)
+					{
+						m_Monster[i]->SetYPos(m_Monster[i]->GetYPos() + 2);
+					}
+					else
+					{
+						m_Monster[i]->SetYPos(m_Monster[i]->GetYPos() + 3);
 
-					//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
-					break;
-				/*case 3:
-					rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
-					break;
-				case 4:
-					rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
-					break;*/
+					}
+
+					for (auto bullet = m_pPlayer->m_PlayerBullet.begin(); bullet < m_pPlayer->m_PlayerBullet.end(); ++bullet)
+					{
+						if ((*bullet)->GetActive())
+						{
+
+							RECT rt1, rt2, rt3;
+							rt1.top = (*bullet)->GetYPos(), rt1.bottom = (*bullet)->GetYPos() + (*bullet)->GetSize(), rt1.left = (*bullet)->GetXPos(), rt1.right = (*bullet)->GetXPos() + (*bullet)->GetSize();
+							switch (m_Monster[i]->GetType())
+							{
+							case 1:
+								rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + m_Monster[i]->GetSize(), rt2.left = m_Monster[i]->GetYPos(), rt2.right = m_Monster[i]->GetXPos() + m_Monster[i]->GetSize();
+								break;
+							//case 2:
+							//	rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+							//	//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+							//	break;
+							//case 3:
+							//	rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 50, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+							//	//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+							//	break;
+							//case 4:
+							//	rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 200, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+							//	//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+							//	break;
+							}
+
+							/*if (IntersectRect(&rt3, &rt1, &rt2))
+							{
+								(*iter)->SetHp((*iter)->GetHp() - 10);
+								(*bullet)->SetActive(false);
+							}*/
+						}
+					}
+
+
+
 				}
-
-				if (IntersectRect(&rt3, &rt1, &rt2))
+				if (m_Monster[i]->GetYPos() > WndY)
 				{
-					(*iter)->SetHp((*iter)->GetHp() - 10);
 
+
+				iter_swap(m_Monster[i], m_Monster.back());
+				if (m_Monster.back())
+				{
+					delete m_Monster.back();
+					m_Monster.back() = nullptr;
 				}
-			}
-
-
-		
-		}
-
-		else //yPos가 윈도우 창크기보다 크면
-		{
-			//벡터 지워라.
-			//swap쓰면 되는데 왜 접근안되냐 아오
-			if (m_Monster.size() > 2 )
-			{
-				iter_swap(iter, m_Monster.end());
 				m_Monster.pop_back();
+				}
 
-			}
-			else {
-				//두개 이하면
-
-			}
-			//swap()
-			//iter_e
 		}
-	}
 
+	}
+	//for (auto iter = m_Monster.begin(); iter != m_Monster.end(); ++iter)
+	//{
+	//	if ((*iter)->GetYPos() < WndY)
+	//	{
+	//		if ((*iter)->GetType() == E_ENEMY1)
+	//		{
+	//			(*iter)->SetYPos((*iter)->GetYPos() + 2);
+	//		}
+	//		else
+	//		{
+	//			(*iter)->SetYPos((*iter)->GetYPos() + 3);
+
+	//		}
+
+	//		for (auto bullet = m_pPlayer->m_PlayerBullet.begin(); bullet < m_pPlayer->m_PlayerBullet.end(); ++bullet)
+	//		{
+	//			if ((*bullet)->GetActive())
+	//			{
+
+	//			RECT rt1, rt2, rt3;
+	//			rt1.top = (*bullet)->GetYPos(), rt1.bottom = (*bullet)->GetYPos() + (*bullet)->GetSize(), rt1.left = (*bullet)->GetXPos(), rt1.right = (*bullet)->GetXPos() + (*bullet)->GetSize();
+	//			switch ((*iter)->GetType())
+	//			{
+	//			case 1:
+	//				rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+	//				break;
+	//			case 2:
+	//				rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+	//				//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+	//				break;
+	//			case 3:
+	//				rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 50, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+	//				//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+	//				break;
+	//			case 4:
+	//				rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 200, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+
+	//				//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+	//				break;
+	//			}
+
+	//			if (IntersectRect(&rt3, &rt1, &rt2))
+	//			{
+	//				(*iter)->SetHp((*iter)->GetHp() - 10);
+	//				(*bullet)->SetActive(false);
+	//			}
+	//			}
+	//		}
+
+
+	//	
+	//	}
+
+		//else if((*iter)->GetYPos()> WndY)
+		//	//yPos가 윈도우 창크기보다 크면
+		//{
+		//	//벡터 지워라.
+		//	//swap쓰면 되는데 왜 접근안되냐 아오
+		//	if (m_Monster.size() > 1 )
+		//	{
+
+		//		iter_swap((*iter), m_Monster.back());
+		//		if (m_Monster.back())
+		//		{
+		//			delete m_Monster.back();
+		//			m_Monster.back() = nullptr;
+		//		}
+		//		m_Monster.pop_back();
+
+		//	}
+		//	else {
+		//		//두개 이하면
+		//		m_Monster.erase(m_Monster.begin());
+		//		m_Monster.clear();
+		//		return;
+
+		//	}
+		//	//swap()
+		//	//iter_e
+		//	//m_Monster.erase(iter); //이건 또 왜안돼
+		//}
+	
+	
+	}
+	
 	//OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, ObjList);
-}
+
 
 void CMyInGame::Destroy()
 {
