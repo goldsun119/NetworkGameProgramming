@@ -79,20 +79,34 @@ void CPlayer::Update()
 		(*p)->SetYPos((*p)->GetYPos() - 13);
 
 	//화면 밖 총알 삭제
-	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)
+	//for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)
+	//{
+	//	{
+
+	//	}
+	//	if ((*p)->GetYPos() < 250 && (*p)->GetXPos() > 270 && (*p)->GetXPos() < 350)
+	//	{
+	//	//if (m_PlayerBullet.size() > 2)
+
+	//		p = m_PlayerBullet.erase(p);
+	//		iter_swap(p, m_PlayerBullet.end());
+	//	}
+	//	else
+	//		++p;
+	//}
+
+	for (int i = 0; i < m_PlayerBullet.size(); ++i)
 	{
+		if (m_PlayerBullet[i]->GetYPos() < WndX)
 		{
-
+			iter_swap(m_PlayerBullet[i], m_PlayerBullet.back());
+			if (m_PlayerBullet.back())
+			{
+				delete m_PlayerBullet.back();
+				m_PlayerBullet.back() = nullptr;
+			}
+			m_PlayerBullet.pop_back();
 		}
-		if ((*p)->GetYPos() < 250 && (*p)->GetXPos() > 270 && (*p)->GetXPos() < 350)
-		{
-		//if (m_PlayerBullet.size() > 2)
-
-			p = m_PlayerBullet.erase(p);
-			iter_swap(p, m_PlayerBullet.end());
-		}
-		else
-			++p;
 	}
 }
 
