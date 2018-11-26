@@ -5,6 +5,7 @@
 #pragma pack(1)
 class ClientInfoToHandle {
 public:
+	int PlayNum;
 	bool IsReady = false;
 	bool IsDead = false;
 	int IsScene = E_MENU;
