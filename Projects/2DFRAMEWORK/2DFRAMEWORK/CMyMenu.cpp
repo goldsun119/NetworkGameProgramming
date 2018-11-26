@@ -100,6 +100,7 @@ void CMyMenu::Update()
 			//¾À ³Ñ±è
 			SCENEMANAGER->SetScene(E_INGAME);
 			TIMEMANAGER->SetPrevElipsedTime();
+			FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.PlayNum, sizeof(m_ClientInfo.PlayNum), 0);
 		}
 	}
 

@@ -120,6 +120,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int retval = 0;
 
 	int ClientNum = ClientCount - 1;
+	clientinfotohandle[ClientNum].PlayNum = ClientNum;
 	SetInitData(playerInfo[ClientNum], ClientNum);
 	
 	EnterCriticalSection(&cs);
@@ -143,6 +144,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			if (IsAllClientReady() == true) {
 				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
+				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
 			}
 			else {
 				//준비가 아닐때는 메뉴씬을 넘겨줘야함
