@@ -7,10 +7,9 @@
 #include "CMonster.h"
 #include "CBullet.h"
 #include "TimerManager.h"
-#include "Framework.h"
 CMyInGame::CMyInGame()
 {
-	
+	m_pPlayer = new CPlayer;
 	//Player *m_pPlayer = NULL;
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));
