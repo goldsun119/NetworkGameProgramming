@@ -20,7 +20,7 @@ CMonster::CMonster()
 		break;
 	}
 }
-CMonster::CMonster(int typeNum)
+CMonster::CMonster(E_OBJECT typeNum)
 {
 	m_Type = typeNum;
 
