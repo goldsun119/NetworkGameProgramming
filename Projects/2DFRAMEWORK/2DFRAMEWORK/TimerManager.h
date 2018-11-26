@@ -10,6 +10,11 @@ public:
 	TimeManager();
 	~TimeManager();
 public:
+
+	float m_CurrentTime;
+	float m_FPS;
+	float m_PrevTime;
+	float m_TimeElapsed;
 	void SetPrevElipsedTime();
 	DWORD GetPrevElipsedTime();
 

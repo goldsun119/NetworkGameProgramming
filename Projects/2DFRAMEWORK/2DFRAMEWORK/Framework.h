@@ -20,6 +20,7 @@ public:
 	float							m_fTimeElapsed;
 	int								m_nWndClientWidth;
 	int								m_nWndClientHeight;
+	TCHAR str[128];
 
 public:
 	SOCKET							m_sock;

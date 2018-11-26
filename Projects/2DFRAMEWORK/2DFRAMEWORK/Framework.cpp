@@ -128,6 +128,9 @@ void FrameWork::Update()
 	INPUTMANAGER->SetKeyState();
 
 	//update해줌. 꼭 업데이트 해서 정보 받아오고 그려야함. 
+	wsprintf(str, "FPS : %f", TIMEMANAGER->m_FPS, strlen(str));
+	SetWindowTextA(FRAMEWORK->m_hWnd, str);
+
 	
 	SCENEMANAGER->Update();
 }
