@@ -48,13 +48,14 @@ public:
 	SOCKET GetSock() { return m_sock; }
 	int GetRetval() { return m_retval; }
 	bool GetReadyInfo() { return m_ClientInfo.IsReady; }
+	int	GetPlayerNum() { return m_ClientInfo.PlayNum; }
 
 	ClientInfoToHandle GetClientInfo() { return m_ClientInfo; }
 
 	//SET
 	void SetClientReadyInfo() { m_ClientInfo.IsReady = true; }
 	void SetClientInfo(ClientInfoToHandle CInfoFromServer) { m_ClientInfo = CInfoFromServer; }
-
+	void SetClientNum(int num) { m_ClientInfo.PlayNum = num; }
 	
 	//¼­¹ö
 	int MakeServer();

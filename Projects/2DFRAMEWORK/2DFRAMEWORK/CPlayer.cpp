@@ -6,9 +6,28 @@
 #include "CBullet.h"
 CPlayer::CPlayer()
 {
+	//Speed = 5.0f;
+	//m_Pos.x = 200.0f;
+	//m_Pos.y = 500.0f;
+	//Size = 30;
+	//m_size = 50;
+	//m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
+
+	FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.PlayNum, sizeof(FRAMEWORK->m_ClientInfo.PlayNum), 0);
+	switch (FRAMEWORK->m_ClientInfo.PlayNum)
+	{
+	case 0:
+		m_Pos.x = 100.0f;
+		m_Pos.y = 500.0f;
+		break;
+
+	case 1:
+		m_Pos.x = 300.0f;
+		m_Pos.y = 500.0f;
+		break;
+	}
+
 	Speed = 5.0f;
-	m_Pos.x = 200.0f;
-	m_Pos.y = 500.0f;
 	Size = 30;
 	m_size = 50;
 	m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
@@ -97,7 +116,7 @@ void CPlayer::Update()
 
 	for (int i = 0; i < m_PlayerBullet.size(); ++i)
 	{
-		if (m_PlayerBullet[i]->GetYPos() < WndX)
+		if (m_PlayerBullet[i]->GetYPos() > WndY)
 		{
 			iter_swap(m_PlayerBullet[i], m_PlayerBullet.back());
 			if (m_PlayerBullet.back())

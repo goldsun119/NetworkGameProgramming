@@ -1,5 +1,6 @@
 #pragma once
 #include "CGameObject.h"
+#include "MyPacket.h"
 class CBullet;
 class CPlayer : public CGameObject
 {
@@ -21,5 +22,7 @@ public:
 	virtual void Update();
 	virtual void Render(HDC m_hdc);
 	vector<CBullet*> m_PlayerBullet;
+	//ClientInfoToHandle				m_ClientInfo;
+
 };
 
