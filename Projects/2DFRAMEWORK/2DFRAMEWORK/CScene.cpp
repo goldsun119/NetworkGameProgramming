@@ -4,6 +4,7 @@
 #include "CMonster.h"
 CScene::CScene()
 {
+	
 	m_pPlayer = new CPlayer;
 }
 

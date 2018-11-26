@@ -13,7 +13,7 @@ CPlayer::CPlayer()
 	//m_size = 50;
 	//m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
 
-	FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->m_ClientInfo.PlayNum, sizeof(FRAMEWORK->m_ClientInfo.PlayNum), 0);
+	
 	switch (FRAMEWORK->m_ClientInfo.PlayNum)
 	{
 	case 0:

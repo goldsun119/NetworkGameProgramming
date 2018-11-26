@@ -126,14 +126,17 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	EnterCriticalSection(&cs);
 	Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
 	LeaveCriticalSection(&cs);
+
 	bool isClientnumSend = false;
+
 	while (true)
 	{
 		int Snum=clientinfotohandle[ClientNum].IsScene;
 
-	
-		send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
-	
+		if (!isClientnumSend) {
+			send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
+			isClientnumSend = true;
+		}
 
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때

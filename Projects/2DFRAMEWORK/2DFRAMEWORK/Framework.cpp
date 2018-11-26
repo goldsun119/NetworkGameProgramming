@@ -37,6 +37,7 @@ void FrameWork::OnCreate(HINSTANCE hInstance, HWND hMainWnd)
 
 	//TODO 타이머, 사운드매니저
 	MYRENDERMANAGER->LoadCImage();				//랜더매니저
+	recvn(GetSock(), (char*)&m_ClientInfo.PlayNum, sizeof(m_ClientInfo.PlayNum), 0);
 	SCENEMANAGER->SetScene(E_MENU);
 
 	//this->Enter(E_MENU);
