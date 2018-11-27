@@ -94,10 +94,10 @@ void CMyMenu::Update()
 		//¾À Á¤º¸¹ÞÀ½ 
 		int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.IsScene, sizeof(m_ClientInfo.IsScene), 0);
 
-		FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.PlayNum, sizeof(m_ClientInfo.PlayNum), 0);
-		FRAMEWORK->SetClientInfo(m_ClientInfo);
 		if (m_ClientInfo.IsScene == E_INGAME)
 		{
+			FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.PlayNum, sizeof(m_ClientInfo.PlayNum), 0);
+			FRAMEWORK->SetClientInfo(m_ClientInfo);
 			//¾À ³Ñ±è
 			SCENEMANAGER->SetScene(E_INGAME);
 			TIMEMANAGER->SetPrevElipsedTime();
