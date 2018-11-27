@@ -9,7 +9,7 @@
 #include "TimerManager.h"
 CMyInGame::CMyInGame()
 {
-	m_pPlayer = new CPlayer;
+	//m_pPlayer = new CPlayer;
 	//Player *m_pPlayer = NULL;
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));

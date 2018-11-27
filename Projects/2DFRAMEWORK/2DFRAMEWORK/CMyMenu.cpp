@@ -87,14 +87,15 @@ void CMyMenu::EndRender()
 void CMyMenu::Update()
 {
 	CheckKey();
-	FRAMEWORK->SetClientInfo(m_ClientInfo);
+	//FRAMEWORK->SetClientInfo(m_ClientInfo);
 	if (m_pPlayer->m_IsReady)
 	{
 		send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->m_IsReady, sizeof(m_pPlayer->m_IsReady), 0);
-
 		//¾À Á¤º¸¹ÞÀ½ 
 		int retval = FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.IsScene, sizeof(m_ClientInfo.IsScene), 0);
 
+		FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&m_ClientInfo.PlayNum, sizeof(m_ClientInfo.PlayNum), 0);
+		FRAMEWORK->SetClientInfo(m_ClientInfo);
 		if (m_ClientInfo.IsScene == E_INGAME)
 		{
 			//¾À ³Ñ±è
