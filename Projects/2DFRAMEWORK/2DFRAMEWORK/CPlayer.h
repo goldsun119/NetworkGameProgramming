@@ -8,6 +8,7 @@ class CPlayer : public CGameObject
 	float Speed;
 	POINT Pos;
 	float Size;
+	int playerNum;
 public:
 	CPlayer();
 	~CPlayer();
@@ -17,6 +18,7 @@ public:
 
 public:
 	bool m_IsReady = false;
+	int GetPlayerNum() { return playerNum; }
 	bool GetIsReady() { return m_IsReady; }
 	void SetReady(bool ready);
 	virtual void Update();

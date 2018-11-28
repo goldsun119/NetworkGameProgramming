@@ -17,6 +17,8 @@ CMyInGame::CMyInGame()
 	
 	//왜 렌더매니저 안써줌 ㅠ
 	m_PlayerImg.Load(TEXT("Player1.png"));
+	m_2PlayerImg.Load(TEXT("image/player2.png"));
+
 	m_PlayerBulletImg.Load(TEXT("image/총알기본.png"));
 	m_MonsterImg1.Load(TEXT("enemy1.png"));
 	m_MonsterImg2.Load(TEXT("enemy2.png"));
@@ -29,6 +31,7 @@ CMyInGame::CMyInGame()
 CMyInGame::~CMyInGame()
 {
 	m_PlayerImg.Destroy();
+	m_2PlayerImg.Destroy();
 	m_MonsterImg1.Destroy();
 	m_MonsterImg2.Destroy();
 	m_MonsterImg3.Destroy();
@@ -52,8 +55,15 @@ void CMyInGame::Render(HDC hdc)
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
-		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		
+		if(m_pPlayer->GetPlayerNum() == 0)
+			m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
+		
+		
+		if(m_p2Player->GetPlayerNum() == 1)
+			m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
+
+	
 		//몬스터 그리기
 		for (vector<CMonster*>::iterator iter = m_Monster.begin();
 			iter != m_Monster.end(); ++iter)

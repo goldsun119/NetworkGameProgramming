@@ -23,6 +23,8 @@ public:
 
 protected:
 	CPlayer		*m_pPlayer;
+	CPlayer		*m_p2Player;
+
 	TimeManager *m_pTime;
 };
 

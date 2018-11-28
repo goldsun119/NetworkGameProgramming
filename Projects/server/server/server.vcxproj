@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CGameObject.cpp" />
     <ClCompile Include="Enemey.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CGameObject.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />

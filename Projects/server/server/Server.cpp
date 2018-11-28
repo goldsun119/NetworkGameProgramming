@@ -1,12 +1,28 @@
 #include "stdafx.h"
+#include "Enemy.h"
+#include "Input.h"
+#include "Player.h"
+#include "CGameObject.h"
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
 int ClientCount = 0; //클라이언트 번호 할당
-
+CMonster* m_pMonster = new CMonster;
 InputManager Input;
 DWORD KeyInput;
+DWORD g_IngameStartTime;
+DWORD g_CurTime;
+DWORD g_PrevTime;
+DWORD g_ElapsedTime;
+#define g_makeEnemy1 3
+#define g_makeEnemy2 4
+#define g_makeEnemy3 5
+#define g_makeBoss1 61
+#define g_makeBoss2 91
+
+
+vector<CMonster*>				m_Monster;
 
 typedef pair<int, string> Score;
 
@@ -109,7 +125,93 @@ void SendAllPlayerInfo(PlayerInfo P[])
 	send(clientinfotohandle[0].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
 	send(clientinfotohandle[1].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
 }
+void MakeEnemy()
+{
+	//g_makeEnemy1  = 3;
+	DWORD maketime = GetTickCount();
+	maketime += 1;
+	//m_Monster.push_back(new CMonster(E_ENEMY1));
+	
+	if (maketime /= g_makeEnemy1)
+	{
+		m_Monster.push_back(new CMonster(E_ENEMY1));
+		printf("1번 생성\n");
+	}
 
+	if (maketime /= g_makeEnemy2)
+	{
+		m_Monster.push_back(new CMonster(E_ENEMY2));
+		printf("2번 생성\n");
+
+	}
+
+	if (maketime /= g_makeEnemy3)
+	{
+		m_Monster.push_back(new CMonster(E_ENEMY3));
+		printf("3번 생성\n");
+
+
+	}
+	
+	if (maketime /= g_makeBoss1)
+	{
+		if (m_pMonster->Boss1_Appear == false)
+		{
+			m_Monster.push_back(new CMonster(E_BOSS1));
+			printf("보스1 생성\n");
+
+			m_pMonster->Boss1_Appear = true;
+		}
+	}
+
+	if (maketime /= g_makeBoss2)
+	{
+		if (m_pMonster->Boss2_Appear == false)
+		{
+			m_Monster.push_back(new CMonster(E_BOSS2));
+			printf("보스2 생성\n");
+
+			m_pMonster->Boss2_Appear = true;
+		}
+	}
+}
+
+void MoveEnemy()
+{
+	for (int i = 0; i < m_Monster.size(); ++i)
+	{
+
+		if (m_Monster[i]->GetYPos() < WndY)
+		{
+			//몬스터 이동
+			if (m_Monster[i]->GetType() == E_ENEMY1)
+			{
+				m_Monster[i]->SetYPos(m_Monster[i]->GetYPos() + 2);
+				
+
+			}
+			else
+			{
+				m_Monster[i]->SetYPos(m_Monster[i]->GetYPos() + 3);
+			
+			}
+
+
+		}
+		// 몬스터 삭제
+		if (m_Monster[i]->GetYPos() > WndY)
+		{
+			iter_swap(m_Monster[i], m_Monster.back());
+			if (m_Monster.back())
+			{
+				delete m_Monster.back();
+				m_Monster.back() = nullptr;
+			}
+			m_Monster.pop_back();
+		}
+
+	}
+}
 DWORD WINAPI ProcessClient(LPVOID arg) {
 	SOCKET ClientSock = (SOCKET)arg;
 	SOCKADDR ClientAddr;
@@ -129,8 +231,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 	
 	bool isClientnumSend = false;
+	DWORD dwTime = GetTickCount();
+	
+
 	while (true)
 	{
+		
 		int Snum=clientinfotohandle[ClientNum].IsScene;
 
 	
@@ -164,6 +270,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//게임 중 일때
 		case E_Scene::E_INGAME:
 			printf("인게임씬입니다\n");
+			//g_IngameStartTime = GetTickCount();
+
 
 			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
@@ -204,6 +312,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				break;
 			}
 			//printf("게임 중!\n");
+
+			MakeEnemy();
+			for (int i = 0; i < m_Monster.size(); ++i)
+			{
+				m_Monster[i]->Update();
+			}
+			//m_pMonster->Update();
+			//MoveEnemy();
+
 			break;
 
 			//게임 종료
@@ -218,6 +335,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			break;
 		}
 	}
+	
 	closesocket(ClientSock);
 
 	return 0;
@@ -232,6 +350,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 //
 int main(int argc, char *argv[])
 {
+	srand(time(NULL));
 	int retval;
 	InitializeCriticalSection(&cs);
 

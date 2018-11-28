@@ -6,6 +6,8 @@ CScene::CScene()
 {
 
 	m_pPlayer = new CPlayer;
+	m_p2Player = new CPlayer;
+
 }
 
 CScene::~CScene()

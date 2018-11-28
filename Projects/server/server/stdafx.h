@@ -16,13 +16,11 @@
 #include <utility>
 #include <fstream>
 #include <algorithm>
-
-#include "Enemy.h"
-#include "Player.h"
-#include "Input.h"
-
+#include <time.h>
 #define SERVERPORT 9000
 #define BUFSIZE    1024
+#define WndX 419
+#define WndY 635
 
 using namespace std;
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

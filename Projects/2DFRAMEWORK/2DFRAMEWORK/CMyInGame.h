@@ -13,6 +13,8 @@ public:
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
 	CImage							m_PlayerImg;
+	CImage							m_2PlayerImg;
+
 	
 	CImage							m_PlayerBulletImg;
 	CObjectManager					MakeEnemy;

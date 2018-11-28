@@ -13,8 +13,9 @@ CPlayer::CPlayer()
 	//m_size = 50;
 	//m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
 
+	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
 	
-	switch (FRAMEWORK->m_ClientInfo.PlayNum)
+	switch (playerNum)
 	{
 	case 0:
 		m_Pos.x = 100.0f;
@@ -26,7 +27,6 @@ CPlayer::CPlayer()
 		m_Pos.y = 500.0f;
 		break;
 	}
-
 	Speed = 5.0f;
 	Size = 30;
 	m_size = 50;
