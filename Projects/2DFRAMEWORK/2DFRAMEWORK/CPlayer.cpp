@@ -14,19 +14,19 @@ CPlayer::CPlayer()
 	//m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
 
 	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
-	
-	switch (playerNum)
-	{
-	case 0:
-		m_Pos.x = 100.0f;
-		m_Pos.y = 500.0f;
-		break;
+	//
+	//switch (playerNum)
+	//{
+	//case 0:
+	//	m_Pos.x = 100.0f;
+	//	m_Pos.y = 500.0f;
+	//	break;
 
-	case 1:
-		m_Pos.x = 300.0f;
-		m_Pos.y = 500.0f;
-		break;
-	}
+	//case 1:
+	//	m_Pos.x = 300.0f;
+	//	m_Pos.y = 500.0f;
+	//	break;
+	//}
 	Speed = 5.0f;
 	Size = 30;
 	m_size = 50;
@@ -53,20 +53,20 @@ void CPlayer::CheckKey()
 			// TODO 천기 서버가 완성된 후에 플레이어의 좌표를 바꾸는 일은 서버에서
 			// AFTER 소현은 클라에서 그리는 작업만 합니다. 현재는 여기에서 좌표바꿈. 
 			// 11.12 
-			m_Pos.x -= Speed;
+			//m_Pos.x -= Speed;
 
 		}
 		if (Key & KEY_RIGHT)
 		{
-			m_Pos.x += Speed;
+			//m_Pos.x += Speed;
 		}
 		if (Key & KEY_UP)
 		{
-			m_Pos.y -= Speed;
+			//m_Pos.y -= Speed;
 		}
 		if (Key & KEY_DOWN)
 		{
-			m_Pos.y += Speed;
+			//m_Pos.y += Speed;
 		}
 		if (Key & KEY_SPACE)
 		{
@@ -81,7 +81,7 @@ void CPlayer::CheckKey()
 		break;
 	}
 	send(FRAMEWORK->GetSock(), (char*)&Key, sizeof(Key), 0);
-
+	
 }
 
 void CPlayer::SetReady(bool ready)

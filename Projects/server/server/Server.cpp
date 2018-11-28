@@ -131,10 +131,10 @@ void SetInitData(PlayerInfo a, int num)
 	a.Score = 0;
 }
 
-void SendAllPlayerInfo(PlayerInfo P[])
-{	
-	send(clientinfotohandle[0].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
-	send(clientinfotohandle[1].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
+void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
+{
+	send(sock, (char*)&P[0], sizeof(P[0]), 0);//플레이어 정보 전송
+	send(sock, (char*)&P[1], sizeof(P[1]), 0);//플레이어 정보 전송
 }
 void MakeItem()
 {
@@ -299,6 +299,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
+				//기본값 
+				playerInfo[0].Pos = { 100,500 };
+				playerInfo[1].Pos = { 300,500 };
 			}
 			else {
 				//준비가 아닐때는 메뉴씬을 넘겨줘야함
@@ -320,6 +323,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
+				return 0;
 				break;
 			}
 			switch (Input.m_dwKey) //키상태 더 자세하게
@@ -349,7 +353,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 				break;
 			}
-			SendAllPlayerInfo(playerInfo);
+			SendAllPlayerInfo(ClientSock, playerInfo);
 			
 			if (retval == SOCKET_ERROR) {
 				err_display("send() playerInfo");

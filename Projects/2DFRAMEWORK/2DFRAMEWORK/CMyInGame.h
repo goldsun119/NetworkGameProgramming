@@ -1,7 +1,7 @@
 #pragma once
 #include "CScene.h"
 #include "CObjectManager.h"
-
+#include "MyPacket.h"
 class CMonster;
 class CMyInGame : public CScene
 {
@@ -34,6 +34,8 @@ public:
 
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;
+
+	PlayerInfo						playerInfo[2];
 
 	//CGameObject						*m_pGameObj;
 	//Player							*m_pPlayer;

@@ -14,6 +14,7 @@ public:
 #pragma pack(1)
 class PlayerInfo {
 public:
+	bool IsReady = FALSE;
 	POINT Pos;
 	int Hp;
 	int BulletCount;

@@ -7,6 +7,7 @@
 #include "CMonster.h"
 #include "CBullet.h"
 #include "TimerManager.h"
+#include "Framework.h"
 CMyInGame::CMyInGame()
 {
 	//m_pPlayer = new CPlayer;
@@ -56,12 +57,12 @@ void CMyInGame::Render(HDC hdc)
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		
-		if(m_pPlayer->GetPlayerNum() == 0)
-			m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
+		
+		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		
 		
-		if(m_p2Player->GetPlayerNum() == 1)
-			m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
+		
+		m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
 
 	
 		//몬스터 그리기
@@ -105,6 +106,21 @@ void CMyInGame::Update()
 {
 	m_pPlayer->Update();
 
+	//좌표값 설정
+	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[0], sizeof(playerInfo[0]), 0);
+	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[1], sizeof(playerInfo[1]), 0);
+
+	switch (FRAMEWORK->m_ClientInfo.PlayNum)
+	{
+	case 0:
+		m_pPlayer->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
+		m_p2Player->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
+		break;
+	case 1:
+		m_pPlayer->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
+		m_p2Player->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
+		break;
+	}
 	//적 비행기 생성
 	switch (eTime)
 	{
