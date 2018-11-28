@@ -48,7 +48,8 @@ public:
 	// ÀÌ¹ÌÁö
 	
 public:
-	virtual void Render(HDC m_hdc);
+	virtual void Update();
+	//virtual void Render(HDC m_hdc);
 };
 
 

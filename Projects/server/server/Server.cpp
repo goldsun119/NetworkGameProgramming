@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "CGameObject.h"
-
+#include "CItem.h"
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
@@ -21,9 +21,20 @@ DWORD g_ElapsedTime;
 #define g_makeBoss1 61
 #define g_makeBoss2 91
 
+#define g_makeItem1 39
+#define g_makeBullet 4
+#define g_makePower 5
+#define g_makeSkill 61
+#define g_makeSub 40
+
+#define g_makeShield 91
 
 vector<CMonster*>				m_Monster;
-
+vector<I_BULLET*> I_bullet;
+vector<I_SUB*> I_sub;
+vector<I_POWER*> I_power;
+vector<I_SKILL*> I_skill;
+vector<I_SHEILD*> I_sheild;
 typedef pair<int, string> Score;
 
 vector<Score> Rank;
@@ -124,6 +135,39 @@ void SendAllPlayerInfo(PlayerInfo P[])
 {	
 	send(clientinfotohandle[0].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
 	send(clientinfotohandle[1].Sock, (char*)&P, sizeof(P), 0);//플레이어 정보 전송
+}
+void MakeItem()
+{
+	DWORD ItemTimeCount = GetTickCount();
+	ItemTimeCount += 1;
+
+	if (ItemTimeCount /= g_makeItem1 )
+	{
+		I_power.emplace_back();
+		printf("파워 생성");
+	}
+	if (ItemTimeCount /= g_makeSkill)
+	{
+		I_skill.emplace_back();
+		printf("스킬 생성");
+
+	}
+	if (ItemTimeCount /= g_makeBullet)
+	{
+		I_bullet.emplace_back();
+		printf("보조총알 생성");
+
+	}
+	if (ItemTimeCount /= g_makeSub)
+	{
+		I_sub.emplace_back();
+
+	}
+	if (ItemTimeCount /= g_makeShield)
+	{
+		I_sheild.emplace_back();
+
+	}
 }
 void MakeEnemy()
 {
@@ -318,6 +362,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			{
 				m_Monster[i]->Update();
 			}
+			MakeItem();
 			//m_pMonster->Update();
 			//MoveEnemy();
 

@@ -69,7 +69,7 @@ void CMonster::Update()
 	{
 	case E_ENEMY1:
 		m_Pos.y += 2;
-		printf("y:%d", m_Pos.y);
+		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY2:
 		m_Pos.y += 3;
@@ -90,7 +90,3 @@ void CMonster::Update()
 	}
 }
 
-void CMonster::Render(HDC m_hdc)
-{
-
-}

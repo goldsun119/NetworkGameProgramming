@@ -42,12 +42,12 @@ unsigned long CGameObject::GetMyIdx()
 	return myIdx;
 }
 
-
-void CGameObject::Render(HDC m_hdc)
+void CGameObject::Update()
 {
-
-
 }
+
+
+
 
 //void Player::Draw(HDC memdc)
 //{

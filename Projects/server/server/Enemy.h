@@ -36,5 +36,5 @@ public:
 	~CMonster();
 public:
 	virtual void Update();
-	virtual void Render(HDC m_hdc);
+	//virtual void Render(HDC m_hdc);
 };
