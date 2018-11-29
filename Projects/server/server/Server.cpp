@@ -119,10 +119,10 @@ bool IsAllClientReady()
 		return false;
 	}
 }
-void SetInitData(PlayerInfo a, int num)
+void SetInitData(PlayerInfo& a, int num)
 {
 	//초기값 설정 함수로 만들자!
-	a.Pos = { (num + 1) * 100, 50 };
+	a.Pos = { (num * 200) + 100, 500 };
 	a.Hp = 5;
 	a.BulletCount = 1;
 	a.Shield = 0;
@@ -299,9 +299,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
-				//기본값 
-				playerInfo[0].Pos = { 100,500 };
-				playerInfo[1].Pos = { 300,500 };
 			}
 			else {
 				//준비가 아닐때는 메뉴씬을 넘겨줘야함
