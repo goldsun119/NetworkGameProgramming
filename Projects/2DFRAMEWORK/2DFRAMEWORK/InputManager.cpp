@@ -52,6 +52,10 @@ void CInputManager::SetKeyState()
 	{
 		m_dwKey |= KEY_CHEATREADY;
 	}
+	if (GetAsyncKeyState(VK_F12))
+	{
+		m_dwKey |= KEY_END;
+	}
 
 }
 

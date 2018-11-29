@@ -59,6 +59,7 @@ void CRenderManager::LoadCImage()
 	// 게임 시작할 때 이미지를 전부 부르고 시작하고자 만듬. 게임 중에 부르지 않으려고
 
 	AddRenderObject((TCHAR*)"StartBackground.png", "MenuImage");
+	AddRenderObject((TCHAR*)"GameOverBackground.png", "GameOverImage");
 	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
 	AddRenderObject((TCHAR*)"Player1.png", "IngamePlayerImage");
 
