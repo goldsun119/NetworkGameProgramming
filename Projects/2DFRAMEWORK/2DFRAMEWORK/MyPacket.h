@@ -32,3 +32,14 @@ public:
 	int BoomCount;
 	bool IsBoom;
 };
+
+#pragma pack(1)
+class KeyIn
+{
+public:
+	bool Left;
+	bool Right;
+	bool Up;
+	bool Down;
+	bool Space;
+};

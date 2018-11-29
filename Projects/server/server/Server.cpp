@@ -269,9 +269,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	clientinfotohandle[ClientNum].PlayNum = ClientNum;
 	SetInitData(playerInfo[ClientNum], ClientNum);
 	
-	EnterCriticalSection(&cs);
-	Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
-	LeaveCriticalSection(&cs);
+	//EnterCriticalSection(&cs);
+	//Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
+	//LeaveCriticalSection(&cs);
 
 	
 	bool isClientnumSend = false;
@@ -317,40 +317,62 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			printf("인게임씬입니다\n");
 			//g_IngameStartTime = GetTickCount();
 
-
-			retval = recvn(ClientSock, (char*)&Input.m_dwKey, sizeof(Input.m_dwKey), 0);	//키 입력값 받음 더좋은 방법을 찾자~
+			
+			retval = recvn(ClientSock, (char*)&Input.m_KeyInput, sizeof(Input.m_KeyInput), 0);	//키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
 				return 0;
 				break;
 			}
-			switch (Input.m_dwKey) //키상태 더 자세하게
+
+			if (Input.m_KeyInput.Left)
 			{
-			case KEY_LEFT:
 				playerInfo[ClientNum].Pos.x -= 3;
-				printf("%d번클라 좌!\n",ClientNum);
-
-				break;
-
-			case KEY_RIGHT:
-				playerInfo[ClientNum].Pos.x += 3;
-				printf("%d번클라 우!\n", ClientNum);
-
-				break;
-
-			case KEY_UP:
-				playerInfo[ClientNum].Pos.y -= 3;
-				printf("%d번클라 상!\n", ClientNum);
-
-				break;
-
-			case KEY_DOWN:
-
-				playerInfo[ClientNum].Pos.y += 3;
-				printf("%d번클라 하!\n", ClientNum);
-
-				break;
 			}
+			if (Input.m_KeyInput.Right)
+			{
+				playerInfo[ClientNum].Pos.x += 3;
+			}
+			if (Input.m_KeyInput.Up)
+			{
+				playerInfo[ClientNum].Pos.y -= 3;
+			}
+			if (Input.m_KeyInput.Down)
+			{
+				playerInfo[ClientNum].Pos.y += 3;
+			}
+			if (Input.m_KeyInput.Space)
+			{
+				printf("%d번클라 스페이스바!\n",ClientNum);
+			}
+
+				//switch (Input.m_dwKey) //키상태 더 자세하게
+			//{
+			//case KEY_LEFT:
+			//	playerInfo[ClientNum].Pos.x -= 3;
+			//	printf("%d번클라 좌!\n",ClientNum);
+
+			//	break;
+
+			//case KEY_RIGHT:
+			//	playerInfo[ClientNum].Pos.x += 3;
+			//	printf("%d번클라 우!\n", ClientNum);
+
+			//	break;
+
+			//case KEY_UP:
+			//	playerInfo[ClientNum].Pos.y -= 3;
+			//	printf("%d번클라 상!\n", ClientNum);
+
+			//	break;
+
+			//case KEY_DOWN:
+
+			//	playerInfo[ClientNum].Pos.y += 3;
+			//	printf("%d번클라 하!\n", ClientNum);
+
+			//	break;
+			//}
 			SendAllPlayerInfo(ClientSock, playerInfo);
 			
 			if (retval == SOCKET_ERROR) {

@@ -6,27 +6,14 @@
 #include "CBullet.h"
 CPlayer::CPlayer()
 {
-	//Speed = 5.0f;
-	//m_Pos.x = 200.0f;
-	//m_Pos.y = 500.0f;
-	//Size = 30;
-	//m_size = 50;
-	//m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
+	m_KeyInput.Left = false;
+	m_KeyInput.Right = false;
+	m_KeyInput.Up = false;
+	m_KeyInput.Down = false;
+	m_KeyInput.Space = false;
 
 	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
-	//
-	//switch (playerNum)
-	//{
-	//case 0:
-	//	m_Pos.x = 100.0f;
-	//	m_Pos.y = 500.0f;
-	//	break;
 
-	//case 1:
-	//	m_Pos.x = 300.0f;
-	//	m_Pos.y = 500.0f;
-	//	break;
-	//}
 	Speed = 5.0f;
 	Size = 30;
 	m_size = 50;
@@ -47,29 +34,29 @@ void CPlayer::CheckKey()
 	{
 	case E_INGAME:
 		//방향키 정보 전송
-		if (Key & KEY_LEFT)
+		if (Key&KEY_LEFT)
 		{
-			// 11.11 
-			// TODO 천기 서버가 완성된 후에 플레이어의 좌표를 바꾸는 일은 서버에서
-			// AFTER 소현은 클라에서 그리는 작업만 합니다. 현재는 여기에서 좌표바꿈. 
-			// 11.12 
-			//m_Pos.x -= Speed;
+			m_KeyInput.Left = true;
 
 		}
-		if (Key & KEY_RIGHT)
+		if (Key&KEY_RIGHT)
 		{
-			//m_Pos.x += Speed;
+			m_KeyInput.Right = true;
+
 		}
-		if (Key & KEY_UP)
+		if (Key&KEY_UP)
 		{
-			//m_Pos.y -= Speed;
+			m_KeyInput.Up = true;
 		}
-		if (Key & KEY_DOWN)
+		if (Key&KEY_DOWN)
 		{
-			//m_Pos.y += Speed;
+			m_KeyInput.Down = true;
 		}
+
 		if (Key & KEY_SPACE)
 		{
+			m_KeyInput.Space = true;
+
 			POINT TempPos = this->GetPos();
 			//위치지정
 			TempPos.x = this->GetPos().x;
@@ -80,7 +67,12 @@ void CPlayer::CheckKey()
 		}
 		break;
 	}
-	send(FRAMEWORK->GetSock(), (char*)&Key, sizeof(Key), 0);
+	send(FRAMEWORK->GetSock(), (char*)&m_KeyInput, sizeof(m_KeyInput), 0);
+	m_KeyInput.Left = false;
+	m_KeyInput.Right = false;
+	m_KeyInput.Up = false;
+	m_KeyInput.Down = false;
+	m_KeyInput.Space = false;
 	
 }
 

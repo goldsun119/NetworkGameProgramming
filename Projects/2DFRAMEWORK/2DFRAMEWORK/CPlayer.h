@@ -24,7 +24,6 @@ public:
 	virtual void Update();
 	virtual void Render(HDC m_hdc);
 	vector<CBullet*> m_PlayerBullet;
-	
-
+	KeyIn m_KeyInput;
 };
 
