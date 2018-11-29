@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "CBullet.h"
 #include <windef.h>
 #pragma once
 
@@ -15,6 +16,7 @@ public:
 class PlayerInfo {
 public:
 	bool IsReady = FALSE;
+	vector<CBullet*> m_PlayerBullet;
 	POINT Pos;
 	int Hp;
 	int BulletCount;

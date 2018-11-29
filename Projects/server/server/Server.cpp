@@ -7,8 +7,13 @@
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
+class CGameObject;
 int ClientCount = 0; //클라이언트 번호 할당
 CMonster* m_pMonster = new CMonster;
+CItem* m_pItem = new CItem;
+CItem* m_pPower = new I_POWER;
+
+
 InputManager Input;
 DWORD KeyInput;
 DWORD g_IngameStartTime;
@@ -143,29 +148,29 @@ void MakeItem()
 
 	if (ItemTimeCount /= g_makeItem1 )
 	{
-		I_power.emplace_back();
-		printf("파워 생성");
+		I_power.emplace_back(new I_POWER());
+		//printf("파워 생성");
 	}
 	if (ItemTimeCount /= g_makeSkill)
 	{
-		I_skill.emplace_back();
-		printf("스킬 생성");
+		I_skill.emplace_back(new I_SKILL());
+		//printf("스킬 생성");
 
 	}
 	if (ItemTimeCount /= g_makeBullet)
 	{
-		I_bullet.emplace_back();
-		printf("보조총알 생성");
+		I_bullet.emplace_back(new I_BULLET());
+		//printf("보조총알 생성");
 
 	}
 	if (ItemTimeCount /= g_makeSub)
 	{
-		I_sub.emplace_back();
+		I_sub.emplace_back(new I_SUB());
 
 	}
 	if (ItemTimeCount /= g_makeShield)
 	{
-		I_sheild.emplace_back();
+		I_sheild.emplace_back(new I_SHEILD());
 
 	}
 }
@@ -179,20 +184,20 @@ void MakeEnemy()
 	if (maketime /= g_makeEnemy1)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY1));
-		printf("1번 생성\n");
+		//printf("1번 생성\n");
 	}
 
 	if (maketime /= g_makeEnemy2)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY2));
-		printf("2번 생성\n");
+		//printf("2번 생성\n");
 
 	}
 
 	if (maketime /= g_makeEnemy3)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY3));
-		printf("3번 생성\n");
+	//	printf("3번 생성\n");
 
 
 	}
@@ -202,7 +207,7 @@ void MakeEnemy()
 		if (m_pMonster->Boss1_Appear == false)
 		{
 			m_Monster.push_back(new CMonster(E_BOSS1));
-			printf("보스1 생성\n");
+			//printf("보스1 생성\n");
 
 			m_pMonster->Boss1_Appear = true;
 		}
@@ -213,7 +218,7 @@ void MakeEnemy()
 		if (m_pMonster->Boss2_Appear == false)
 		{
 			m_Monster.push_back(new CMonster(E_BOSS2));
-			printf("보스2 생성\n");
+			//printf("보스2 생성\n");
 
 			m_pMonster->Boss2_Appear = true;
 		}
@@ -343,7 +348,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			if (Input.m_KeyInput.Space)
 			{
-				printf("%d번클라 스페이스바!\n",ClientNum);
+				playerInfo[ClientNum].m_PlayerBullet.emplace_back(new CBullet(playerInfo[ClientNum].Pos, 0));
+				//printf("%d번클라 스페이스바!\n",ClientNum);
 			}
 
 				//switch (Input.m_dwKey) //키상태 더 자세하게
@@ -387,9 +393,187 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				m_Monster[i]->Update();
 			}
 			MakeItem();
+			
+			
+			for (int i = 0; i < I_power.size(); ++i)
+			{
+				if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)
+					I_power[i]->SetDir('x', false);
+				else if (I_power[i]->GetXPos() < 0)
+					I_power[i]->SetDir('x', true);
+
+				if (I_power[i]->GetYPos() + I_power[i]->GetSize() > WndY)
+					I_power[i]->SetDir('y', false);
+				else if (I_power[i]->GetYPos() < 0)
+					I_power[i]->SetDir('y', true);
+
+				if (I_power[i]->GetDir('x'))
+				{
+					I_power[i]->SetXPos(I_power[i]->GetXPos() + 3);
+					//printf("아이템의 x좌표: %d\n", I_power[i]->GetPos());
+				}
+				else
+					I_power[i]->SetXPos(I_power[i]->GetXPos() - 3);
+
+				if (I_power[i]->GetDir('y'))
+					I_power[i]->SetYPos(I_power[i]->GetYPos() + 3);
+				else
+					I_power[i]->SetYPos(I_power[i]->GetYPos() - 3);
+			}
+			
+
+			//for (auto p = I_power.begin(); p < I_power.end(); ++p) // 파워 아이템 이동
+			//{
+			//	if ((*p)->GetXPos() + (*p)->GetSize() > WndX)
+			//		(*p)->SetDir('x', false);
+			//	else if ((*p)->GetXPos() < 0)
+			//		(*p)->SetDir('x', true);
+
+			//	if ((*p)->GetYPos() + (*p)->GetSize() > WndY)
+			//		(*p)->SetDir('y', false);
+			//	else if ((*p)->GetYPos() < 0)
+			//		(*p)->SetDir('y', true);
+
+			//	if ((*p)->GetDir('x'))
+			//		(*p)->SetXPos((*p)->GetXPos() + 3);
+			//	else
+			//		(*p)->SetXPos((*p)->GetXPos() - 3);
+
+			//	if ((*p)->GetDir('y'))
+			//		(*p)->SetYPos((*p)->GetYPos() + 3);
+			//	else
+			//		(*p)->SetYPos((*p)->GetYPos() - 3);
+			//}
+			
+		
+			for (int i = 0; i < I_skill.size(); ++i) // 필살기 아이템 이동
+			{
+				if (I_skill[i]->GetXPos() + I_skill[i]->GetSize() > WndX)
+					I_skill[i]->SetDir('x', false);
+				else if (I_skill[i]->GetXPos() < 0)
+					I_skill[i]->SetDir('x', true);
+
+				if (I_skill[i]->GetYPos() + I_skill[i]->GetSize() > WndY)
+					I_skill[i]->SetDir('y', false);
+				else if (I_skill[i]->GetYPos() < 0)
+					I_skill[i]->SetDir('y', true);
+
+				if (I_skill[i]->GetDir('x'))
+					I_skill[i]->SetXPos(I_skill[i]->GetXPos() + 3);
+				else
+					I_skill[i]->SetXPos(I_skill[i]->GetXPos() - 3);
+
+				if (I_skill[i]->GetDir('y'))
+					I_skill[i]->SetYPos(I_skill[i]->GetYPos() + 3);
+				else
+					I_skill[i]->SetYPos(I_skill[i]->GetYPos() - 3);
+			}
+			
+
+			
+			for (int i = 0; i < I_bullet.size(); ++i) // 총알 아이템 이동
+			{
+				if (I_bullet[i]->GetXPos() + I_bullet[i]->GetSize() > WndX)
+					I_bullet[i]->SetDir('x', false);
+				else if (I_bullet[i]->GetXPos() < 0)
+					I_bullet[i]->SetDir('x', true);
+
+				if (I_bullet[i]->GetYPos() + I_bullet[i]->GetSize() > WndY)
+					I_bullet[i]->SetDir('y', false);
+				else if (I_bullet[i]->GetYPos() < 0)
+					I_bullet[i]->SetDir('y', true);
+
+				if (I_bullet[i]->GetDir('x'))
+					I_bullet[i]->SetXPos(I_bullet[i]->GetXPos() + 3);
+				else
+					I_bullet[i]->SetXPos(I_bullet[i]->GetXPos() - 3);
+
+				if (I_bullet[i]->GetDir('y'))
+					I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() + 3);
+				else
+					I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() - 3);
+			}
+			
+
+			
+			for(int i = 0;i<I_sub.size();++i)
+			{ 
+				if (I_sub[i]->GetXPos() + I_sub[i]->GetSize() > WndX)
+					I_sub[i]->SetDir('x', false);
+				else if (I_sub[i]->GetXPos() < 0)
+					I_sub[i]->SetDir('x', true);
+
+				if (I_sub[i]->GetYPos() + I_sub[i]->GetSize() > WndY)
+					I_sub[i]->SetDir('y', false);
+				else if (I_sub[i]->GetYPos() < 0)
+					I_sub[i]->SetDir('y', true);
+
+				if (I_sub[i]->GetDir('x'))
+					I_sub[i]->SetXPos(I_sub[i]->GetXPos() + 3);
+				else
+					I_sub[i]->SetXPos(I_sub[i]->GetXPos() - 3);
+
+				if (I_sub[i]->GetDir('y'))
+					I_sub[i]->SetYPos(I_sub[i]->GetYPos() + 3);
+				else
+					I_sub[i]->SetYPos(I_sub[i]->GetYPos() - 3);
+			}
+			
+
+			
+			for (int i = 0; i < I_sheild.size(); ++i) // 방어 아이템 이동
+			{
+				if (I_sheild[i]->GetXPos() + I_sheild[i]->GetSize() > WndX)
+					I_sheild[i]->SetDir('x', false);
+				else if (I_sheild[i]->GetXPos() < 0)
+					I_sheild[i]->SetDir('x', true);
+
+				if (I_sheild[i]->GetYPos() + I_sheild[i]->GetSize() > WndY)
+					I_sheild[i]->SetDir('y', false);
+				else if (I_sheild[i]->GetYPos() < 0)
+					I_sheild[i]->SetDir('y', true);
+
+				if (I_sheild[i]->GetDir('x'))
+					I_sheild[i]->SetXPos(I_sheild[i]->GetXPos() + 3);
+				else
+					I_sheild[i]->SetXPos(I_sheild[i]->GetXPos() - 3);
+
+				if (I_sheild[i]->GetDir('y'))
+					I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() + 3);
+				else
+					I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() - 3);
+			}
+			
+			
+			//m_pItem->Update(I_bullet, I_sub, I_power, I_skill, I_sheild);
 			//m_pMonster->Update();
 			//MoveEnemy();
+			//플레이어 총알
+			//이동
+			for (auto p = playerInfo[ClientNum].m_PlayerBullet.begin(); p < playerInfo[ClientNum].m_PlayerBullet.end(); ++p)
+			{
+				if ((*p)->GetActive())
+				{
+					(*p)->SetYPos((*p)->GetYPos() - 13);
+					//printf("%d", (*p)->GetYPos());
+				}
+			}
 
+			//화면 나갈 시 삭제
+			for (int i = 0; i < playerInfo[ClientNum].m_PlayerBullet.size(); ++i)
+			{
+				if (playerInfo[ClientNum].m_PlayerBullet[i]->GetYPos() > WndY)
+				{
+					playerInfo[ClientNum].m_PlayerBullet[i]->SetActive(false);
+				   iter_swap(playerInfo[ClientNum].m_PlayerBullet[i], playerInfo[ClientNum].m_PlayerBullet.back());
+				   if (playerInfo[ClientNum].m_PlayerBullet.back())
+				   {
+					  delete playerInfo[ClientNum].m_PlayerBullet.back();
+					  playerInfo[ClientNum].m_PlayerBullet.back() = nullptr;
+				   }
+				   playerInfo[ClientNum].m_PlayerBullet.pop_back();
+				}
+			}
 			break;
 
 			//게임 종료

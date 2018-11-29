@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "CBullet.h"
 
 enum E_Scene {
 	E_TITLE,
@@ -24,6 +25,7 @@ public:
 class PlayerInfo {
 public:
 	bool IsReady = FALSE;
+	vector<CBullet*> m_PlayerBullet;
 	POINT Pos;
 	int Hp;
 	int BulletCount;

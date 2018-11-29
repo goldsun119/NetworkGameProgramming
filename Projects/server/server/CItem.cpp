@@ -104,122 +104,125 @@ void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POW
 			++p;
 	}*/
 }
-void CItem::Update(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
+void CItem::Update()
 {
-	for (auto p = I_power.begin(); p < I_power.end(); ++p) // 파워 아이템 이동
-	{
-		if (p->GetXPos() + p->GetSize() > WndX)
-			p->SetDir('x', false);
-		else if (p->GetXPos() < 0)
-			p->SetDir('x', true);
-
-		if (p->GetYPos() + p->GetSize() > WndY)
-			p->SetDir('y', false);
-		else if (p->GetYPos() < 0)
-			p->SetDir('y', true);
-
-		if (p->GetDir('x'))
-			p->SetXPos(p->GetXPos() + 3);
-		else
-			p->SetXPos(p->GetXPos() - 3);
-
-		if (p->GetDir('y'))
-			p->SetYPos(p->GetYPos() + 3);
-		else
-			p->SetYPos(p->GetYPos() - 3);
-	}
-	for (auto p = I_skill.begin(); p < I_skill.end(); ++p) // 필살기 아이템 이동
-	{
-		if (p->GetXPos() + p->GetSize() > WndX)
-			p->SetDir('x', false);
-		else if (p->GetXPos() < 0)
-			p->SetDir('x', true);
-
-		if (p->GetYPos() + p->GetSize() > WndY)
-			p->SetDir('y', false);
-		else if (p->GetYPos() < 0)
-			p->SetDir('y', true);
-
-		if (p->GetDir('x'))
-			p->SetXPos(p->GetXPos() + 3);
-		else
-			p->SetXPos(p->GetXPos() - 3);
-
-		if (p->GetDir('y'))
-			p->SetYPos(p->GetYPos() + 3);
-		else
-			p->SetYPos(p->GetYPos() - 3);
-	}
-
-	for (auto p = I_bullet.begin(); p < I_bullet.end(); ++p) // 총알 아이템 이동
-	{
-		if (p->GetXPos() + p->GetSize() > WndX)
-			p->SetDir('x', false);
-		else if (p->GetXPos() < 0)
-			p->SetDir('x', true);
-
-		if (p->GetYPos() + p->GetSize() > WndY)
-			p->SetDir('y', false);
-		else if (p->GetYPos() < 0)
-			p->SetDir('y', true);
-
-		if (p->GetDir('x'))
-			p->SetXPos(p->GetXPos() + 3);
-		else
-			p->SetXPos(p->GetXPos() - 3);
-
-		if (p->GetDir('y'))
-			p->SetYPos(p->GetYPos() + 3);
-		else
-			p->SetYPos(p->GetYPos() - 3);
-	}
-
-	for (auto p = I_sub.begin(); p < I_sub.end(); ++p) // 보조 아이템 이동
-	{
-		if (p->GetXPos() + p->GetSize() > WndX)
-			p->SetDir('x', false);
-		else if (p->GetXPos() < 0)
-			p->SetDir('x', true);
-
-		if (p->GetYPos() + p->GetSize() > WndY)
-			p->SetDir('y', false);
-		else if (p->GetYPos() < 0)
-			p->SetDir('y', true);
-
-		if (p->GetDir('x'))
-			p->SetXPos(p->GetXPos() + 3);
-		else
-			p->SetXPos(p->GetXPos() - 3);
-
-		if (p->GetDir('y'))
-			p->SetYPos(p->GetYPos() + 3);
-		else
-			p->SetYPos(p->GetYPos() - 3);
-	}
-
-	for (auto p = I_sheild.begin(); p < I_sheild.end(); ++p) // 방어 아이템 이동
-	{
-		if (p->GetXPos() + p->GetSize() > WndX)
-			p->SetDir('x', false);
-		else if (p->GetXPos() < 0)
-			p->SetDir('x', true);
-
-		if (p->GetYPos() + p->GetSize() > WndY)
-			p->SetDir('y', false);
-		else if (p->GetYPos() < 0)
-			p->SetDir('y', true);
-
-		if (p->GetDir('x'))
-			p->SetXPos(p->GetXPos() + 3);
-		else
-			p->SetXPos(p->GetXPos() - 3);
-
-		if (p->GetDir('y'))
-			p->SetYPos(p->GetYPos() + 3);
-		else
-			p->SetYPos(p->GetYPos() - 3);
-	}
 }
+//void CItem::Update(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
+//{
+//	for (auto p = I_power.begin(); p < I_power.end(); ++p) // 파워 아이템 이동
+//	{
+//		if (p->GetXPos() + p->GetSize() > WndX)
+//			p->SetDir('x', false);
+//		else if (p->GetXPos() < 0)
+//			p->SetDir('x', true);
+//
+//		if (p->GetYPos() + p->GetSize() > WndY)
+//			p->SetDir('y', false);
+//		else if (p->GetYPos() < 0)
+//			p->SetDir('y', true);
+//
+//		if (p->GetDir('x'))
+//			p->SetXPos(p->GetXPos() + 3);
+//		else
+//			p->SetXPos(p->GetXPos() - 3);
+//
+//		if (p->GetDir('y'))
+//			p->SetYPos(p->GetYPos() + 3);
+//		else
+//			p->SetYPos(p->GetYPos() - 3);
+//	}
+//	for (auto p = I_skill.begin(); p < I_skill.end(); ++p) // 필살기 아이템 이동
+//	{
+//		if (p->GetXPos() + p->GetSize() > WndX)
+//			p->SetDir('x', false);
+//		else if (p->GetXPos() < 0)
+//			p->SetDir('x', true);
+//
+//		if (p->GetYPos() + p->GetSize() > WndY)
+//			p->SetDir('y', false);
+//		else if (p->GetYPos() < 0)
+//			p->SetDir('y', true);
+//
+//		if (p->GetDir('x'))
+//			p->SetXPos(p->GetXPos() + 3);
+//		else
+//			p->SetXPos(p->GetXPos() - 3);
+//
+//		if (p->GetDir('y'))
+//			p->SetYPos(p->GetYPos() + 3);
+//		else
+//			p->SetYPos(p->GetYPos() - 3);
+//	}
+//
+//	for (auto p = I_bullet.begin(); p < I_bullet.end(); ++p) // 총알 아이템 이동
+//	{
+//		if (p->GetXPos() + p->GetSize() > WndX)
+//			p->SetDir('x', false);
+//		else if (p->GetXPos() < 0)
+//			p->SetDir('x', true);
+//
+//		if (p->GetYPos() + p->GetSize() > WndY)
+//			p->SetDir('y', false);
+//		else if (p->GetYPos() < 0)
+//			p->SetDir('y', true);
+//
+//		if (p->GetDir('x'))
+//			p->SetXPos(p->GetXPos() + 3);
+//		else
+//			p->SetXPos(p->GetXPos() - 3);
+//
+//		if (p->GetDir('y'))
+//			p->SetYPos(p->GetYPos() + 3);
+//		else
+//			p->SetYPos(p->GetYPos() - 3);
+//	}
+//
+//	for (auto p = I_sub.begin(); p < I_sub.end(); ++p) // 보조 아이템 이동
+//	{
+//		if (p->GetXPos() + p->GetSize() > WndX)
+//			p->SetDir('x', false);
+//		else if (p->GetXPos() < 0)
+//			p->SetDir('x', true);
+//
+//		if (p->GetYPos() + p->GetSize() > WndY)
+//			p->SetDir('y', false);
+//		else if (p->GetYPos() < 0)
+//			p->SetDir('y', true);
+//
+//		if (p->GetDir('x'))
+//			p->SetXPos(p->GetXPos() + 3);
+//		else
+//			p->SetXPos(p->GetXPos() - 3);
+//
+//		if (p->GetDir('y'))
+//			p->SetYPos(p->GetYPos() + 3);
+//		else
+//			p->SetYPos(p->GetYPos() - 3);
+//	}
+//
+//	for (auto p = I_sheild.begin(); p < I_sheild.end(); ++p) // 방어 아이템 이동
+//	{
+//		if (p->GetXPos() + p->GetSize() > WndX)
+//			p->SetDir('x', false);
+//		else if (p->GetXPos() < 0)
+//			p->SetDir('x', true);
+//
+//		if (p->GetYPos() + p->GetSize() > WndY)
+//			p->SetDir('y', false);
+//		else if (p->GetYPos() < 0)
+//			p->SetDir('y', true);
+//
+//		if (p->GetDir('x'))
+//			p->SetXPos(p->GetXPos() + 3);
+//		else
+//			p->SetXPos(p->GetXPos() - 3);
+//
+//		if (p->GetDir('y'))
+//			p->SetYPos(p->GetYPos() + 3);
+//		else
+//			p->SetYPos(p->GetYPos() - 3);
+//	}
+//}
 
 I_BULLET::I_BULLET()
 {
@@ -243,6 +246,11 @@ I_POWER::I_POWER()
 	m_XDir = i;
 	m_Pos.x = rand() % 500;
 	m_Pos.y = rand() % 11 - 70;
+}
+
+void I_POWER::Update()
+{
+	
 }
 
 I_SKILL::I_SKILL()
