@@ -73,6 +73,9 @@
     <Filter Include="소스 파일\Framework\ObjectManager\CGameObject\Bullet">
       <UniqueIdentifier>{e494d54a-190c-4cc4-92dc-9363379d7b48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Framework\ObjectManager\CGameObject\Item">
+      <UniqueIdentifier>{cfea852c-ca91-4550-a906-7ea15c17a2d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="CRenderManager.h">
       <Filter>소스 파일\Framework\ObjectManager</Filter>
     </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>소스 파일\Framework\ObjectManager\CGameObject\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="CBullet.cpp">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CItemcpp.cpp">
+      <Filter>소스 파일\Framework\ObjectManager\CGameObject\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

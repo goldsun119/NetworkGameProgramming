@@ -2,6 +2,9 @@
 #include "CScene.h"
 #include "CObjectManager.h"
 #include "MyPacket.h"
+#include "CGameObject.h"
+#include "CItem.h"
+
 class CMonster;
 class CMyInGame : public CScene
 {
@@ -37,6 +40,16 @@ public:
 
 	PlayerInfo						playerInfo[2];
 
+	int iteamNumber;
+	int MonsterNumber;
+	
+	POINT tempXY;
+
+	vector<I_BULLET*> I_bullet;
+	vector<I_SUB*> I_sub;
+	vector<I_POWER*> I_power;
+	vector<I_SKILL*> I_skill;
+	vector<I_SHEILD*> I_sheild;
 	//CGameObject						*m_pGameObj;
 	//Player							*m_pPlayer;
 public:
@@ -49,8 +62,12 @@ public:
 public:
 	virtual void Enter() override;
 	virtual void Exit() override;
-
+	
 	virtual void CheckKey() override;
+	//void ItemRecv();
 
+	void MakeItem();
+	void MakeEnemys();
+
+	void sendAllIngamePack();
 };
-

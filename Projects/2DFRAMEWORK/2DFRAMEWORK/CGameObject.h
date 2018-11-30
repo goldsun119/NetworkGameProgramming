@@ -36,6 +36,7 @@ public:
 
 	unsigned long GetMyIdx();
 	// Set
+	void SetPoint(POINT PoINT) { m_Pos = PoINT; }
 	void SetPos(int x, int y) { m_Pos.x = x, m_Pos.y = y; }
 	void SetXPos(int x) { m_Pos.x = x; }
 	void SetYPos(int y) { m_Pos.y = y; }
