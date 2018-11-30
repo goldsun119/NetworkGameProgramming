@@ -288,8 +288,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		
 		int Snum=clientinfotohandle[ClientNum].IsScene;
 
-	
-
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
@@ -301,8 +299,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (IsAllClientReady() == true) {
-				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; //게임플레이로 씬전환
-				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; //게임플레이로 씬전환
+				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
 			}
@@ -420,30 +418,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				else
 					I_power[i]->SetYPos(I_power[i]->GetYPos() - 3);
 			}
-			
-
-			//for (auto p = I_power.begin(); p < I_power.end(); ++p) // 파워 아이템 이동
-			//{
-			//	if ((*p)->GetXPos() + (*p)->GetSize() > WndX)
-			//		(*p)->SetDir('x', false);
-			//	else if ((*p)->GetXPos() < 0)
-			//		(*p)->SetDir('x', true);
-
-			//	if ((*p)->GetYPos() + (*p)->GetSize() > WndY)
-			//		(*p)->SetDir('y', false);
-			//	else if ((*p)->GetYPos() < 0)
-			//		(*p)->SetDir('y', true);
-
-			//	if ((*p)->GetDir('x'))
-			//		(*p)->SetXPos((*p)->GetXPos() + 3);
-			//	else
-			//		(*p)->SetXPos((*p)->GetXPos() - 3);
-
-			//	if ((*p)->GetDir('y'))
-			//		(*p)->SetYPos((*p)->GetYPos() + 3);
-			//	else
-			//		(*p)->SetYPos((*p)->GetYPos() - 3);
-			//}
 			
 		
 			for (int i = 0; i < I_skill.size(); ++i) // 필살기 아이템 이동

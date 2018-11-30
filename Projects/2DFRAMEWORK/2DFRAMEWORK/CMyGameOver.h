@@ -15,10 +15,19 @@ public:
 	HBITMAP							m_hBitmapFrameBuffer;
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
+	HFONT hFont, oldFont;
+	char str[50];
+	char ScoreStr[20];
+	string Str;
+	wchar_t* score;
+	
+
+	int								m_PlayerScore = 50;
 	int								m_nWndClientWidth = 800;
 	int								m_nWndClientHeight = 600;
 
 public:
+	void StrToLpcstr(const char* source,wchar_t* dest);
 	virtual void Render(HDC hdc) override;
 	virtual void Update() override;
 	virtual void Destroy() override;

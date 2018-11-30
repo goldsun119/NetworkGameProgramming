@@ -8,9 +8,13 @@ CMonster::CMonster()
 	switch (m_Type)
 	{
 	case E_ENEMY1:
+		Pos.x = rand() % 500;
+		Pos.y = -70;
 		m_hp = 20;
 		break;
 	case E_ENEMY2:
+		Pos.x = rand() % 500;
+		Pos.y = -70;
 		m_hp = 30;
 		break;
 	case E_ENEMY3:
@@ -25,23 +29,23 @@ CMonster::CMonster(E_OBJECT typeNum)
 	switch (m_Type)
 	{
 	case E_ENEMY1:
-		m_Pos.x = rand() % WndX;
-		m_Pos.y = 0;
+		Pos.x = rand() % 500;
+		Pos.y = -70;
 
-		printf("x: %d, y: %d", m_Pos.x, m_Pos.y);
-		m_size = 50;
+		//printf("x: %d, y: %d", m_Pos.x, m_Pos.y);
+		m_size = 45;
 		m_hp = 20;
 		break;
 	case E_ENEMY2:
-		m_Pos.x = 220.0f;
-		m_Pos.y = 0.0f;
+		Pos.x = rand() % 500;
+		Pos.y = -70;
 		m_size = 70;
 		m_hp = 30;
 		break;
 	case E_ENEMY3:
-		m_Pos.x = 150.0f;
-		m_Pos.y = 0.0f;
-		m_size = 90;
+		Pos.x = 220;
+		Pos.y = -190;
+		m_size = 200;
 		m_hp = 40;
 		break;
 	case E_BOSS1:
