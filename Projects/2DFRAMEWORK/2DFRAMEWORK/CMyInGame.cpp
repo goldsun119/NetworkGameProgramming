@@ -130,8 +130,9 @@ void CMyInGame::Update()
 		m_p2Player->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
 		break;
 	}
-	MakeItem();
 	MakeEnemys();
+	MakeItem();
+	
 	//sendAllIngamePack();
 	//利 厚青扁 积己
 
