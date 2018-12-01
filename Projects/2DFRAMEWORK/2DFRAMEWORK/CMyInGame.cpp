@@ -9,8 +9,8 @@
 #include "TimerManager.h"
 #include "Framework.h"
 
-#define g_makeEnemy1 3000
-#define g_makeEnemy2 4000
+#define g_makeEnemy1 300
+#define g_makeEnemy2 400
 #define g_makeEnemy3 5000
 #define g_makeBoss1 61000
 #define g_makeBoss2 91000
@@ -25,6 +25,10 @@
 
 CMyInGame::CMyInGame()
 {
+	for (int i = 0; i < 100; ++i) {
+		m_Monster.push_back(new CMonster());
+	}
+
 	//m_pPlayer = new CPlayer;
 	//Player *m_pPlayer = NULL;
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
@@ -89,18 +93,20 @@ void CMyInGame::Render(HDC hdc)
 		for (vector<CMonster*>::iterator iter = m_Monster.begin();
 			iter != m_Monster.end(); ++iter)
 		{	
-			if ((*iter)->GetHp() > 0)
-			{
-				if((*iter)->GetType() == E_ENEMY1)
-					m_MonsterImg1.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
-				if ((*iter)->GetType() == E_ENEMY2)
-					m_MonsterImg2.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
-				if ((*iter)->GetType() == E_ENEMY3)
-					m_MonsterImg3.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
-				if ((*iter)->GetType() == E_BOSS1)
-					m_BossImg1.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
-				if ((*iter)->GetType() == E_BOSS2)
-					m_BossImg2.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->getAlive() == true) {
+				if ((*iter)->GetHp() > 0)
+				{
+					if ((*iter)->GetType() == E_ENEMY1)
+						m_MonsterImg1.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+					if ((*iter)->GetType() == E_ENEMY2)
+						m_MonsterImg2.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+					if ((*iter)->GetType() == E_ENEMY3)
+						m_MonsterImg3.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+					if ((*iter)->GetType() == E_BOSS1)
+						m_BossImg1.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+					if ((*iter)->GetType() == E_BOSS2)
+						m_BossImg2.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				}
 			}
 
 		}
@@ -144,13 +150,13 @@ void CMyInGame::Update()
 		break;
 	}
 	MakeEnemys();
-	MakeItem();
-	for (vector<CMonster*>::iterator iter = m_Monster.begin();
-		iter != m_Monster.end(); ++iter)
-	{
-		FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
-		(*iter)->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-	}
+	//MakeItem();
+	//for (vector<CMonster*>::iterator iter = m_Monster.begin();
+	//	iter != m_Monster.end(); ++iter)
+	//{
+	//	FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
+	//	(*iter)->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+	//}
 	/*for (vector<CMonster*>::iterator iter = m_Monster.begin();
 		iter != m_Monster.end(); ++iter)
 	{
@@ -407,48 +413,36 @@ void CMyInGame::MakeItem()
 }
 void CMyInGame::MakeEnemys()
 {
-	recv(FRAMEWORK->GetSock(), (char*)&maketime, sizeof(maketime), 0);
-	if (maketime /= g_makeEnemy1)
+	recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+	if (enemyInfo.alive == true)
 	{
-		m_Monster.push_back(new CMonster(E_ENEMY1));
-		//printf("1锅 积己\n");
-
-	}
-	if (maketime /= g_makeEnemy2)
-	{
-		m_Monster.push_back(new CMonster(E_ENEMY2));
-		//printf("2锅 积己\n");
-
-
-	}
-
-	if (maketime /= g_makeEnemy3)
-	{
-		m_Monster.push_back(new CMonster(E_ENEMY3));
-		//	printf("3锅 积己\n");
-
-
-	}
-
-	if (maketime /= g_makeBoss1)
-	{
-		if (Boss1_Appear == false)
+		switch (enemyInfo.Type)
 		{
-			m_Monster.push_back(new CMonster(E_BOSS1));
-			//printf("焊胶1 积己\n");
-
-			Boss1_Appear = true;
-		}
-	}
-
-	if (maketime /= g_makeBoss2)
-	{
-		if (Boss2_Appear == false)
-		{
-			m_Monster.push_back(new CMonster(E_BOSS2));
-			//printf("焊胶2 积己\n");
-
-			Boss2_Appear = true;
+		case E_ENEMY1:
+			m_Monster[enemyInfo.index]->SetType(E_ENEMY1);
+			m_Monster[enemyInfo.index]->SetAlive(true);
+			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			break;
+		case E_ENEMY2:
+			m_Monster[enemyInfo.index]->SetType(E_ENEMY2);
+			m_Monster[enemyInfo.index]->SetAlive(true);
+			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			break;
+		case E_ENEMY3:
+			m_Monster[enemyInfo.index]->SetType(E_ENEMY3);
+			m_Monster[enemyInfo.index]->SetAlive(true);
+			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			break;
+		case E_BOSS1:
+			m_Monster[enemyInfo.index]->SetType(E_BOSS1);
+			m_Monster[enemyInfo.index]->SetAlive(true);
+			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			break;
+		case E_BOSS2:
+			m_Monster[enemyInfo.index]->SetType(E_BOSS2);
+			m_Monster[enemyInfo.index]->SetAlive(true);
+			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			break;
 		}
 	}
 }

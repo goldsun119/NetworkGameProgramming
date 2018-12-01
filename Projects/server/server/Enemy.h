@@ -14,6 +14,8 @@ enum E_OBJECT
 #pragma pack(1)
 class EnemyInfo {
 public:
+	int Index;
+	bool alive;
 	POINT pos;
 	int Type;
 	int Hp;
@@ -29,7 +31,6 @@ private:
 	POINT Pos;
 
 public:
-	
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 

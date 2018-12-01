@@ -29,6 +29,8 @@ public:
 #pragma pack(1)
 class EnemyInfo {
 public:
+	int index;
+	bool alive = false;
 	POINT pos;
 	int Type;
 	int Hp;
