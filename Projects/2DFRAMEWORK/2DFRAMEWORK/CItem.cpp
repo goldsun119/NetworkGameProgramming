@@ -230,9 +230,7 @@ I_BULLET::I_BULLET()
 	
 }
 
-void I_BULLET::Update()
-{
-}
+
 
 I_SUB::I_SUB()
 {
