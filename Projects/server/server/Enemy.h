@@ -28,7 +28,6 @@ class CMonster : public CGameObject
 {
 private:
 	float Size;
-	POINT Pos;
 
 public:
 	bool Boss1_Appear = false;
