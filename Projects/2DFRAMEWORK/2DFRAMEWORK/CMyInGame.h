@@ -42,7 +42,7 @@ public:
 	EnemyInfo enemyInfo;
 
 	int iteamNumber=0;
-	int MonsterNumber=0;
+	int totalIndex;
 	DWORD ItemTimeCount = 0;
 	DWORD maketime = 0;
 

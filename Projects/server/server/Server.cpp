@@ -255,7 +255,8 @@ void MakeEnemy(SOCKET sock)
 			m_pMonster->Boss2_Appear = true;
 		}
 	}
-
+	int num = m_Monster.size();
+	send(sock, (char*)&num, sizeof(num), 0);
 	for (int i = 0; i < m_Monster.size(); ++i)
 	{
 		m_Monster[i].second->Update();

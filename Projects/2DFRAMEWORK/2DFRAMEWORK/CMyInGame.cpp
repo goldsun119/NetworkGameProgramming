@@ -413,37 +413,42 @@ void CMyInGame::MakeItem()
 }
 void CMyInGame::MakeEnemys()
 {
-	recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
-	if (enemyInfo.alive == true)
-	{
-		switch (enemyInfo.Type)
+	int num;
+	recv(FRAMEWORK->GetSock(), (char*)&num, sizeof(num), 0);
+	for (int i = 0; i < num; ++i) {
+		recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+		if (enemyInfo.alive == true)
 		{
-		case E_ENEMY1:
-			m_Monster[enemyInfo.index]->SetType(E_ENEMY1);
-			m_Monster[enemyInfo.index]->SetAlive(true);
-			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-			break;
-		case E_ENEMY2:
-			m_Monster[enemyInfo.index]->SetType(E_ENEMY2);
-			m_Monster[enemyInfo.index]->SetAlive(true);
-			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-			break;
-		case E_ENEMY3:
-			m_Monster[enemyInfo.index]->SetType(E_ENEMY3);
-			m_Monster[enemyInfo.index]->SetAlive(true);
-			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-			break;
-		case E_BOSS1:
-			m_Monster[enemyInfo.index]->SetType(E_BOSS1);
-			m_Monster[enemyInfo.index]->SetAlive(true);
-			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-			break;
-		case E_BOSS2:
-			m_Monster[enemyInfo.index]->SetType(E_BOSS2);
-			m_Monster[enemyInfo.index]->SetAlive(true);
-			m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
-			break;
+			switch (enemyInfo.Type)
+			{
+			case E_ENEMY1:
+				m_Monster[enemyInfo.index]->SetType(E_ENEMY1);
+				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				break;
+			case E_ENEMY2:
+				m_Monster[enemyInfo.index]->SetType(E_ENEMY2);
+				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				break;
+			case E_ENEMY3:
+				m_Monster[enemyInfo.index]->SetType(E_ENEMY3);
+				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				break;
+			case E_BOSS1:
+				m_Monster[enemyInfo.index]->SetType(E_BOSS1);
+				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				break;
+			case E_BOSS2:
+				m_Monster[enemyInfo.index]->SetType(E_BOSS2);
+				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				break;
+			}
 		}
+
 	}
 }
 void CMyInGame::Destroy()
