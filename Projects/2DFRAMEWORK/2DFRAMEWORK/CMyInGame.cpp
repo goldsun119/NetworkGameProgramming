@@ -25,8 +25,15 @@
 
 CMyInGame::CMyInGame()
 {
-	for (int i = 0; i < 100; ++i) {
-		m_Monster.push_back(new CMonster());
+	m_Monster.reserve(MAXOBJECTNUM);
+	I_sub.reserve(MAXITEMNUM);
+	I_bullet.reserve(MAXITEMNUM);
+	I_skill.reserve(MAXITEMNUM);
+	I_power.reserve(MAXITEMNUM);
+	I_sheild.reserve(MAXITEMNUM);
+
+	for (int i = 0; i < 1000; ++i) {
+		m_Monster.emplace_back(new CMonster());
 	}
 
 	//m_pPlayer = new CPlayer;
@@ -424,6 +431,7 @@ void CMyInGame::MakeEnemys()
 			case E_ENEMY1:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY1);
 				m_Monster[enemyInfo.index]->SetAlive(true);
+				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				break;
 			case E_ENEMY2:

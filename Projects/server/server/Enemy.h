@@ -28,15 +28,18 @@ class CMonster : public CGameObject
 {
 private:
 	float Size;
+	int MyIndex;
 
 public:
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 
-	CMonster(E_OBJECT typeNum);
+	CMonster(EnemyInfo enemyInfo);
 	CMonster();
 	~CMonster();
 public:
 	virtual void Update();
+	int GetIndex() { return MyIndex; }
+	void SetIndex(int index) { MyIndex = index; }
 	//virtual void Render(HDC m_hdc);
 };

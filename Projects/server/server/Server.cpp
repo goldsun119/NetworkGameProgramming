@@ -34,7 +34,7 @@ DWORD g_ElapsedTime;
 
 #define g_makeShield 91000
 
-vector<pair<int, CMonster*>> m_Monster;
+vector<CMonster*> m_Monster;
 vector<I_BULLET*> I_bullet;
 vector<I_SUB*> I_sub;
 vector<I_POWER*> I_power;
@@ -194,36 +194,38 @@ void MakeEnemy(SOCKET sock)
 	maketime += 1;
 	//m_Monster.push_back(new CMonster(E_ENEMY1));
 	//send(sock, (char*)&maketime, sizeof(maketime), 0);
-	if (maketime /= g_makeEnemy1)
-	{
-		enemyInfo.Index = MonsterNumber;
-		MonsterNumber++;
-		enemyInfo.alive = true;
-		enemyInfo.Type = E_ENEMY1;
-		m_Monster.push_back(make_pair(enemyInfo.Index, new CMonster(E_ENEMY1)));
-		//printf("1锅 积己\n");
+	if (m_pMonster->Boss2_Appear = false) {
+		if (maketime /= g_makeEnemy1)
+		{
+			enemyInfo.Index = MonsterNumber;
+			MonsterNumber++;
+			enemyInfo.alive = true;
+			enemyInfo.Type = E_ENEMY1;
+			m_Monster.push_back(new CMonster(enemyInfo));
+			//printf("1锅 积己\n");
 
-	}
-	if (maketime /= g_makeEnemy2)
-	{
-		enemyInfo.Index = MonsterNumber;
-		MonsterNumber++;
-		enemyInfo.alive = true;
-		enemyInfo.Type = E_ENEMY2;
-		m_Monster.push_back(make_pair(enemyInfo.Index, new CMonster(E_ENEMY2)));
-		//printf("2锅 积己\n");
+		}
+		if (maketime /= g_makeEnemy2)
+		{
+			enemyInfo.Index = MonsterNumber;
+			MonsterNumber++;
+			enemyInfo.alive = true;
+			enemyInfo.Type = E_ENEMY2;
+			m_Monster.push_back(new CMonster(enemyInfo));
+			//printf("2锅 积己\n");
 
-	}
+		}
 
-	if (maketime /= g_makeEnemy3)
-	{
-		enemyInfo.Index = MonsterNumber;
-		MonsterNumber++;
-		enemyInfo.alive = true;
-		enemyInfo.Type = E_ENEMY3;
-		m_Monster.push_back(make_pair(enemyInfo.Index, new CMonster(E_ENEMY3)));
-		//   printf("3锅 积己\n");
+		if (maketime /= g_makeEnemy3)
+		{
+			enemyInfo.Index = MonsterNumber;
+			MonsterNumber++;
+			enemyInfo.alive = true;
+			enemyInfo.Type = E_ENEMY3;
+			m_Monster.push_back(new CMonster(enemyInfo));
+			//   printf("3锅 积己\n");
 
+		}
 	}
 
 	if (maketime /= g_makeBoss1)
@@ -234,7 +236,7 @@ void MakeEnemy(SOCKET sock)
 			MonsterNumber++;
 			enemyInfo.alive = true;
 			enemyInfo.Type = E_BOSS1;
-			m_Monster.push_back(make_pair(enemyInfo.Index, new CMonster(E_BOSS1)));
+			m_Monster.push_back(new CMonster(enemyInfo));
 			//printf("焊胶1 积己\n");
 
 			m_pMonster->Boss1_Appear = true;
@@ -249,7 +251,7 @@ void MakeEnemy(SOCKET sock)
 			MonsterNumber++;
 			enemyInfo.alive = true;
 			enemyInfo.Type = E_BOSS2;
-			m_Monster.push_back(make_pair(enemyInfo.Index, new CMonster(E_BOSS2)));
+			m_Monster.push_back(new CMonster(enemyInfo));
 			//printf("焊胶2 积己\n");
 
 			m_pMonster->Boss2_Appear = true;
@@ -259,8 +261,11 @@ void MakeEnemy(SOCKET sock)
 	send(sock, (char*)&num, sizeof(num), 0);
 	for (int i = 0; i < m_Monster.size(); ++i)
 	{
-		m_Monster[i].second->Update();
-		enemyInfo.pos = m_Monster[i].second->GetPos();
+		m_Monster[i]->Update();
+		enemyInfo.pos = m_Monster[i]->GetPos();
+		enemyInfo.Index = m_Monster[i]->GetIndex();
+		enemyInfo.alive = true;
+		enemyInfo.Hp = 50; //烙矫肺 秦淋
 		send(sock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
 	}
 }

@@ -22,9 +22,10 @@ CMonster::CMonster()
 	//	break;
 	//}
 }
-CMonster::CMonster(E_OBJECT typeNum)
+CMonster::CMonster(EnemyInfo enemyInfo)
 {
-	m_Type = typeNum;
+	m_Type = enemyInfo.Type;
+	MyIndex = enemyInfo.Index;
 
 	switch (m_Type)
 	{
