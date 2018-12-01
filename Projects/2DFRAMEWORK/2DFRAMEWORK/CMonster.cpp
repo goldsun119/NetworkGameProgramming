@@ -4,6 +4,7 @@
 
 CMonster::CMonster()
 {
+	m_size = 70;
 	//m_Pos.x = 200.0f;
 	//m_Pos.y = 50.0f;
 	//m_size = 50;

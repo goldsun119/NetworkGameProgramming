@@ -6,7 +6,7 @@ class CMonster : public CGameObject
 {
 private:
 	float Size;
-	bool alive = false;
+	bool alive;
 	
 public:
 	
