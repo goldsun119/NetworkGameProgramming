@@ -24,6 +24,11 @@ public:
 
 
 	vector<CMonster*>				m_Monster;
+	vector<I_BULLET*>				m_Ibullet;
+	vector<I_SUB*>					m_Isub;
+	vector<I_POWER*>				m_Ipower;
+	vector<I_SKILL*>				m_Iskill;
+	vector<I_SHEILD*>				m_Isheild;
 	int								eTime = 0;
 
 	bool							Boss1_Appear = false;
@@ -34,6 +39,12 @@ public:
 	CImage							m_MonsterImg3;
 	CImage							m_BossImg1;
 	CImage							m_BossImg2;
+	//æ∆¿Ã≈€
+	CImage							m_ItemBullet;
+	CImage							m_BItemShield;
+	CImage							m_ItemUlt;
+	CImage							m_ItemSub;
+	CImage							m_ItemPower;
 
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;

@@ -73,6 +73,13 @@ void CRenderManager::LoadCImage()
 	//플레이어총알
 	AddRenderObject((TCHAR*)"image/총알기본.png", "PlayerDefaultBulletImage");
 
+	//아이템
+	AddRenderObject((TCHAR*)"image/ITEM(총알).png", "ItemBullet");
+	AddRenderObject((TCHAR*)"image/ITEM(방어막).png", "ItemShield");
+	AddRenderObject((TCHAR*)"image/ITEM(필살기).png", "ItemUlt");
+	AddRenderObject((TCHAR*)"image/ITEM(보조).png", "ItemSub");
+	AddRenderObject((TCHAR*)"image/강화총알.png", "ItemPower");
+	//AddRenderObject((TCHAR*)"image/ITEM(방어막).png", "ItemShield");
 
 	//TODO 1118 천기오빠 이 같은이름은뭐죠
 	//AddRenderObject((TCHAR*)"enemy1.png", "IngameEnemyImage");

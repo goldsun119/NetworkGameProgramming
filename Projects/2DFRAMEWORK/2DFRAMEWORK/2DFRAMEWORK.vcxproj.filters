@@ -138,11 +138,11 @@
     <ClInclude Include="CBullet.h">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="CRenderManager.h">
-      <Filter>소스 파일\Framework\ObjectManager</Filter>
-    </ClInclude>
     <ClInclude Include="CItem.h">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderManager.h">
+      <Filter>소스 파일\Framework\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +197,7 @@
     <ClCompile Include="CBullet.cpp">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="CItemcpp.cpp">
+    <ClCompile Include="CItem.cpp">
       <Filter>소스 파일\Framework\ObjectManager\CGameObject\Item</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "CPlayer.h"
 #include "CMonster.h"
 #include "CBullet.h"
+#include "CItem.h"
 #include "TimerManager.h"
 #include "Framework.h"
 
@@ -40,6 +41,20 @@ CMyInGame::CMyInGame()
 	//Player *m_pPlayer = NULL;
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));
+
+
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemBullet", *MYRENDERMANAGER->FindCImage("ItemBullet")));
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemShield", *MYRENDERMANAGER->FindCImage("ItemShield")));
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemUlt", *MYRENDERMANAGER->FindCImage("ItemUlt")));
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemSub", *MYRENDERMANAGER->FindCImage("ItemSub")));
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemPower", *MYRENDERMANAGER->FindCImage("ItemPower")));
+
+	m_ItemBullet.Load(TEXT("image/ITEM(총알).png"));
+	m_BItemShield.Load(TEXT("image/ITEM(방어막).png"));
+	m_ItemPower.Load(TEXT("image/강화총알.png"));
+	m_ItemSub.Load(TEXT("image/ITEM(보조).png"));
+	m_ItemUlt.Load(TEXT("image/ITEM(필살기).png"));
+	
 	//m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("PlayerDefaultBulletImage", *MYRENDERMANAGER->FindCImage("PlayerDefaultBulletImage")));
 	
 	//왜 렌더매니저 안써줌 ㅠ
@@ -116,6 +131,37 @@ void CMyInGame::Render(HDC hdc)
 				}
 			}
 
+		}
+
+		//아이템 - 총알
+		for (vector<I_BULLET*>::iterator iter = m_Ibullet.begin();
+			iter != m_Ibullet.end(); ++iter)
+		{
+			m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		}
+		//아이템 - 방어막
+		for (vector<I_SHEILD*>::iterator iter = m_Isheild.begin();
+			iter != m_Isheild.end(); ++iter)
+		{
+			m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		}
+		//아이템 - 궁아이템획득
+		for (vector<I_SKILL*>::iterator iter = m_Iskill.begin();
+			iter != m_Iskill.end(); ++iter)
+		{
+			m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		}
+		//아이템 - 보조
+		for (vector<I_SUB*>::iterator iter = m_Isub.begin();
+			iter != m_Isub.end(); ++iter)
+		{
+			m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+		}
+		//아이템 - 강화
+		for (vector<I_POWER*>::iterator iter = I_power.begin();
+			iter != I_power.end(); ++iter)
+		{
+			m_ItemPower.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 
 		//플레이어 총알 그리기

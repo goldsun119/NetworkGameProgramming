@@ -26,29 +26,39 @@ public:
 class I_BULLET : public CItem {
 
 public:
+
 	I_BULLET();
+	virtual void Update();
+
 };
 
 class I_SUB : public  CItem {
 
 public:
 	I_SUB();
+	virtual void Update();
+
 };
 
 class I_POWER : public CItem {
 
 public:
 	I_POWER();
+	virtual void Update();
+
 };
 
 class I_SKILL : public  CItem {
 
 public:
 	I_SKILL();
+	virtual void Update();
 
 };
 class I_SHEILD : public  CItem {
 
 public:
 	I_SHEILD();
+	virtual void Update();
+
 };
