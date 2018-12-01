@@ -240,11 +240,6 @@ I_POWER::I_POWER()
 
 }
 
-void I_POWER::Update()
-{
-
-}
-
 I_SKILL::I_SKILL()
 {
 

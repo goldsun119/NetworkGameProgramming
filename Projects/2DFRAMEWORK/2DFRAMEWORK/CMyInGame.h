@@ -39,10 +39,13 @@ public:
 	int								m_nWndClientHeight = 599;
 
 	PlayerInfo						playerInfo[2];
+	EnemyInfo enemyInfo;
 
-	int iteamNumber;
-	int MonsterNumber;
-	
+	int iteamNumber=0;
+	int MonsterNumber=0;
+	DWORD ItemTimeCount = 0;
+	DWORD maketime = 0;
+
 	POINT tempXY;
 
 	vector<I_BULLET*> I_bullet;

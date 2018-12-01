@@ -8,6 +8,21 @@
 #include "CBullet.h"
 #include "TimerManager.h"
 #include "Framework.h"
+
+#define g_makeEnemy1 3000
+#define g_makeEnemy2 4000
+#define g_makeEnemy3 5000
+#define g_makeBoss1 61000
+#define g_makeBoss2 91000
+
+#define g_makeItem1 39000
+#define g_makeBullet 4000
+#define g_makePower 5000
+#define g_makeSkill 61000
+#define g_makeSub 40000
+
+#define g_makeShield 91000
+
 CMyInGame::CMyInGame()
 {
 	//m_pPlayer = new CPlayer;
@@ -52,8 +67,6 @@ void CMyInGame::Render(HDC hdc)
 {
 
 	int size = 50;
-
-	
 
 	//m_PlayerImg = MYRENDERMANAGER->FindCImage("IngamePlayerImage")->begin()->GetCimage();
 	PAINTSTRUCT ps;
@@ -132,7 +145,48 @@ void CMyInGame::Update()
 	}
 	MakeEnemys();
 	MakeItem();
-	
+	for (vector<CMonster*>::iterator iter = m_Monster.begin();
+		iter != m_Monster.end(); ++iter)
+	{
+		FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
+		(*iter)->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+	}
+	/*for (vector<CMonster*>::iterator iter = m_Monster.begin();
+		iter != m_Monster.end(); ++iter)
+	{
+		FRAMEWORK->recvn(FRAMEWORK->GetSock(), (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
+		(*iter)->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+	}*/
+
+	//for (int i = 0; i < I_power.size(); ++i)
+	//{
+	//	recv(FRAMEWORK->GetSock(), (char*)&tempXY, sizeof(tempXY), 0);
+	//	I_power[i]->SetPoint(tempXY);
+	//}
+
+	//for (int i = 0; i < I_skill.size(); ++i) // 필살기 아이템 이동
+	//{
+	//	recv(FRAMEWORK->GetSock(), (char*)&tempXY, sizeof(tempXY), 0);
+	//	I_skill[i]->SetPoint(tempXY);
+	//}
+
+	//for (int i = 0; i < I_bullet.size(); ++i) // 총알 아이템 이동
+	//{
+	//	recv(FRAMEWORK->GetSock(), (char*)&tempXY, sizeof(tempXY), 0);
+	//	I_bullet[i]->SetPoint(tempXY);
+	//}
+
+	//for (int i = 0; i < I_sub.size(); ++i)
+	//{
+	//	recv(FRAMEWORK->GetSock(), (char*)&tempXY, sizeof(tempXY), 0);
+	//	I_sub[i]->SetPoint(tempXY);
+	//}
+
+	//for (int i = 0; i < I_sheild.size(); ++i) // 방어 아이템 이동
+	//{
+	//	recv(FRAMEWORK->GetSock(), (char*)&tempXY, sizeof(tempXY), 0);
+	//	I_power[i]->SetPoint(tempXY);
+	//}
 	//sendAllIngamePack();
 	//적 비행기 생성
 
@@ -145,7 +199,7 @@ void CMyInGame::Update()
 	//		
 	//			if (m_Monster[i]->GetYPos() < WndY)
 	//			{
-	//				//몬스터 이동
+	//				몬스터 이동
 	//				if (m_Monster[i]->GetType() == E_ENEMY1)
 	//				{
 	//					m_Monster[i]->SetYPos(m_Monster[i]->GetYPos() + 2);
@@ -171,25 +225,25 @@ void CMyInGame::Update()
 	//							
 	//							break;
 	//						case E_ENEMY2:
-	//							//rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+	//							rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + (*iter)->GetSize(), rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
 	//							rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + m_Monster[i]->GetSize(), rt2.left = m_Monster[i]->GetYPos(), rt2.right = m_Monster[i]->GetXPos() + m_Monster[i]->GetSize();
 
-	//							//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+	//							rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 	//							break;
 	//						case E_ENEMY3:
 	//							rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + m_Monster[i]->GetSize() - m_Monster[i]->GetSize() / 2, rt2.left = m_Monster[i]->GetYPos(), rt2.right = m_Monster[i]->GetXPos() + m_Monster[i]->GetSize();
 
-	//							//rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 50, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+	//							rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 50, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
 
-	//							//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+	//							rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
 	//							break;
 	//						case E_BOSS1:
 	//						case E_BOSS2:
 	//							rt2.top = m_Monster[i]->GetYPos(), rt2.bottom = m_Monster[i]->GetYPos() + m_Monster[i]->GetSize() - m_Monster[i]->GetSize()/ 2, rt2.left = m_Monster[i]->GetYPos(), rt2.right = m_Monster[i]->GetXPos() + m_Monster[i]->GetSize();
 
-	//							//rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 200, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
+	//							rt2.top = (*iter)->GetYPos(), rt2.bottom = (*iter)->GetYPos() + (*iter)->GetSize() - 200, rt2.left = (*iter)->GetYPos(), rt2.right = (*iter)->GetXPos() + (*iter)->GetSize();
 
-	//							//rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+	//							rt2.top = (*iter)->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
 	//							break;
 	//						}
 
@@ -205,7 +259,7 @@ void CMyInGame::Update()
 
 
 	//			}
-	//			// 몬스터 삭제
+	//			 몬스터 삭제
 	//			if (m_Monster[i]->GetYPos() > WndY)
 	//			{
 	//				iter_swap(m_Monster[i], m_Monster.back());
@@ -319,31 +373,33 @@ void CMyInGame::sendAllIngamePack() //인게임 아이템
 }
 void CMyInGame::MakeItem()
 {
-	recv(FRAMEWORK->GetSock(), (char*)&iteamNumber, sizeof(iteamNumber), 0);
-	if (iteamNumber == 1)
+	recv(FRAMEWORK->GetSock(), (char*)&ItemTimeCount, sizeof(ItemTimeCount), 0);
+	if (ItemTimeCount /= g_makeItem1)
 	{
 		I_power.push_back(new I_POWER());
 
 		//printf("파워 생성");
 	}
-	if (iteamNumber == 2)
+	if (ItemTimeCount /= g_makeSkill)
 	{
 		I_skill.push_back(new I_SKILL());
+
 		//printf("스킬 생성");
 
 	}
-	if (iteamNumber == 3)
+	if (ItemTimeCount /= g_makeBullet)
 	{
 		I_bullet.push_back(new I_BULLET());
+
 		//printf("보조총알 생성");
 
 	}
-	if (iteamNumber == 4)
+	if (ItemTimeCount /= g_makeSub)
 	{
 		I_sub.push_back(new I_SUB());
 
 	}
-	if (iteamNumber == 5)
+	if (ItemTimeCount /= g_makeShield)
 	{
 		I_sheild.push_back(new I_SHEILD());
 
@@ -351,21 +407,22 @@ void CMyInGame::MakeItem()
 }
 void CMyInGame::MakeEnemys()
 {
-	recv(FRAMEWORK->GetSock(), (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
-	if (MonsterNumber == 1)
+	recv(FRAMEWORK->GetSock(), (char*)&maketime, sizeof(maketime), 0);
+	if (maketime /= g_makeEnemy1)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY1));
 		//printf("1번 생성\n");
-	}
 
-	if (MonsterNumber == 2)
+	}
+	if (maketime /= g_makeEnemy2)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY2));
 		//printf("2번 생성\n");
 
+
 	}
 
-	if (MonsterNumber ==3 )
+	if (maketime /= g_makeEnemy3)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY3));
 		//	printf("3번 생성\n");
@@ -373,7 +430,7 @@ void CMyInGame::MakeEnemys()
 
 	}
 
-	if (MonsterNumber == 4)
+	if (maketime /= g_makeBoss1)
 	{
 		if (Boss1_Appear == false)
 		{
@@ -384,7 +441,7 @@ void CMyInGame::MakeEnemys()
 		}
 	}
 
-	if (MonsterNumber == 5)
+	if (maketime /= g_makeBoss2)
 	{
 		if (Boss2_Appear == false)
 		{

@@ -5,10 +5,11 @@
 class CMonster : public CGameObject
 {
 private:
-	POINT Pos;
 	float Size;
 
+	
 public:
+	
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 

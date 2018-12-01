@@ -92,5 +92,6 @@ void CMonster::Update()
 		//printf("y:%d", m_Pos.y);
 		break;
 	}
+
 }
 

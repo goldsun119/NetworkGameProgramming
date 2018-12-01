@@ -14,6 +14,7 @@ enum E_OBJECT
 #pragma pack(1)
 class EnemyInfo {
 public:
+	POINT pos;
 	int Type;
 	int Hp;
 	int BoomCount;
@@ -24,10 +25,11 @@ public:
 class CMonster : public CGameObject
 {
 private:
-	POINT Pos;
 	float Size;
+	POINT Pos;
 
 public:
+	
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 

@@ -29,6 +29,7 @@ public:
 #pragma pack(1)
 class EnemyInfo {
 public:
+	POINT pos;
 	int Type;
 	int Hp;
 	int BoomCount;

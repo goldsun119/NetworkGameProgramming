@@ -14,26 +14,25 @@ CMonster* m_pMonster = new CMonster;
 CItem* m_pItem = new CItem;
 CItem* m_pPower = new I_POWER;
 
-
 InputManager Input;
 DWORD KeyInput;
 DWORD g_IngameStartTime;
 DWORD g_CurTime;
 DWORD g_PrevTime;
 DWORD g_ElapsedTime;
-#define g_makeEnemy1 3
-#define g_makeEnemy2 4
-#define g_makeEnemy3 5
-#define g_makeBoss1 61
-#define g_makeBoss2 91
+#define g_makeEnemy1 3000
+#define g_makeEnemy2 4000
+#define g_makeEnemy3 5000
+#define g_makeBoss1 61000
+#define g_makeBoss2 91000
 
-#define g_makeItem1 39
-#define g_makeBullet 4
-#define g_makePower 5
-#define g_makeSkill 61
-#define g_makeSub 40
+#define g_makeItem1 39000
+#define g_makeBullet 4000
+#define g_makePower 5000
+#define g_makeSkill 61000
+#define g_makeSub 40000
 
-#define g_makeShield 91
+#define g_makeShield 91000
 
 vector<CMonster*> m_Monster;
 vector<I_BULLET*> I_bullet;
@@ -155,44 +154,38 @@ void MakeItem(SOCKET sock)
 	int iteamNumber = 0;
 	DWORD ItemTimeCount = GetTickCount();
 	ItemTimeCount += 1;
-
+	send(sock, (char*)&ItemTimeCount, sizeof(ItemTimeCount), 0);
 	if (ItemTimeCount /= g_makeItem1 )
 	{
 		I_power.push_back(new I_POWER());
-		iteamNumber = 1;
-		send(sock, (char*)&iteamNumber, sizeof(iteamNumber), 0);
+		
 		//printf("파워 생성");
 	}
 	if (ItemTimeCount /= g_makeSkill)
 	{
 		I_skill.push_back(new I_SKILL());
-		iteamNumber = 2;
-		send(sock, (char*)&iteamNumber, sizeof(iteamNumber), 0);
+	
 		//printf("스킬 생성");
 
 	}
 	if (ItemTimeCount /= g_makeBullet)
 	{
 		I_bullet.push_back(new I_BULLET());
-		iteamNumber = 3;
-		send(sock, (char*)&iteamNumber, sizeof(iteamNumber), 0);
+
 		//printf("보조총알 생성");
 
 	}
 	if (ItemTimeCount /= g_makeSub)
 	{
 		I_sub.push_back(new I_SUB());
-		iteamNumber = 4;
-		send(sock, (char*)&iteamNumber, sizeof(iteamNumber), 0);
 
 	}
 	if (ItemTimeCount /= g_makeShield)
 	{
 		I_sheild.push_back(new I_SHEILD());
-		iteamNumber = 5;
-		send(sock, (char*)&iteamNumber, sizeof(iteamNumber), 0);
 
 	}
+	
 }
 void MakeEnemy(SOCKET sock)
 {
@@ -201,29 +194,26 @@ void MakeEnemy(SOCKET sock)
 	DWORD maketime = GetTickCount();
 	maketime += 1;
 	//m_Monster.push_back(new CMonster(E_ENEMY1));
-	
+	send(sock, (char*)&maketime, sizeof(maketime), 0);
 	if (maketime /= g_makeEnemy1)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY1));
 		//printf("1번 생성\n");
-		MonsterNumber = 1;
-		send(sock, (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
+		
 	}
-
 	if (maketime /= g_makeEnemy2)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY2));
 		//printf("2번 생성\n");
-		MonsterNumber = 2;
-		send(sock, (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
+	
+		
 	}
 
 	if (maketime /= g_makeEnemy3)
 	{
 		m_Monster.push_back(new CMonster(E_ENEMY3));
 	//	printf("3번 생성\n");
-		MonsterNumber = 3;
-		send(sock, (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
+	
 
 	}
 	
@@ -233,8 +223,7 @@ void MakeEnemy(SOCKET sock)
 		{
 			m_Monster.push_back(new CMonster(E_BOSS1));
 			//printf("보스1 생성\n");
-			MonsterNumber = 4;
-			send(sock, (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
+		
 			m_pMonster->Boss1_Appear = true;
 		}
 	}
@@ -245,11 +234,11 @@ void MakeEnemy(SOCKET sock)
 		{
 			m_Monster.push_back(new CMonster(E_BOSS2));
 			//printf("보스2 생성\n");
-			MonsterNumber = 5;
-			send(sock, (char*)&MonsterNumber, sizeof(MonsterNumber), 0);
+		
 			m_pMonster->Boss2_Appear = true;
 		}
 	}
+	
 }
 
 void MoveEnemy()
@@ -314,7 +303,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	{
 		
 		int Snum=clientinfotohandle[ClientNum].IsScene;
-
+	
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
@@ -380,12 +369,23 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			SendAllPlayerInfo(ClientSock, playerInfo);
 			MakeEnemy(ClientSock);
 			MakeItem(ClientSock);
+
 			for (int i = 0; i < m_Monster.size(); ++i)
 			{
+				
 				m_Monster[i]->Update();
+				enemyInfo.pos = m_Monster[i]->GetPos();
+				send(ClientSock, (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
 			}
 			
+		/*	for (vector<CMonster*>::iterator iter = m_Monster.begin();
+				iter != m_Monster.end(); ++iter)
+			{
+				enemyInfo.pos =(*iter)->GetPos();
+				send(ClientSock, (char*)&enemyInfo.pos, sizeof(enemyInfo.pos), 0);
+			}*/
 			
+
 			for (int i = 0; i < I_power.size(); ++i)
 			{
 				if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)
@@ -410,9 +410,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					I_power[i]->SetYPos(I_power[i]->GetYPos() + 3);
 				else
 					I_power[i]->SetYPos(I_power[i]->GetYPos() - 3);
+
+			//	send(ClientSock, (char*)&I_power[i]->GetPos(), sizeof(I_power[i]->GetPos()), 0);
 			}
-			
-		
+
+
 			for (int i = 0; i < I_skill.size(); ++i) // 필살기 아이템 이동
 			{
 				if (I_skill[i]->GetXPos() + I_skill[i]->GetSize() > WndX)
@@ -434,10 +436,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					I_skill[i]->SetYPos(I_skill[i]->GetYPos() + 3);
 				else
 					I_skill[i]->SetYPos(I_skill[i]->GetYPos() - 3);
+			//	send(ClientSock, (char*)&I_skill[i]->GetPos(), sizeof(I_skill[i]->GetPos()), 0);
 			}
-			
 
-			
+
+
 			for (int i = 0; i < I_bullet.size(); ++i) // 총알 아이템 이동
 			{
 				if (I_bullet[i]->GetXPos() + I_bullet[i]->GetSize() > WndX)
@@ -459,12 +462,13 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() + 3);
 				else
 					I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() - 3);
+				//send(ClientSock, (char*)&I_bullet[i]->GetPos(), sizeof(I_bullet[i]->GetPos()), 0);
 			}
-			
 
-			
-			for(int i = 0;i<I_sub.size();++i)
-			{ 
+
+
+			for (int i = 0; i < I_sub.size(); ++i)
+			{
 				if (I_sub[i]->GetXPos() + I_sub[i]->GetSize() > WndX)
 					I_sub[i]->SetDir('x', false);
 				else if (I_sub[i]->GetXPos() < 0)
@@ -484,10 +488,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					I_sub[i]->SetYPos(I_sub[i]->GetYPos() + 3);
 				else
 					I_sub[i]->SetYPos(I_sub[i]->GetYPos() - 3);
+				//send(ClientSock, (char*)&I_sub[i]->GetPos(), sizeof(I_sub[i]->GetPos()), 0);
 			}
-			
 
-			
+
+
 			for (int i = 0; i < I_sheild.size(); ++i) // 방어 아이템 이동
 			{
 				if (I_sheild[i]->GetXPos() + I_sheild[i]->GetSize() > WndX)
@@ -509,6 +514,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() + 3);
 				else
 					I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() - 3);
+				//send(ClientSock, (char*)&I_sheild[i]->GetPos(), sizeof(I_sheild[i]->GetPos()), 0);
 			}
 			//sendAllIngamePack(ClientSock);
 			

@@ -39,7 +39,6 @@ class I_POWER : public CItem {
 
 public:
 	I_POWER();
-	virtual void Update();
 };
 
 class I_SKILL : public  CItem {
