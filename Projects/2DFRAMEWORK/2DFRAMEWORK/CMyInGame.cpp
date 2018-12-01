@@ -433,26 +433,31 @@ void CMyInGame::MakeEnemys()
 				m_Monster[enemyInfo.index]->SetAlive(true);
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				m_Monster[enemyInfo.index]->SetSize(60);
 				break;
 			case E_ENEMY2:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY2);
 				m_Monster[enemyInfo.index]->SetAlive(true);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				m_Monster[enemyInfo.index]->SetSize(70);
 				break;
 			case E_ENEMY3:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY3);
 				m_Monster[enemyInfo.index]->SetAlive(true);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				m_Monster[enemyInfo.index]->SetSize(80);
 				break;
 			case E_BOSS1:
 				m_Monster[enemyInfo.index]->SetType(E_BOSS1);
 				m_Monster[enemyInfo.index]->SetAlive(true);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				m_Monster[enemyInfo.index]->SetSize(90);
 				break;
 			case E_BOSS2:
 				m_Monster[enemyInfo.index]->SetType(E_BOSS2);
 				m_Monster[enemyInfo.index]->SetAlive(true);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+				m_Monster[enemyInfo.index]->SetSize(100);
 				break;
 			}
 		}

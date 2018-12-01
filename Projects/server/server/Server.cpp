@@ -20,8 +20,8 @@ DWORD g_IngameStartTime;
 DWORD g_CurTime;
 DWORD g_PrevTime;
 DWORD g_ElapsedTime;
-#define g_makeEnemy1 300
-#define g_makeEnemy2 400
+#define g_makeEnemy1 3000
+#define g_makeEnemy2 4000
 #define g_makeEnemy3 5000
 #define g_makeBoss1 61000
 #define g_makeBoss2 91000
@@ -194,7 +194,7 @@ void MakeEnemy(SOCKET sock)
 	maketime += 1;
 	//m_Monster.push_back(new CMonster(E_ENEMY1));
 	//send(sock, (char*)&maketime, sizeof(maketime), 0);
-	if (m_pMonster->Boss2_Appear = false) {
+	if (m_pMonster->Boss2_Appear == false) {
 		if (maketime /= g_makeEnemy1)
 		{
 			enemyInfo.Index = MonsterNumber;
@@ -264,6 +264,7 @@ void MakeEnemy(SOCKET sock)
 		m_Monster[i]->Update();
 		enemyInfo.pos = m_Monster[i]->GetPos();
 		enemyInfo.Index = m_Monster[i]->GetIndex();
+		enemyInfo.Type = m_Monster[i]->GetType();
 		enemyInfo.alive = true;
 		enemyInfo.Hp = 50; //¿”Ω√∑Œ «ÿ¡‹
 		send(sock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
