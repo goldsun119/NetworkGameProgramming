@@ -5,8 +5,7 @@
 class CMonster : public CGameObject
 {
 private:
-	float Size;
-	bool alive;
+	
 	
 public:
 	
@@ -15,8 +14,7 @@ public:
 
 	CMonster(E_OBJECT typeNum);
 	CMonster();
-	void SetAlive(bool life) { alive = life; }
-	bool getAlive() { return alive; }
+	
 	~CMonster();
 public:
 	virtual void Update();

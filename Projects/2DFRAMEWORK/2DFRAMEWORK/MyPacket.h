@@ -30,12 +30,10 @@ public:
 class EnemyInfo {
 public:
 	int index;
-	bool alive = false;
+	bool alive;
 	POINT pos;
 	int Type;
 	int Hp;
-	int BoomCount;
-	bool IsBoom;
 };
 
 #pragma pack(1)

@@ -7,6 +7,7 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib, "ws2_32")
+#pragma comment(lib, "winmm.lib") 
 #include <winsock2.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,6 +18,7 @@
 #include <fstream>
 #include <algorithm>
 #include <time.h>
+#include <windows.h>
 #define SERVERPORT 9000
 #define BUFSIZE    1024
 #define WndX 419

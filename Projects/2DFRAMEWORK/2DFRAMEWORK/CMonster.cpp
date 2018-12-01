@@ -5,6 +5,7 @@
 CMonster::CMonster()
 {
 	m_size = 70;
+	alive = false;
 	//m_Pos.x = 200.0f;
 	//m_Pos.y = 50.0f;
 	//m_size = 50;
@@ -24,7 +25,7 @@ CMonster::CMonster()
 CMonster::CMonster(E_OBJECT typeNum)
 {
 	m_Type = typeNum;
-
+	alive = false;
 	switch (m_Type)
 	{
 	case E_ENEMY1:
@@ -66,9 +67,7 @@ CMonster::~CMonster()
 
 void CMonster::Update()
 {
-	//POINT m_sPos;
 	
-	//SetPos(m_sPos.x, m_sPos.y);
 }
 
 void CMonster::Render(HDC m_hdc)

@@ -20,11 +20,11 @@ DWORD g_IngameStartTime;
 DWORD g_CurTime;
 DWORD g_PrevTime;
 DWORD g_ElapsedTime;
-#define g_makeEnemy1 3000
-#define g_makeEnemy2 4000
-#define g_makeEnemy3 5000
-#define g_makeBoss1 61000
-#define g_makeBoss2 91000
+#define g_makeEnemy1 200
+#define g_makeEnemy2 100
+#define g_makeEnemy3 590000000
+#define g_makeBoss1 610000000
+#define g_makeBoss2 910000000
 
 #define g_makeItem1 39000
 #define g_makeBullet 4000
@@ -33,6 +33,8 @@ DWORD g_ElapsedTime;
 #define g_makeSub 40000
 
 #define g_makeShield 91000
+
+#define MAXOBJECTNUM 10000
 
 vector<CMonster*> m_Monster;
 vector<I_BULLET*> I_bullet;
@@ -45,6 +47,13 @@ typedef pair<int, string> Score;
 vector<Score> Rank;
 CRITICAL_SECTION cs;
 int score = 1;
+
+//===========
+float enemyTime1;
+float enemyTime2;
+float enemyTime3;
+float enemyTime4;
+float enemyTime5;
 
 //=======================================================================================
 void err_quit(char *msg)
@@ -190,12 +199,15 @@ void MakeEnemy(SOCKET sock)
 {
 	static int MonsterNumber = 0;
 	//g_makeEnemy1  = 3;
-	DWORD maketime = GetTickCount();
-	maketime += 1;
+	//DWORD maketime = GetTickCount();
+	float NowTime = (float)timeGetTime() * 0.001f;
+	
+	//maketime = maketime - time;
+	//maketime += 1;
 	//m_Monster.push_back(new CMonster(E_ENEMY1));
 	//send(sock, (char*)&maketime, sizeof(maketime), 0);
 	if (m_pMonster->Boss2_Appear == false) {
-		if (maketime /= g_makeEnemy1)
+		if (NowTime - enemyTime1 >= 3.0f)
 		{
 			enemyInfo.Index = MonsterNumber;
 			MonsterNumber++;
@@ -203,9 +215,9 @@ void MakeEnemy(SOCKET sock)
 			enemyInfo.Type = E_ENEMY1;
 			m_Monster.push_back(new CMonster(enemyInfo));
 			//printf("1번 생성\n");
-
+			enemyTime1 = NowTime;
 		}
-		if (maketime /= g_makeEnemy2)
+		if (NowTime - enemyTime2 >= 5.0f)
 		{
 			enemyInfo.Index = MonsterNumber;
 			MonsterNumber++;
@@ -213,10 +225,10 @@ void MakeEnemy(SOCKET sock)
 			enemyInfo.Type = E_ENEMY2;
 			m_Monster.push_back(new CMonster(enemyInfo));
 			//printf("2번 생성\n");
-
+			enemyTime2 = NowTime;
 		}
 
-		if (maketime /= g_makeEnemy3)
+		if (NowTime - enemyTime3 >= 10.0f)
 		{
 			enemyInfo.Index = MonsterNumber;
 			MonsterNumber++;
@@ -224,11 +236,11 @@ void MakeEnemy(SOCKET sock)
 			enemyInfo.Type = E_ENEMY3;
 			m_Monster.push_back(new CMonster(enemyInfo));
 			//   printf("3번 생성\n");
-
+			enemyTime3 = NowTime;
 		}
 	}
 
-	if (maketime /= g_makeBoss1)
+	if (NowTime - enemyTime4 >= 50.0f)
 	{
 		if (m_pMonster->Boss1_Appear == false)
 		{
@@ -240,10 +252,11 @@ void MakeEnemy(SOCKET sock)
 			//printf("보스1 생성\n");
 
 			m_pMonster->Boss1_Appear = true;
+			enemyTime4 = NowTime;
 		}
 	}
 
-	if (maketime /= g_makeBoss2)
+	if (NowTime - enemyTime5 >= 80.0f)
 	{
 		if (m_pMonster->Boss2_Appear == false)
 		{
@@ -255,18 +268,24 @@ void MakeEnemy(SOCKET sock)
 			//printf("보스2 생성\n");
 
 			m_pMonster->Boss2_Appear = true;
+			enemyTime5 = NowTime;
 		}
 	}
+	if (MAXOBJECTNUM <= MonsterNumber) {
+		return;
+	}
+
 	int num = m_Monster.size();
 	send(sock, (char*)&num, sizeof(num), 0);
 	for (int i = 0; i < m_Monster.size(); ++i)
 	{
+
 		m_Monster[i]->Update();
 		enemyInfo.pos = m_Monster[i]->GetPos();
 		enemyInfo.Index = m_Monster[i]->GetIndex();
 		enemyInfo.Type = m_Monster[i]->GetType();
-		enemyInfo.alive = true;
-		enemyInfo.Hp = 50; //임시로 해줌
+		enemyInfo.alive = m_Monster[i]->GetAlive();
+		enemyInfo.Hp = m_Monster[i]->GetHp();
 		send(sock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
 	}
 }
@@ -292,8 +311,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 
 	bool isClientnumSend = false;
-	DWORD dwTime = GetTickCount();
-
+	//DWORD dwTime = GetTickCount();
+	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
 
 	while (true)
 	{
@@ -329,7 +348,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			//게임 중 일때
 		case E_Scene::E_INGAME:
-			printf("인게임씬입니다\n");
+			//printf("인게임씬입니다\n");
 			//g_IngameStartTime = GetTickCount();
 
 

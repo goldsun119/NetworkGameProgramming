@@ -19,8 +19,6 @@ public:
 	POINT pos;
 	int Type;
 	int Hp;
-	int BoomCount;
-	bool IsBoom;
 };
 
 
@@ -29,7 +27,7 @@ class CMonster : public CGameObject
 private:
 	float Size;
 	int MyIndex;
-
+	bool alive;
 public:
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
@@ -39,6 +37,8 @@ public:
 	~CMonster();
 public:
 	virtual void Update();
+	bool GetAlive() {return alive;}
+	void SetAlive(bool life) { alive = life; }
 	int GetIndex() { return MyIndex; }
 	void SetIndex(int index) { MyIndex = index; }
 	//virtual void Render(HDC m_hdc);

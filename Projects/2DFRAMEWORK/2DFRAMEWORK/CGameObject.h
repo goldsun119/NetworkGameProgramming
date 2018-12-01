@@ -7,7 +7,8 @@ protected:
 
 	int width;
 	int height;
-
+	
+	
 	int m_Type;
 
 	int m_size;
@@ -18,10 +19,13 @@ protected:
 	unsigned long myIdx;
 
 public:
+	bool alive;
+
 	CGameObject();
 	CGameObject(string name, POINT, float width, float height);
 	CGameObject(string name, float destX,float destY, float width, float height);
-
+	void SetAlive(bool life) { alive = life; }
+	bool getAlive() { return alive; }
 
 	virtual ~CGameObject();
 	
