@@ -23,6 +23,7 @@
 #define BUFSIZE    1024
 #define WndX 419
 #define WndY 635
+#define FPS_PERSECOND 60
 
 using namespace std;
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
