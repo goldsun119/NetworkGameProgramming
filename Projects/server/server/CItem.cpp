@@ -16,7 +16,7 @@ CItem::CItem(ItemInfo itemInfo)
 	MyIndex = itemInfo.Index;
 	IsDraw = itemInfo.IsDraw;
 	m_Type = itemInfo.Type;
-
+	m_size = 30;
 	switch (m_Type)
 	{
 	case E_IPOWER:
@@ -151,24 +151,122 @@ void CItem::Update()
 	switch (m_Type)
 	{
 	case E_IPOWER:
-		m_Pos.y += 2;
+		//m_Pos.y += 2;
+		if (this->GetXPos() + this->GetSize() > WndX)
+			this->SetDir('x', false);
+		else if (this->GetXPos() < 0)
+			this->SetDir('x', true);
+
+		if (this->GetYPos() + this->GetSize() > WndY)
+			this->SetDir('y', false);
+		else if (this->GetYPos() < 0)
+			this->SetDir('y', true);
+
+		if (this->GetDir('x'))
+		{
+			this->SetXPos(this->GetXPos() + 3);
+			//printf("아이템의 x좌표: %d\n", I_power[i]->GetPos());
+		}
+		else
+			this->SetXPos(this->GetXPos() - 3);
+
+		if (this->GetDir('y'))
+			this->SetYPos(this->GetYPos() + 3);
+		else
+			this->SetYPos(this->GetYPos() - 3);
 
 		break;
 	case E_ISHIELD:
-		m_Pos.y += 2;
+		
+		if (this->GetXPos() + this->GetSize() > WndX)
+			this->SetDir('x', false);
+		else if (this->GetXPos() < 0)
+			this->SetDir('x', true);
+
+		if (this->GetYPos() + this->GetSize() > WndY)
+			this->SetDir('y', false);
+		else if (this->GetYPos() < 0)
+			this->SetDir('y', true);
+
+		if (this->GetDir('x'))
+			this->SetXPos(this->GetXPos() + 3);
+		else
+			this->SetXPos(this->GetXPos() - 3);
+
+		if (this->GetDir('y'))
+			this->SetYPos(this->GetYPos() + 3);
+		else
+			this->SetYPos(this->GetYPos() - 3);
+		//send(ClientSock, (char*)&I_sheild[i]->GetPos(), sizeof(I_sheild[i]->GetPos()), 0);
+		
 
 		break;
 	case E_ISKILL:
-		m_Pos.y += 2;
+		
+		if (this->GetXPos() + this->GetSize() > WndX)
+			this->SetDir('x', false);
+		else if (this->GetXPos() < 0)
+			this->SetDir('x', true);
 
+		if (this->GetYPos() + this->GetSize() > WndY)
+			this->SetDir('y', false);
+		else if (this->GetYPos() < 0)
+			this->SetDir('y', true);
+
+		if (this->GetDir('x'))
+			this->SetXPos(this->GetXPos() + 3);
+		else
+			this->SetXPos(this->GetXPos() - 3);
+
+		if (this->GetDir('y'))
+			this->SetYPos(this->GetYPos() + 3);
+		else
+			this->SetYPos(this->GetYPos() - 3);
+		
 		break;
 	case E_ISUB:
-		m_Pos.y += 2;
+		if (this->GetXPos() + this->GetSize() > WndX)
+			this->SetDir('x', false);
+		else if (this->GetXPos() < 0)
+			this->SetDir('x', true);
 
+		if (this->GetYPos() + this->GetSize() > WndY)
+			this->SetDir('y', false);
+		else if (this->GetYPos() < 0)
+			this->SetDir('y', true);
+
+		if (this->GetDir('x'))
+			this->SetXPos(this->GetXPos() + 3);
+		else
+			this->SetXPos(this->GetXPos() - 3);
+
+		if (this->GetDir('y'))
+			this->SetYPos(this->GetYPos() + 3);
+		else
+			this->SetYPos(this->GetYPos() - 3);
 		break;
 	case E_IBULLET:
-		m_Pos.y += 2;
+		
+		if (this->GetXPos() + this->GetSize() > WndX)
+			this->SetDir('x', false);
+		else if (this->GetXPos() < 0)
+			this->SetDir('x', true);
 
+		if (this->GetYPos() + this->GetSize() > WndY)
+			this->SetDir('y', false);
+		else if (this->GetYPos() < 0)
+			this->SetDir('y', true);
+
+		if (this->GetDir('x'))
+			this->SetXPos(this->GetXPos() + 3);
+		else
+			this->SetXPos(this->GetXPos() - 3);
+
+		if (this->GetDir('y'))
+			this->SetYPos(this->GetYPos() + 3);
+		else
+			this->SetYPos(this->GetYPos() - 3);
+		
 		break;
 	}
 }
