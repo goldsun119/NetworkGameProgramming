@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Player.h"
 #include "CGameObject.h"
+#include "TimerManager.h"
 #include "CItem.h"
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
@@ -13,7 +14,7 @@ int ClientCount = 0; //클라이언트 번호 할당
 CMonster* m_pMonster = new CMonster;
 CItem* m_pItem = new CItem;
 CItem* m_pPower = new I_POWER;
-
+TimeManager* m_pTime = new TimeManager();
 InputManager Input;
 DWORD KeyInput;
 DWORD g_IngameStartTime;
@@ -314,8 +315,19 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	//DWORD dwTime = GetTickCount();
 	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
 
+	/*m_pTime->m_CurrentTime = timeGetTime();
+	m_pTime->m_TimeElapsed = m_pTime->m_PrevTime;
+	m_pTime->m_PrevTime = m_pTime->m_CurrentTime;
+*/
+	m_pTime->m_CurrentTime = timeGetTime();
+	m_pTime->m_eTime = m_pTime->m_CurrentTime - m_pTime->m_PrevTime;
+	m_pTime->m_eActine += m_pTime->m_eTime;
+	if (m_pTime->m_eActine > 1 / FPS_PERSECOND)
+	{
+
 	while (true)
 	{
+		m_pTime->m_eTime = 0.0f;
 
 		int Snum = clientinfotohandle[ClientNum].IsScene;
 
@@ -562,6 +574,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			break;
 		}
 	}
+	}
 
 	closesocket(ClientSock);
 
@@ -624,7 +637,11 @@ int main(int argc, char *argv[])
 		// 접속한 클라이언트 정보 출력
 		printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 			inet_ntoa(clientinfotohandle[ClientCount].Addr.sin_addr), ntohs(clientinfotohandle[ClientCount].Addr.sin_port));
+		
+		
 		hThread = CreateThread(NULL, 0, ProcessClient, (LPVOID)clientinfotohandle[ClientCount].Sock, 0, NULL);
+		
+		
 		if (hThread == NULL) { closesocket(ListenSock); }
 		else
 		{
