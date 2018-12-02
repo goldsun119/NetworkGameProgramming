@@ -45,21 +45,14 @@ void CObjectManager::CheckEnemybyPlayerBulletCollision(vector<CBullet*> Bullet, 
 
 				if ((*enemy)->GetHp() <= 0) {
 					(*enemy)->alive = false;
-					enemyInfo[idx].alive = false;
-					enemyInfo[idx].index = (*enemy)->GetMyIdx();
-					idx++;
+
 				}
 			}
 			
 		}
 
 	}
-	//===================TODO ¼ÒÇö================================
-	send(FRAMEWORK->GetSock(), (char*)&idx, sizeof(idx), 0);
-	for (int i = 0; i <= idx; ++i) {
-		send(FRAMEWORK->GetSock(), (char*)&enemyInfo[i], sizeof(enemyInfo[i]), 0);
-	}
-	//====================================================
+
 }
 
 void CObjectManager::Update()

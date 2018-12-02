@@ -22,8 +22,7 @@ public:
 	std::vector<CGameObject*> GetObjlist() {return ObjList; }
 	CGameObject* FindGameObject(E_OBJECT objType, int idx);
 	void CheckEnemybyPlayerBulletCollision(vector<CBullet*> bullet, vector<CMonster*> Target);
+	
 
-	EnemyInfo enemyInfo[100];
-	int idx=0;
 };
 

@@ -207,6 +207,7 @@ void CMyInGame::Update()
 	MakeEnemys();
 	MakeItem();
 	OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, m_Monster);
+	
 
 	
 }
