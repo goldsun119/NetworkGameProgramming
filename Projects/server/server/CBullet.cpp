@@ -94,24 +94,6 @@ bool CBullet::IsCrashtoEnemy(CGameObject* enemy)
 
 void CBullet::Update()
 {
-	//ÃÑ¾Ë ÀÌµ¿
-	//for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end(); ++p)
-	//	(*p)->SetYPos((*p)->GetYPos() - 13);
 
-
-
-	//for (int i = 0; i < m_PlayerBullet.size(); ++i)
-	//{
-	//	if (m_PlayerBullet[i]->GetYPos() > WndY)
-	//	{
-	//		iter_swap(m_PlayerBullet[i], m_PlayerBullet.back());
-	//		if (m_PlayerBullet.back())
-	//		{
-	//			delete m_PlayerBullet.back();
-	//			m_PlayerBullet.back() = nullptr;
-	//		}
-	//		m_PlayerBullet.pop_back();
-	//	}
-	//}
 }
 

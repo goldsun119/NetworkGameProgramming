@@ -86,8 +86,8 @@ void CPlayer::Update()
 	CheckKey();
 	
 	//총알 이동
-	for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end(); ++p)
-		(*p)->SetYPos((*p)->GetYPos() - 13);
+	//for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end(); ++p)
+	//	(*p)->SetYPos((*p)->GetYPos() - 13);
 
 	//화면 밖 총알 삭제
 	//for (auto p = m_PlayerBullet.begin(); p < m_PlayerBullet.end();)

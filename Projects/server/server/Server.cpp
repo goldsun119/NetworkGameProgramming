@@ -10,7 +10,9 @@ ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 
 vector<CBullet*> playerBullet[2];
+
 EnemyInfo enemyInfo;
+
 ItemInfo itemInfo;
 class CGameObject;
 int ClientCount = 0; //클라이언트 번호 할당
@@ -266,6 +268,7 @@ void MakeItem(SOCKET sock)
 }
 void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target)
 {
+	
 	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
 	{
 		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
@@ -285,20 +288,19 @@ void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vec
 
 				if ((*enemy)->GetHp() <= 0) {
 					(*enemy)->SetAlive(false);
-					//적
-					//send(sock,(char*)&enemyInfo,sizeof())
+				
 				}
-				//총알
-				//send(sock,)
+
 			}
 
 		}
-
+		
 	}
 
 }
 void MakeEnemy(SOCKET sock)
 {
+	
 	static int MonsterNumber = 0;
 	//g_makeEnemy1  = 3;
 	//DWORD maketime = GetTickCount();
@@ -410,8 +412,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	//EnterCriticalSection(&cs);
 	//Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
 	//LeaveCriticalSection(&cs);
-
+	EnemyInfo enemyInfo;
 	BulletInfo bulletInfo;
+	
 	bool isClientnumSend = false;
 	//DWORD dwTime = GetTickCount();
 	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
@@ -500,12 +503,26 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			MakeEnemy(ClientSock);
 			MakeItem(ClientSock);
 			if (playerBullet[ClientNum].size() > 0) {
+			
 				for (int i = 0; i < playerBullet[ClientNum].size(); ++i)
 				{
 					bulletInfo.Active = playerBullet[ClientNum][i]->GetActive();
+					bulletInfo.Pos = playerBullet[ClientNum][i]->GetPos();
 					send(ClientSock, (char*)&bulletInfo, sizeof(bulletInfo), 0);
 				}
+				int Msize = m_Monster.size();
+				send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
+				for (int i = 0; i < m_Monster.size(); ++i)
+				{
+					enemyInfo.alive = m_Monster[i]->GetAlive();
+					enemyInfo.pos = m_Monster[i]->GetPos();
+					enemyInfo.Index = m_Monster[i]->GetIndex();
+					send(ClientSock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				}
+				if(m_Monster.size() > 0 )
+					CheckEnemybyPlayerBulletCollision(ClientSock,playerBullet[ClientNum], m_Monster);
 			}
+			
 			//for (int i = 0; i < I_power.size(); ++i)
 			//{
 			//	if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)

@@ -168,7 +168,9 @@ void CMyInGame::Render(HDC hdc)
 		vector<CBullet*>::iterator iter = m_pPlayer->m_PlayerBullet.begin();
 		while (iter != m_pPlayer->m_PlayerBullet.end())
 		{
-			m_PlayerBulletImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->GetActive() == true) {
+				m_PlayerBulletImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			}
 			iter++;
 		}
 
@@ -208,12 +210,19 @@ void CMyInGame::Update()
 		for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
 		{
 			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
-			m_pPlayer->alive = bulletInfo.Active;
+			m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
+			m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+		}
+		int msize = 0;
+		recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
+		//미리 사이즈를 알려줌
+		for (int i = 0; i < msize; ++i)
+		{
+			recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+			m_Monster[i]->alive = enemyInfo.alive;
+			m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 		}
 	}
-	//OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, m_Monster);
-	
-
 	
 }
 	

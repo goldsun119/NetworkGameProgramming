@@ -29,6 +29,7 @@ public:
 class BulletInfo {
 public:
 	bool Active;
+	int index;
 	POINT Pos;
 };
 
