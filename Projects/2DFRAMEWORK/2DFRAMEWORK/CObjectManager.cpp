@@ -25,35 +25,35 @@ CGameObject* CObjectManager::FindGameObject(E_OBJECT objType, int idx)
 	
 }
 
-void CObjectManager::CheckEnemybyPlayerBulletCollision(vector<CBullet*> Bullet, vector<CMonster*> Target)
-{
-	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter )
-	{
-		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
-		{
-
-			if((*bulletIter)->IsCrashtoEnemy(*enemy))
-			{
-				if ((*bulletIter)->getType() == -1)
-					(*enemy)->SetHp((*enemy)->GetHp() - 10);
-				else if ((*bulletIter)->getType() == 0)
-				{
-
-					(*enemy)->SetHp((*enemy)->GetHp() - 10);
-					
-				}
-
-				if ((*enemy)->GetHp() <= 0) {
-					(*enemy)->alive = false;
-
-				}
-			}
-			
-		}
-
-	}
-
-}
+//void CObjectManager::CheckEnemybyPlayerBulletCollision(vector<CBullet*> Bullet, vector<CMonster*> Target)
+//{
+//	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter )
+//	{
+//		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
+//		{
+//
+//			if((*bulletIter)->IsCrashtoEnemy(*enemy))
+//			{
+//				if ((*bulletIter)->getType() == -1)
+//					(*enemy)->SetHp((*enemy)->GetHp() - 10);
+//				else if ((*bulletIter)->getType() == 0)
+//				{
+//
+//					(*enemy)->SetHp((*enemy)->GetHp() - 10);
+//					
+//				}
+//
+//				if ((*enemy)->GetHp() <= 0) {
+//					(*enemy)->alive = false;
+//
+//				}
+//			}
+//			
+//		}
+//
+//	}
+//
+//}
 
 void CObjectManager::Update()
 {

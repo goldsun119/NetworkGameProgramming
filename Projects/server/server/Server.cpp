@@ -262,6 +262,39 @@ void MakeItem(SOCKET sock)
 		}
 
 }
+void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target)
+{
+	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
+	{
+		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
+		{
+
+			if ((*bulletIter)->IsCrashtoEnemy(*enemy))
+			{
+				(*bulletIter)->SetActive(false);
+				if ((*bulletIter)->getType() == -1)
+					(*enemy)->SetHp((*enemy)->GetHp() - 10);
+				else if ((*bulletIter)->getType() == 0)
+				{
+
+					(*enemy)->SetHp((*enemy)->GetHp() - 10);
+
+				}
+
+				if ((*enemy)->GetHp() <= 0) {
+					(*enemy)->SetAlive(false);
+					//Àû
+					//send(sock,(char*)&enemyInfo,sizeof())
+				}
+				//ÃÑ¾Ë
+				//send(sock,)
+			}
+
+		}
+
+	}
+
+}
 void MakeEnemy(SOCKET sock)
 {
 	static int MonsterNumber = 0;
