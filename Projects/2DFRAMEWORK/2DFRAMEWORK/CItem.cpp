@@ -225,29 +225,29 @@ void CItem::Update()
 //	}
 //}
 
-I_BULLET::I_BULLET()
+I_BULLET::I_BULLET(ItemInfo itemInfo)
 {
 	
 }
 
 
 
-I_SUB::I_SUB()
+I_SUB::I_SUB(ItemInfo itemInfo)
 {
 
 }
 
-I_POWER::I_POWER()
+I_POWER::I_POWER(ItemInfo itemInfo)
 {
 
 }
 
-I_SKILL::I_SKILL()
+I_SKILL::I_SKILL(ItemInfo itemInfo)
 {
 
 }
 
-I_SHEILD::I_SHEILD()
+I_SHEILD::I_SHEILD(ItemInfo itemInfo)
 {
 
 }

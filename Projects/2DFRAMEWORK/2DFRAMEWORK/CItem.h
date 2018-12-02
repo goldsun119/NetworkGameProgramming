@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "MyPacket.h"
 #include "CGameObject.h"
 
 class I_BULLET;
@@ -7,6 +8,7 @@ class I_SUB;
 class I_POWER;
 class I_SKILL;
 class I_SHEILD;
+
 class CItem : public CGameObject
 {
 protected:
@@ -26,8 +28,7 @@ public:
 class I_BULLET : public CItem {
 
 public:
-
-	I_BULLET();
+	I_BULLET(ItemInfo itemInfo);
 	//virtual void Update();
 
 };
@@ -35,7 +36,7 @@ public:
 class I_SUB : public  CItem {
 
 public:
-	I_SUB();
+	I_SUB(ItemInfo itemInfo);
 	//virtual void Update();
 
 };
@@ -43,7 +44,7 @@ public:
 class I_POWER : public CItem {
 
 public:
-	I_POWER();
+	I_POWER(ItemInfo itemInfo);
 	//virtual void Update();
 
 };
@@ -51,14 +52,14 @@ public:
 class I_SKILL : public  CItem {
 
 public:
-	I_SKILL();
+	I_SKILL(ItemInfo itemInfo);
 	//virtual void Update();
 
 };
 class I_SHEILD : public  CItem {
 
 public:
-	I_SHEILD();
+	I_SHEILD(ItemInfo itemInfo);
 	//virtual void Update();
 
 };

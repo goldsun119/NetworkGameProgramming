@@ -11,6 +11,48 @@ CItem::~CItem()
 {
 }
 
+CItem::CItem(ItemInfo itemInfo)
+{
+	MyIndex = itemInfo.Index;
+	IsDraw = itemInfo.IsDraw;
+	m_Type = itemInfo.Type;
+
+	switch (m_Type)
+	{
+	case E_IPOWER:
+		//int i = rand() % 2;
+		//m_XDir = i;
+		m_Pos.x = rand() % 500;
+		m_Pos.y = rand() % 11 - 70;
+		break;
+	case E_ISHIELD:
+		//int i = rand() % 2;
+		//m_XDir = i;
+		m_Pos.x = rand() % 500;
+		m_Pos.y = rand() % 11 - 70;
+		break;
+	case E_ISKILL:
+		//int i = rand() % 2;
+		//m_XDir = i;
+		m_Pos.x = rand() % 500;
+		m_Pos.y = rand() % 11 - 70;
+		break;
+	case E_ISUB:
+		//int i = rand() % 2;
+		//m_XDir = i;
+		m_Pos.x = rand() % 500;
+		m_Pos.y = rand() % 11 - 70;
+		break;
+	case E_IBULLET:
+		//int i = rand() % 2;
+		//m_XDir = i;
+		m_Pos.x = rand() % 500;
+		m_Pos.y = rand() % 11 - 70;
+		break;
+	}
+
+}
+
 void CItem::SetDir(char c, bool b)
 {
 	switch (c) {
@@ -35,8 +77,8 @@ bool CItem::GetDir(char c) const
 		break;
 	}
 }
-void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
-{
+//void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
+//{
 	/*for (auto p = I_power.begin(); p < I_power.end();)
 	{
 		if (p->IsGet(player))
@@ -103,9 +145,32 @@ void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POW
 		else
 			++p;
 	}*/
-}
+//}
 void CItem::Update()
 {
+	switch (m_Type)
+	{
+	case E_IPOWER:
+		m_Pos.y += 2;
+
+		break;
+	case E_ISHIELD:
+		m_Pos.y += 2;
+
+		break;
+	case E_ISKILL:
+		m_Pos.y += 2;
+
+		break;
+	case E_ISUB:
+		m_Pos.y += 2;
+
+		break;
+	case E_IBULLET:
+		m_Pos.y += 2;
+
+		break;
+	}
 }
 //void CItem::Update(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
 //{
@@ -223,48 +288,3 @@ void CItem::Update()
 //			p->SetYPos(p->GetYPos() - 3);
 //	}
 //}
-
-I_BULLET::I_BULLET()
-{
-	int i = rand() % 2;
-	m_XDir = i;
-	m_Pos.x = rand() % 500;
-	m_Pos.y = rand() % 11 - 70;
-}
-
-I_SUB::I_SUB()
-{
-	int i = rand() % 2;
-	m_XDir = i;
-	m_Pos.x = rand() % 500;
-	m_Pos.y = rand() % 11 - 70;
-}
-
-I_POWER::I_POWER()
-{
-	int i = rand() % 2;
-	m_XDir = i;
-	m_Pos.x = rand() % 500;
-	m_Pos.y = rand() % 11 - 70;
-}
-
-void I_POWER::Update()
-{
-	
-}
-
-I_SKILL::I_SKILL()
-{
-	int i = rand() % 2;
-	m_XDir = i;
-	m_Pos.x = rand() % 500;
-	m_Pos.y = rand() % 11 - 70;
-}
-
-I_SHEILD::I_SHEILD()
-{
-	int i = rand() % 2;
-	m_XDir = i;
-	m_Pos.x = rand() % 500;
-	m_Pos.y = rand() % 11 - 70;
-}

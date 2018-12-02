@@ -30,6 +30,14 @@ CMyInGame::CMyInGame()
 	for (int i = 0; i < 3000; ++i) {
 		m_Monster.emplace_back(new CMonster());
 	}
+	for (int i = 0; i < 10; ++i)
+	{
+		I_bullet.emplace_back(new I_BULLET(itemInfo));
+		I_sheild.emplace_back(new I_SHEILD(itemInfo));
+		I_sub.emplace_back(new I_SUB(itemInfo));
+		I_power.emplace_back(new I_POWER(itemInfo));
+		I_skill.emplace_back(new I_SKILL(itemInfo));
+	}
 
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));
@@ -126,31 +134,36 @@ void CMyInGame::Render(HDC hdc)
 		for (vector<I_BULLET*>::iterator iter = m_Ibullet.begin();
 			iter != m_Ibullet.end(); ++iter)
 		{
-			m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->alive == true) 
+				m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 방어막
 		for (vector<I_SHEILD*>::iterator iter = m_Isheild.begin();
 			iter != m_Isheild.end(); ++iter)
 		{
-			m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->alive == true)
+				m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 궁아이템획득
 		for (vector<I_SKILL*>::iterator iter = m_Iskill.begin();
 			iter != m_Iskill.end(); ++iter)
 		{
-			m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->alive == true)
+				m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 보조
 		for (vector<I_SUB*>::iterator iter = m_Isub.begin();
 			iter != m_Isub.end(); ++iter)
 		{
-			m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->alive == true)
+				m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 강화
 		for (vector<I_POWER*>::iterator iter = I_power.begin();
 			iter != I_power.end(); ++iter)
 		{
-			m_ItemPower.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter)->alive == true)
+				m_ItemPower.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 
 		//플레이어 총알 그리기
@@ -165,7 +178,7 @@ void CMyInGame::Render(HDC hdc)
 		DeleteObject(memBit);
 		DeleteDC(memDC);
 	}
-	EndPaint(g_hWnd, &ps);
+	EndPaint(g_hWnd, &ps);	
 	
 
 }
@@ -192,7 +205,7 @@ void CMyInGame::Update()
 		break;
 	}
 	MakeEnemys();
-	//MakeItem();
+	MakeItem();
 	//for (vector<CMonster*>::iterator iter = m_Monster.begin();
 	//	iter != m_Monster.end(); ++iter)
 	//{
@@ -317,38 +330,53 @@ void CMyInGame::sendAllIngamePack() //인게임 아이템
 }
 void CMyInGame::MakeItem()
 {
-	//recv(FRAMEWORK->GetSock(), (char*)&ItemTimeCount, sizeof(ItemTimeCount), 0);
-	if (ItemTimeCount /= g_makeItem1)
-	{
-		I_power.push_back(new I_POWER());
+	int num = 0;
+	recv(FRAMEWORK->GetSock(), (char*)&num, sizeof(num), 0);
 
-		//printf("파워 생성");
-	}
-	if (ItemTimeCount /= g_makeSkill)
-	{
-		I_skill.push_back(new I_SKILL());
+		for (int i = 0; i < num; ++i)
+		{
+			recv(FRAMEWORK->GetSock(), (char*)&itemInfo, sizeof(itemInfo), 0);
+			if (itemInfo.Index < 10) {
+				switch (itemInfo.Type)
+				{
+				case E_IPOWER:
+					I_power[itemInfo.Index]->alive = true;
+					I_power[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
+					I_power[itemInfo.Index]->SetSize(10);
+					//printf("파워 생성");
+					break;
 
-		//printf("스킬 생성");
+				case E_ISKILL:
+					I_skill[itemInfo.Index]->alive = true;
+					I_skill[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
+					I_skill[itemInfo.Index]->SetSize(10);
+					//printf("스킬 생성");
+					break;
 
-	}
-	if (ItemTimeCount /= g_makeBullet)
-	{
-		I_bullet.push_back(new I_BULLET());
+				case E_IBULLET:
+					I_bullet[itemInfo.Index]->alive = true;
+					I_bullet[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
+					I_bullet[itemInfo.Index]->SetSize(10);
+					break;
 
-		//printf("보조총알 생성");
+				case E_ISUB:
+					I_sub[itemInfo.Index]->alive = true;
+					I_sub[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
+					I_sub[itemInfo.Index]->SetSize(10);
+					//printf("보조총알 생성");
+					break;
 
-	}
-	if (ItemTimeCount /= g_makeSub)
-	{
-		I_sub.push_back(new I_SUB());
+				case E_ISHIELD:
+					I_sheild[itemInfo.Index]->alive = true;
+					I_sheild[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
+					I_sheild[itemInfo.Index]->SetSize(10);
+					break;
 
-	}
-	if (ItemTimeCount /= g_makeShield)
-	{
-		I_sheild.push_back(new I_SHEILD());
-
-	}
+				}
+			}
+		}
 }
+
 void CMyInGame::MakeEnemys()
 {
 	

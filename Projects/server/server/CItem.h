@@ -1,11 +1,23 @@
 #pragma once
 #include "CGameObject.h"
 
-class I_BULLET;
-class I_SUB;
-class I_POWER;
-class I_SKILL;
-class I_SHEILD;
+enum E_ITEM
+{
+	E_ITEM,
+	E_IPOWER,
+	E_ISKILL,
+	E_ISUB,
+	E_ISHIELD,
+	E_IBULLET
+};
+#pragma pack(1)
+class ItemInfo {
+public:
+	bool IsDraw;
+	int Type;
+	POINT pos;
+	int Index;
+};
 
 class CItem : public CGameObject
 {
@@ -13,42 +25,16 @@ protected:
 	bool m_XDir, m_YDir = true;
 
 public:
+	bool IsDraw;
+	int MyIndex;
 	CItem();
 	~CItem();
+	CItem(ItemInfo itemInfo);
 	void SetDir(char c, bool b);
 	bool GetDir(char c) const;
-	void ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild);
+	int GetIndex() { return MyIndex; }
+	//void ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild);
 	virtual void Update();
 	//bool IsGet(Player& p);
 
-};
-class I_BULLET : public CItem {
-
-public:
-	I_BULLET();
-};
-
-class I_SUB : public  CItem {
-
-public:
-	I_SUB();
-};
-
-class I_POWER : public CItem {
-
-public:
-	I_POWER();
-	virtual void Update();
-};
-
-class I_SKILL : public  CItem {
-
-public:
-	I_SKILL();
-
-};
-class I_SHEILD : public  CItem {
-
-public:
-	I_SHEILD();
 };

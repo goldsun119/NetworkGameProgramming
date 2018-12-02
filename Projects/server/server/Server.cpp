@@ -9,11 +9,12 @@
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
 EnemyInfo enemyInfo;
+ItemInfo itemInfo;
 class CGameObject;
 int ClientCount = 0; //클라이언트 번호 할당
 CMonster* m_pMonster = new CMonster;
 CItem* m_pItem = new CItem;
-CItem* m_pPower = new I_POWER;
+//CItem* m_pPower = new I_POWER;
 TimeManager* m_pTime = new TimeManager();
 InputManager Input;
 DWORD KeyInput;
@@ -38,11 +39,12 @@ DWORD g_ElapsedTime;
 #define MAXOBJECTNUM 10000
 
 vector<CMonster*> m_Monster;
-vector<I_BULLET*> I_bullet;
-vector<I_SUB*> I_sub;
-vector<I_POWER*> I_power;
-vector<I_SKILL*> I_skill;
-vector<I_SHEILD*> I_sheild;
+vector<CItem*> m_Item;
+//vector<I_BULLET*> I_bullet;
+//vector<I_SUB*> I_sub;
+//vector<I_POWER*> I_power;
+//vector<I_SKILL*> I_skill;
+//vector<I_SHEILD*> I_sheild;
 typedef pair<int, string> Score;
 
 vector<Score> Rank;
@@ -56,6 +58,11 @@ float enemyTime3;
 float enemyTime4;
 float enemyTime5;
 
+float ItemTime1;
+float ItemTime2;
+float ItemTime3;
+float ItemTime4;
+float ItemTime5;
 //=======================================================================================
 void err_quit(char *msg)
 {
@@ -152,48 +159,107 @@ void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
 }
 void sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
 {
-	send(sock, (char*)&I_power, sizeof(I_power), 0);
-	send(sock, (char*)&I_skill, sizeof(I_skill), 0);
-	send(sock, (char*)&I_bullet, sizeof(I_bullet), 0);
-	send(sock, (char*)&I_sub, sizeof(I_sub), 0);
-	send(sock, (char*)&I_sheild, sizeof(I_sheild), 0);
+	//send(sock, (char*)&I_power, sizeof(I_power), 0);
+	//send(sock, (char*)&I_skill, sizeof(I_skill), 0);
+	//send(sock, (char*)&I_bullet, sizeof(I_bullet), 0);
+	//send(sock, (char*)&I_sub, sizeof(I_sub), 0);
+	//send(sock, (char*)&I_sheild, sizeof(I_sheild), 0);
+
 }
 void MakeItem(SOCKET sock)
 {
 	int iteamNumber = 0;
-	DWORD ItemTimeCount = GetTickCount();
-	ItemTimeCount += 1;
-	send(sock, (char*)&ItemTimeCount, sizeof(ItemTimeCount), 0);
-	if (ItemTimeCount /= g_makeItem1)
+	float NowTime = (float)timeGetTime() * 0.001f;
+	static int inum1 = 0;
+	static int inum2 = 0;
+	static int inum3 = 0;
+	static int inum4 = 0;
+	static int inum5 = 0;
+	if (NowTime - ItemTime1 >= 10.0f)
 	{
-		I_power.push_back(new I_POWER());
-
+		if (inum1 < 10)
+		{
+			itemInfo.Index = inum1;
+			inum1++;
+			itemInfo.IsDraw = true;
+			itemInfo.Type = E_IPOWER;
+			m_Item.push_back(new CItem(itemInfo));
+			//I_power.push_back(new I_POWER());
+			ItemTime1 = NowTime;
+		}
 		//printf("파워 생성");
 	}
-	if (ItemTimeCount /= g_makeSkill)
+	if (NowTime - ItemTime2 >= 20.0f)
 	{
-		I_skill.push_back(new I_SKILL());
+		if (inum2 < 10)
+		{
+			itemInfo.Index = inum2;
+			inum2++;
+			itemInfo.IsDraw = true;
+			itemInfo.Type = E_ISKILL;
+			m_Item.push_back(new CItem(itemInfo));
+			//I_skill.push_back(new I_SKILL());
+			ItemTime2 = NowTime;
+		}
 
 		//printf("스킬 생성");
 
 	}
-	if (ItemTimeCount /= g_makeBullet)
+	if (NowTime - ItemTime3 >=30.0f)
 	{
-		I_bullet.push_back(new I_BULLET());
-
+		if (inum3 < 10)
+		{
+			itemInfo.Index = inum3;
+			inum3++;
+			itemInfo.IsDraw = true;
+			itemInfo.Type = E_IBULLET;
+			m_Item.push_back(new CItem(itemInfo));
+			//I_bullet.push_back(new I_BULLET());
+			ItemTime3 = NowTime;
+		}
 		//printf("보조총알 생성");
 
 	}
-	if (ItemTimeCount /= g_makeSub)
+	if (NowTime - ItemTime4 >= 40.0f)
 	{
-		I_sub.push_back(new I_SUB());
+		if (inum4 < 10)
+		{
+			itemInfo.Index = inum4;
+			inum4++;
+			itemInfo.IsDraw = true;
+			itemInfo.Type = E_ISUB;
+			m_Item.push_back(new CItem(itemInfo));
+			//I_sub.push_back(new I_SUB());
+			ItemTime4 = NowTime;
+		}
 
 	}
-	if (ItemTimeCount /= g_makeShield)
+	if (NowTime - ItemTime5 >= 50.0f)
 	{
-		I_sheild.push_back(new I_SHEILD());
-
+		if (inum5 < 10)
+		{
+			itemInfo.Index = inum5;
+			inum5++;
+			itemInfo.IsDraw = true;
+			itemInfo.Type = E_ISHIELD;
+			m_Item.push_back(new CItem(itemInfo));
+			//I_sheild.push_back(new I_SHEILD());
+			ItemTime5 = NowTime;
+		}
 	}
+	int num = m_Item.size();
+	send(sock, (char*)&num, sizeof(num), 0);
+
+		for (int i = 0; i < num; ++i)
+		{
+
+			m_Item[i]->Update();
+			itemInfo.Index = m_Item[i]->MyIndex;
+			itemInfo.pos = m_Item[i]->GetPos();
+			itemInfo.Type = m_Item[i]->GetType();
+			itemInfo.IsDraw = m_Item[i]->IsDraw;
+			send(sock, (char*)&itemInfo, sizeof(itemInfo), 0);
+		}
 
 }
 void MakeEnemy(SOCKET sock)
@@ -314,6 +380,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	bool isClientnumSend = false;
 	//DWORD dwTime = GetTickCount();
 	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
+	ItemTime1 = ItemTime2 = ItemTime3 = ItemTime4 = ItemTime5 = (float)timeGetTime() * 0.001f;
 
 	/*m_pTime->m_CurrentTime = timeGetTime();
 	m_pTime->m_TimeElapsed = m_pTime->m_PrevTime;
@@ -395,7 +462,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			SendAllPlayerInfo(ClientSock, playerInfo);
 			MakeEnemy(ClientSock);
-			//MakeItem(ClientSock);
+			MakeItem(ClientSock);
 
 			//for (int i = 0; i < I_power.size(); ++i)
 			//{

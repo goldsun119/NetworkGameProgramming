@@ -37,6 +37,15 @@ public:
 };
 
 #pragma pack(1)
+class ItemInfo {
+public:
+	bool IsDraw;
+	int Type;
+	POINT pos;
+	int Index;
+};
+
+#pragma pack(1)
 class KeyIn
 {
 public:
