@@ -16,7 +16,6 @@ public:
 class PlayerInfo {
 public:
 	bool IsReady = FALSE;
-	vector<CBullet*> m_PlayerBullet;
 	POINT Pos;
 	int Hp;
 	int BulletCount;
@@ -24,6 +23,13 @@ public:
 	bool SubWeapon;
 	bool Power;
 	int Score;
+};
+
+#pragma pack(1)
+class BulletInfo {
+public:
+	bool Active;
+	POINT Pos;
 };
 
 #pragma pack(1)
