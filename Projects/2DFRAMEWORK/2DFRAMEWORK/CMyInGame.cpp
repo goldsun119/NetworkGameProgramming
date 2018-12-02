@@ -92,8 +92,6 @@ CMyInGame::~CMyInGame()
 void CMyInGame::Render(HDC hdc)
 {
 
-	int size = 50;
-
 	//m_PlayerImg = MYRENDERMANAGER->FindCImage("IngamePlayerImage")->begin()->GetCimage();
 	PAINTSTRUCT ps;
 	BeginPaint(g_hWnd, &ps);
@@ -206,6 +204,13 @@ void CMyInGame::Update()
 	}
 	MakeEnemys();
 	MakeItem();
+	if (m_pPlayer->m_PlayerBullet.size() > 0) {
+		for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
+		{
+			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+			m_pPlayer->alive = bulletInfo.Active;
+		}
+	}
 	//OBJECTMANAGER->CheckEnemybyPlayerBulletCollision(m_pPlayer->m_PlayerBullet, m_Monster);
 	
 

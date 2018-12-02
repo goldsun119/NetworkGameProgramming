@@ -8,6 +8,8 @@
 
 ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
 PlayerInfo playerInfo[2];
+
+vector<CBullet*> playerBullet[2];
 EnemyInfo enemyInfo;
 ItemInfo itemInfo;
 class CGameObject;
@@ -409,7 +411,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	//Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
 	//LeaveCriticalSection(&cs);
 
-
+	BulletInfo bulletInfo;
 	bool isClientnumSend = false;
 	//DWORD dwTime = GetTickCount();
 	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
@@ -490,14 +492,20 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			if (Input.m_KeyInput.Space)
 			{
-				playerInfo[ClientNum].m_PlayerBullet.emplace_back(new CBullet(playerInfo[ClientNum].Pos, 0));
+				playerBullet[ClientNum].emplace_back(new CBullet(playerInfo[ClientNum].Pos, 0));
 				//printf("%d번클라 스페이스바!\n",ClientNum);
 			}
 
 			SendAllPlayerInfo(ClientSock, playerInfo);
 			MakeEnemy(ClientSock);
 			MakeItem(ClientSock);
-
+			if (playerBullet[ClientNum].size() > 0) {
+				for (int i = 0; i < playerBullet[ClientNum].size(); ++i)
+				{
+					bulletInfo.Active = playerBullet[ClientNum][i]->GetActive();
+					send(ClientSock, (char*)&bulletInfo, sizeof(bulletInfo), 0);
+				}
+			}
 			//for (int i = 0; i < I_power.size(); ++i)
 			//{
 			//	if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)
@@ -635,7 +643,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//MoveEnemy();
 			//플레이어 총알
 			//이동
-			for (auto p = playerInfo[ClientNum].m_PlayerBullet.begin(); p < playerInfo[ClientNum].m_PlayerBullet.end(); ++p)
+			for (auto p = playerBullet[ClientNum].begin(); p < playerBullet[ClientNum].end(); ++p)
 			{
 				if ((*p)->GetActive())
 				{
@@ -645,18 +653,18 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			//화면 나갈 시 삭제
-			for (int i = 0; i < playerInfo[ClientNum].m_PlayerBullet.size(); ++i)
+			for (int i = 0; i < playerBullet[ClientNum].size(); ++i)
 			{
-				if (playerInfo[ClientNum].m_PlayerBullet[i]->GetYPos() > WndY)
+				if (playerBullet[ClientNum][i]->GetYPos() > WndY)
 				{
-					playerInfo[ClientNum].m_PlayerBullet[i]->SetActive(false);
-					iter_swap(playerInfo[ClientNum].m_PlayerBullet[i], playerInfo[ClientNum].m_PlayerBullet.back());
-					if (playerInfo[ClientNum].m_PlayerBullet.back())
+					playerBullet[ClientNum][i]->SetActive(false);
+					iter_swap(playerBullet[ClientNum][i], playerBullet[ClientNum].back());
+					if (playerBullet[ClientNum].back())
 					{
-						delete playerInfo[ClientNum].m_PlayerBullet.back();
-						playerInfo[ClientNum].m_PlayerBullet.back() = nullptr;
+						delete playerBullet[ClientNum].back();
+						playerBullet[ClientNum].back() = nullptr;
 					}
-					playerInfo[ClientNum].m_PlayerBullet.pop_back();
+					playerBullet[ClientNum].pop_back();
 				}
 			}
 			break;

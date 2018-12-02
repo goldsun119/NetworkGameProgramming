@@ -52,6 +52,7 @@ public:
 	PlayerInfo						playerInfo[2];
 	EnemyInfo enemyInfo;
 	ItemInfo itemInfo;
+	BulletInfo bulletInfo;
 	int iteamNumber=0;
 	int totalIndex;
 	DWORD ItemTimeCount = 0;
