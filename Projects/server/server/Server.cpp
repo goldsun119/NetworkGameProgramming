@@ -397,7 +397,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		m_pTime->m_eTime = 0.0f;
 
 		int Snum = clientinfotohandle[ClientNum].IsScene;
-
+		int idx = 0;
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
@@ -463,7 +463,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			SendAllPlayerInfo(ClientSock, playerInfo);
 			MakeEnemy(ClientSock);
 			MakeItem(ClientSock);
-
+			//===============TODO 소현=====================================
+			recv(ClientSock, (char*)&idx, sizeof(idx), 0);
+			printf("%d", idx);
+			for (int i = 0; i <= idx; ++i) 
+			{
+				recv(ClientSock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[enemyInfo.Index]->SetAlive(enemyInfo.alive);
+			}
+			//=====================================================
 			//for (int i = 0; i < I_power.size(); ++i)
 			//{
 			//	if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)
@@ -688,7 +696,8 @@ int main(int argc, char *argv[])
 	// listen()
 	retval = listen(ListenSock, SOMAXCONN);
 	if (retval == SOCKET_ERROR) err_quit("listen()");
-
+	int sockopt = TRUE;
+	setsockopt(clientinfotohandle[ClientCount].Sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&sockopt, sizeof(sockopt));
 	// 데이터 통신에 사용할 변수
 	int addrlen;
 	HANDLE hThread;

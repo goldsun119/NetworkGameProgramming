@@ -176,7 +176,8 @@ int FrameWork::MakeServer()
 	retval = connect(m_sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
 	//if (retval == SOCKET_ERROR) err_quit("connect()");
 
-	
+	int sockopt = TRUE;
+	setsockopt(m_sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&sockopt, sizeof(sockopt));
 	m_count = 0;
 }
 
