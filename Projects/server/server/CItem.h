@@ -1,23 +1,7 @@
 #pragma once
 #include "CGameObject.h"
+#include "MyPacket.h"
 
-enum E_ITEM
-{
-	E_ITEM,
-	E_IPOWER,
-	E_ISKILL,
-	E_ISUB,
-	E_ISHIELD,
-	E_IBULLET
-};
-#pragma pack(1)
-class ItemInfo {
-public:
-	bool IsDraw;
-	int Type;
-	POINT pos;
-	int Index;
-};
 
 class CItem : public CGameObject
 {

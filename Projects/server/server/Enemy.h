@@ -1,26 +1,7 @@
 #pragma once
 #include "stdafx.h"
+#include "MyPacket.h"
 #include "CGameObject.h"
-enum E_OBJECT
-{
-	E_BACKGROUND,
-	E_PLAYER,
-	E_ENEMY1,
-	E_ENEMY2,
-	E_ENEMY3,
-	E_BOSS1,
-	E_BOSS2
-};
-#pragma pack(1)
-class EnemyInfo {
-public:
-	int Index;
-	bool alive;
-	POINT pos;
-	int Type;
-	int Hp;
-};
-
 
 class CMonster : public CGameObject
 {

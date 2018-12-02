@@ -73,23 +73,23 @@ void CMonster::Update()
 	switch (m_Type)
 	{
 	case E_ENEMY1:
-		m_Pos.y += 2;
+		m_Pos.y += 1;
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY2:
-		m_Pos.y += 3;
+		m_Pos.y += 1;
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY3:
-		m_Pos.y += 4;
+		m_Pos.y += 1;
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS1:
-		m_Pos.y += 5;
+		m_Pos.y += 1;
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS2:
-		m_Pos.y += 6;
+		m_Pos.y += 1;
 		//printf("y:%d", m_Pos.y);
 		break;
 	}

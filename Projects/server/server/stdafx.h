@@ -19,11 +19,12 @@
 #include <algorithm>
 #include <time.h>
 #include <windows.h>
+
 #define SERVERPORT 9000
 #define BUFSIZE    1024
 #define WndX 419
 #define WndY 635
-#define FPS_PERSECOND 60
+#define FPS_PERSECOND 30
 
 using namespace std;
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
@@ -33,3 +34,5 @@ const DWORD KEY_RIGHT = 0x00000002;
 const DWORD KEY_UP = 0x00000004;
 const DWORD KEY_DOWN = 0x00000008;
 const DWORD KEY_SPACE = 0x00000010;
+
+#define MAXOBJECTNUM 10000

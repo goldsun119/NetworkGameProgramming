@@ -1,117 +1,17 @@
 #include "stdafx.h"
-#include "Enemy.h"
-#include "Input.h"
-#include "Player.h"
-#include "CGameObject.h"
-#include "TimerManager.h"
-#include "CItem.h"
+#include "server.h"
 
-ClientInfoToHandle clientinfotohandle[2]; //클라이언트 접속관리
-PlayerInfo playerInfo[2];
-
-vector<CBullet*> playerBullet[2];
-
-EnemyInfo enemyInfo;
-
-ItemInfo itemInfo;
-class CGameObject;
-int ClientCount = 0; //클라이언트 번호 할당
-CMonster* m_pMonster = new CMonster;
-CItem* m_pItem = new CItem;
-//CItem* m_pPower = new I_POWER;
-TimeManager* m_pTime = new TimeManager();
-InputManager Input;
-DWORD KeyInput;
-DWORD g_IngameStartTime;
-DWORD g_CurTime;
-DWORD g_PrevTime;
-DWORD g_ElapsedTime;
-#define g_makeEnemy1 200
-#define g_makeEnemy2 100
-#define g_makeEnemy3 590000000
-#define g_makeBoss1 610000000
-#define g_makeBoss2 910000000
-
-#define g_makeItem1 39000
-#define g_makeBullet 4000
-#define g_makePower 5000
-#define g_makeSkill 61000
-#define g_makeSub 40000
-
-#define g_makeShield 91000
-
-#define MAXOBJECTNUM 10000
-
-vector<CMonster*> m_Monster;
-vector<CItem*> m_Item;
-//vector<I_BULLET*> I_bullet;
-//vector<I_SUB*> I_sub;
-//vector<I_POWER*> I_power;
-//vector<I_SKILL*> I_skill;
-//vector<I_SHEILD*> I_sheild;
-typedef pair<int, string> Score;
-
-vector<Score> Rank;
-CRITICAL_SECTION cs;
-int score = 1;
-
-//===========
-float enemyTime1;
-float enemyTime2;
-float enemyTime3;
-float enemyTime4;
-float enemyTime5;
-
-float ItemTime1;
-float ItemTime2;
-float ItemTime3;
-float ItemTime4;
-float ItemTime5;
-//=======================================================================================
-void err_quit(char *msg)
-{
-	LPVOID lpMsgBuf;
-	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL, WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf, 0, NULL);
-	MessageBox(NULL, (LPCTSTR)lpMsgBuf, msg, MB_ICONERROR);
-	LocalFree(lpMsgBuf);
-	exit(1);
-}
-void err_display(char *msg)
-{
-	LPVOID lpMsgBuf;
-	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL, WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf, 0, NULL);
-	printf("[%s] %s", msg, (char *)lpMsgBuf);
-	LocalFree(lpMsgBuf);
-}
-
-int recvn(SOCKET s, char *buf, int len, int flags)
-{
-	int received;
-	char *ptr = buf;
-	int left = len;
-
-	while (left > 0) {
-		received = recv(s, ptr, left, flags);
-		if (received == SOCKET_ERROR)
-			return SOCKET_ERROR;
-		else if (received == 0)
-			break;
-		left -= received;
-		ptr += received;
-	}
-
-	return (len - left);
-}
+void err_quit(char *msg);
+void err_display(char *msg);
+int recvn(SOCKET s, char *buf, int len, int flags);
 //=============================================================
-istream& ReadInputFile(istream& in, vector<Score>& vec)
+ClientInfoToHandle clientinfotohandle[2];
+int ClientCount = 0; //클라이언트 번호 할당
+Server server;
+typedef pair<int, string> Score;
+vector<Score> Rank;
+//=============================================================
+istream&ReadInputFile(istream& in, vector<Score>& vec)
 {
 	if (in)
 	{
@@ -132,7 +32,7 @@ int SortFunc(Score a, Score b)
 	return a.first > b.first;
 }
 
-bool IsAllClientReady()
+bool Server::IsAllClientReady()
 {
 	if (playerInfo[0].IsReady == true && playerInfo[1].IsReady == true) { //11.12 소현 고친곳
 		clientinfotohandle[0].IsReady = true;
@@ -144,7 +44,7 @@ bool IsAllClientReady()
 		return false;
 	}
 }
-void SetInitData(PlayerInfo& a, int num)
+void Server::SetInitData(PlayerInfo& a, int num)
 {
 	//초기값 설정 함수로 만들자!
 	a.Pos = { (num * 200) + 100, 500 };
@@ -156,12 +56,12 @@ void SetInitData(PlayerInfo& a, int num)
 	a.Score = 0;
 }
 
-void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
+void Server::SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
 {
 	send(sock, (char*)&P[0], sizeof(P[0]), 0);//플레이어 정보 전송
 	send(sock, (char*)&P[1], sizeof(P[1]), 0);//플레이어 정보 전송
 }
-void sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
+void Server::sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
 {
 	//send(sock, (char*)&I_power, sizeof(I_power), 0);
 	//send(sock, (char*)&I_skill, sizeof(I_skill), 0);
@@ -170,8 +70,11 @@ void sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
 	//send(sock, (char*)&I_sheild, sizeof(I_sheild), 0);
 
 }
-void MakeItem(SOCKET sock)
+void Server::MakeItem(SOCKET sock)
 {
+	
+	ItemInfo itemInfo;
+	
 	int iteamNumber = 0;
 	float NowTime = (float)timeGetTime() * 0.001f;
 	static int inum1 = 0;
@@ -266,29 +169,33 @@ void MakeItem(SOCKET sock)
 		}
 
 }
-void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target)
+void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target)
 {
 	
 	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
 	{
 		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
-
+			
 			if ((*bulletIter)->IsCrashtoEnemy(*enemy))
 			{
+				//2. 여기 까지도 안들어오는데? 근데 지워져 말이되나?
+				printf("1111");
 				(*bulletIter)->SetActive(false);
-				if ((*bulletIter)->getType() == -1)
+				if ((*bulletIter)->getType() == -1) 
+				{
 					(*enemy)->SetHp((*enemy)->GetHp() - 10);
+				}
 				else if ((*bulletIter)->getType() == 0)
 				{
-
 					(*enemy)->SetHp((*enemy)->GetHp() - 10);
-
 				}
 
-				if ((*enemy)->GetHp() <= 0) {
+				if ((*enemy)->GetHp() <= 0) 
+				{
 					(*enemy)->SetAlive(false);
-				
+					
+					//1. 여기 안들어오는거 같은데 왜 죽지?
 				}
 
 			}
@@ -298,8 +205,9 @@ void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vec
 	}
 
 }
-void MakeEnemy(SOCKET sock)
+void Server::MakeEnemy(SOCKET sock)
 {
+	EnemyInfo enemyInfo;
 	
 	static int MonsterNumber = 0;
 	//g_makeEnemy1  = 3;
@@ -402,37 +310,35 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	int AddrLen;
 	AddrLen = sizeof(ClientAddr);
 	getpeername(ClientSock, (SOCKADDR*)&ClientAddr, &AddrLen);
+	//================================================================
+
+
 
 	int retval = 0;
 
 	int ClientNum = ClientCount - 1;
 	clientinfotohandle[ClientNum].PlayNum = ClientNum;
-	SetInitData(playerInfo[ClientNum], ClientNum);
+	server.SetInitData(server.playerInfo[ClientNum], ClientNum);
 
-	//EnterCriticalSection(&cs);
-	//Rank.emplace_back(make_pair(score, inet_ntoa(clientinfotohandle[ClientNum].Addr.sin_addr)));
-	//LeaveCriticalSection(&cs);
 	EnemyInfo enemyInfo;
+	ItemInfo itemInfo;
 	BulletInfo bulletInfo;
-	
-	bool isClientnumSend = false;
-	//DWORD dwTime = GetTickCount();
-	enemyTime1 = enemyTime2 = enemyTime3 = enemyTime4 = enemyTime5 = (float)timeGetTime() * 0.001f;
-	ItemTime1 = ItemTime2 = ItemTime3 = ItemTime4 = ItemTime5 = (float)timeGetTime() * 0.001f;
 
-	/*m_pTime->m_CurrentTime = timeGetTime();
-	m_pTime->m_TimeElapsed = m_pTime->m_PrevTime;
-	m_pTime->m_PrevTime = m_pTime->m_CurrentTime;
-*/
-	m_pTime->m_CurrentTime = timeGetTime();
-	m_pTime->m_eTime = m_pTime->m_CurrentTime - m_pTime->m_PrevTime;
-	m_pTime->m_eActine += m_pTime->m_eTime;
-	if (m_pTime->m_eActine > 1 / FPS_PERSECOND)
+	bool isClientnumSend = false;
+
+	//시간설정
+	server.enemyTime1 = server.enemyTime2 = server.enemyTime3 = server.enemyTime4 = server.enemyTime5 = (float)timeGetTime() * 0.001f;
+	server.ItemTime1 = server.ItemTime2 = server.ItemTime3 = server.ItemTime4 = server.ItemTime5 = (float)timeGetTime() * 0.001f;
+
+	server.m_pTime->m_CurrentTime = timeGetTime();
+	server.m_pTime->m_eTime = server.m_pTime->m_CurrentTime - server.m_pTime->m_PrevTime;
+	server.m_pTime->m_eActine += server.m_pTime->m_eTime;
+	if (server.m_pTime->m_eActine > 1 / FPS_PERSECOND)
 	{
 
 	while (true)
 	{
-		m_pTime->m_eTime = 0.0f;
+		server.m_pTime->m_eTime = 0.0f;
 
 		int Snum = clientinfotohandle[ClientNum].IsScene;
 		int idx = 0;
@@ -441,13 +347,13 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
 
-			retval = recvn(ClientSock, (char*)&playerInfo[ClientNum].IsReady, sizeof(playerInfo[ClientNum].IsReady), 0);
+			retval = recvn(ClientSock, (char*)&server.playerInfo[ClientNum].IsReady, sizeof(server.playerInfo[ClientNum].IsReady), 0);
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() IsReady");
 				break;
 			}
 
-			if (IsAllClientReady() == true) {
+			if (server.IsAllClientReady() == true) {
 				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; 
 				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
@@ -470,57 +376,61 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//g_IngameStartTime = GetTickCount();
 
 
-			retval = recvn(ClientSock, (char*)&Input.m_KeyInput, sizeof(Input.m_KeyInput), 0);   //키 입력값 받음 더좋은 방법을 찾자~
+			retval = recvn(ClientSock, (char*)&server.Input.m_KeyInput, sizeof(server.Input.m_KeyInput), 0);   //키 입력값 받음 더좋은 방법을 찾자~
 			if (retval == SOCKET_ERROR) {
 				err_display("recv() KeyInput");
 				return 0;
 				break;
 			}
 
-			if (Input.m_KeyInput.Left)
+			if (server.Input.m_KeyInput.Left)
 			{
-				playerInfo[ClientNum].Pos.x -= 3;
+				server.playerInfo[ClientNum].Pos.x -= 3;
 			}
-			if (Input.m_KeyInput.Right)
+			if (server.Input.m_KeyInput.Right)
 			{
-				playerInfo[ClientNum].Pos.x += 3;
+				server.playerInfo[ClientNum].Pos.x += 3;
 			}
-			if (Input.m_KeyInput.Up)
+			if (server.Input.m_KeyInput.Up)
 			{
-				playerInfo[ClientNum].Pos.y -= 3;
+				server.playerInfo[ClientNum].Pos.y -= 3;
 			}
-			if (Input.m_KeyInput.Down)
+			if (server.Input.m_KeyInput.Down)
 			{
-				playerInfo[ClientNum].Pos.y += 3;
+				server.playerInfo[ClientNum].Pos.y += 3;
 			}
-			if (Input.m_KeyInput.Space)
+			if (server.Input.m_KeyInput.Space)
 			{
-				playerBullet[ClientNum].emplace_back(new CBullet(playerInfo[ClientNum].Pos, 0));
+				server.playerBullet[ClientNum].emplace_back(new CBullet(server.playerInfo[ClientNum].Pos, 0));
 				//printf("%d번클라 스페이스바!\n",ClientNum);
 			}
 
-			SendAllPlayerInfo(ClientSock, playerInfo);
-			MakeEnemy(ClientSock);
-			MakeItem(ClientSock);
-			if (playerBullet[ClientNum].size() > 0) {
+			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
+			server.MakeEnemy(ClientSock); //적
+			server.MakeItem(ClientSock); //아이템
+
+			//충돌체크 및 업데이트
+			if (server.playerBullet[ClientNum].size() > 0) {
 			
-				for (int i = 0; i < playerBullet[ClientNum].size(); ++i)
+				for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
 				{
-					bulletInfo.Active = playerBullet[ClientNum][i]->GetActive();
-					bulletInfo.Pos = playerBullet[ClientNum][i]->GetPos();
+					bulletInfo.Active = server.playerBullet[ClientNum][i]->GetActive();
+					bulletInfo.Pos = server.playerBullet[ClientNum][i]->GetPos();
 					send(ClientSock, (char*)&bulletInfo, sizeof(bulletInfo), 0);
 				}
-				int Msize = m_Monster.size();
+				
+				int Msize = server.m_Monster.size();
 				send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
-				for (int i = 0; i < m_Monster.size(); ++i)
+				
+				for (int i = 0; i < server.m_Monster.size(); ++i)
 				{
-					enemyInfo.alive = m_Monster[i]->GetAlive();
-					enemyInfo.pos = m_Monster[i]->GetPos();
-					enemyInfo.Index = m_Monster[i]->GetIndex();
+					enemyInfo.alive = server.m_Monster[i]->GetAlive();
+					enemyInfo.pos = server.m_Monster[i]->GetPos();
+					enemyInfo.Index = server.m_Monster[i]->GetIndex();
 					send(ClientSock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
 				}
-				if(m_Monster.size() > 0 )
-					CheckEnemybyPlayerBulletCollision(ClientSock,playerBullet[ClientNum], m_Monster);
+				if(server.m_Monster.size() > 0 )
+					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
 			}
 			
 			//for (int i = 0; i < I_power.size(); ++i)
@@ -660,7 +570,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//MoveEnemy();
 			//플레이어 총알
 			//이동
-			for (auto p = playerBullet[ClientNum].begin(); p < playerBullet[ClientNum].end(); ++p)
+			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)
 			{
 				if ((*p)->GetActive())
 				{
@@ -670,18 +580,18 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			//화면 나갈 시 삭제
-			for (int i = 0; i < playerBullet[ClientNum].size(); ++i)
+			for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
 			{
-				if (playerBullet[ClientNum][i]->GetYPos() > WndY)
+				if (server.playerBullet[ClientNum][i]->GetYPos() > WndY)
 				{
-					playerBullet[ClientNum][i]->SetActive(false);
-					iter_swap(playerBullet[ClientNum][i], playerBullet[ClientNum].back());
-					if (playerBullet[ClientNum].back())
+					server.playerBullet[ClientNum][i]->SetActive(false);
+					iter_swap(server.playerBullet[ClientNum][i], server.playerBullet[ClientNum].back());
+					if (server.playerBullet[ClientNum].back())
 					{
-						delete playerBullet[ClientNum].back();
-						playerBullet[ClientNum].back() = nullptr;
+						delete server.playerBullet[ClientNum].back();
+						server.playerBullet[ClientNum].back() = nullptr;
 					}
-					playerBullet[ClientNum].pop_back();
+					server.playerBullet[ClientNum].pop_back();
 				}
 			}
 			break;
@@ -707,18 +617,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	return 0;
 }
 
-
-
-
-
 //
 /////////////////////////////////////////////////////
 //
 int main(int argc, char *argv[])
 {
+	
 	srand(time(NULL));
 	int retval;
-	InitializeCriticalSection(&cs);
+	InitializeCriticalSection(&server.cs);
 
 	Rank.reserve(100);
 	ifstream in("score.txt");
@@ -784,7 +691,8 @@ int main(int argc, char *argv[])
 	}
 	out.close();
 
-	DeleteCriticalSection(&cs);
+
+	DeleteCriticalSection(&server.cs);
 	closesocket(ListenSock);
 
 	// 윈속 종료
@@ -792,3 +700,48 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+
+
+
+void err_quit(char *msg)
+{
+	LPVOID lpMsgBuf;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL, WSAGetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf, 0, NULL);
+	MessageBox(NULL, (LPCTSTR)lpMsgBuf, msg, MB_ICONERROR);
+	LocalFree(lpMsgBuf);
+	exit(1);
+}
+void err_display(char *msg)
+{
+	LPVOID lpMsgBuf;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL, WSAGetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf, 0, NULL);
+	printf("[%s] %s", msg, (char *)lpMsgBuf);
+	LocalFree(lpMsgBuf);
+}
+
+int recvn(SOCKET s, char *buf, int len, int flags)
+{
+	int received;
+	char *ptr = buf;
+	int left = len;
+
+	while (left > 0) {
+		received = recv(s, ptr, left, flags);
+		if (received == SOCKET_ERROR)
+			return SOCKET_ERROR;
+		else if (received == 0)
+			break;
+		left -= received;
+		ptr += received;
+	}
+
+	return (len - left);
+}

@@ -154,6 +154,7 @@
     <ClInclude Include="CItem.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="MyPacket.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="stdafx.h" />

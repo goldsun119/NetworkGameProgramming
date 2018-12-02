@@ -13,60 +13,93 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\server">
+      <UniqueIdentifier>{d62a6140-3774-43a6-8906-d0ce7868571b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager">
+      <UniqueIdentifier>{a7ea74a1-1325-48fe-b6e5-5e919c3e0dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager\Cbullet">
+      <UniqueIdentifier>{c7474422-bd45-4032-9832-8b77eda91416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager\CMoster">
+      <UniqueIdentifier>{d3e5e513-9321-40a2-85a7-35212647889a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager\Citem">
+      <UniqueIdentifier>{4182d313-d845-4922-8e7d-374642e6a4b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager\CPlayer">
+      <UniqueIdentifier>{f5c31be0-262e-48e5-a53d-09dc4004e0e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\server\timerManager">
+      <UniqueIdentifier>{6b1a8a88-2b0e-4773-a5b3-65ab8906ab81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\server\InputManager">
+      <UniqueIdentifier>{bc550d93-742e-4fa8-8f9f-7699b27292bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\server\Main">
+      <UniqueIdentifier>{9731c74b-aee8-46c4-926e-bae63fa3fe5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\objManager\CGameObj">
+      <UniqueIdentifier>{7af1ec42-7912-4440-985f-ba53f1f8e321}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Server.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemey.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CGameObject.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>소스 파일\objManager\Cbullet</Filter>
     </ClCompile>
     <ClCompile Include="CItem.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\objManager\Citem</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Enemey.cpp">
+      <Filter>소스 파일\objManager\CMoster</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\objManager\CPlayer</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\server\timerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>소스 파일\server\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>소스 파일\server\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>소스 파일\objManager\CGameObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CGameObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CItem.h">
+    <ClInclude Include="MyPacket.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CBullet.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\objManager\Cbullet</Filter>
     </ClInclude>
-    <ClInclude Include="server.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CItem.h">
+      <Filter>소스 파일\objManager\Citem</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>소스 파일\objManager\CMoster</Filter>
     </ClInclude>
     <ClInclude Include="TimerManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\server\timerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>소스 파일\server\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="server.h">
+      <Filter>소스 파일\server\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>소스 파일\objManager\CGameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\objManager\CPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

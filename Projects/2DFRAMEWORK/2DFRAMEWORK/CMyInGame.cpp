@@ -191,9 +191,7 @@ void CMyInGame::Update()
 	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[0], sizeof(playerInfo[0]), 0);
 	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[1], sizeof(playerInfo[1]), 0);
 	
-	//ItemRecv();
-
-	switch (FRAMEWORK->m_ClientInfo.PlayNum)
+	switch (FRAMEWORK->m_ClientInfo.PlayNum) //플레이어의 위치
 	{
 	case 0:
 		m_pPlayer->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
@@ -204,8 +202,10 @@ void CMyInGame::Update()
 		m_p2Player->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
 		break;
 	}
+
 	MakeEnemys();
 	MakeItem();
+
 	if (m_pPlayer->m_PlayerBullet.size() > 0) {
 		for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
 		{
