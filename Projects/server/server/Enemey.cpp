@@ -26,7 +26,7 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 {
 	m_Type = enemyInfo.Type;
 	MyIndex = enemyInfo.Index;
-
+	alive = true;
 	switch (m_Type)
 	{
 	case E_ENEMY1:

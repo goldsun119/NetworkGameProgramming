@@ -76,13 +76,13 @@ bool CBullet::IsCrashtoEnemy(CGameObject* enemy)
 		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetYPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 		break;
 	case 2:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 		break;
 	case 3:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 		break;
 	case 4:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 200, rt2.left = enemy->GetXPos() + 50, rt2.right = enemy->GetXPos() + enemy->GetSize() - 50;
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 		break;
 	}
 

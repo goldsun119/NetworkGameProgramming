@@ -168,7 +168,7 @@ void CMyInGame::Render(HDC hdc)
 		vector<CBullet*>::iterator iter = m_pPlayer->m_PlayerBullet.begin();
 		while (iter != m_pPlayer->m_PlayerBullet.end())
 		{
-			if ((*iter)->GetActive() == true) {
+			if ((*iter)->alive == true) {
 				m_PlayerBulletImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 			}
 			iter++;

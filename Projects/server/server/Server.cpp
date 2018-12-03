@@ -178,11 +178,12 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bul
 		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
 			
-			if ((*bulletIter)->IsCrashtoEnemy(*enemy))
+			if ((*bulletIter)->IsCrashtoEnemy((*enemy)))
 			{
+
 				//2. 여기 까지도 안들어오는데? 근데 지워져 말이되나?
-				printf("1111");
-				(*bulletIter)->SetActive(false);
+				if((*enemy)->GetAlive() == true)
+					(*bulletIter)->m_IsActive = false;
 				if ((*bulletIter)->getType() == -1) 
 				{
 					(*enemy)->SetHp((*enemy)->GetHp() - 10);
@@ -410,21 +411,21 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//충돌체크 및 업데이트
 			if (server.playerBullet[ClientNum].size() > 0) {
 			
-				for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
+				for (vector<CBullet*>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
 				{
-					server.bulletInfo[ClientNum].Active = server.playerBullet[ClientNum][i]->GetActive();
-					server.bulletInfo[ClientNum].Pos = server.playerBullet[ClientNum][i]->GetPos();
+					server.bulletInfo[ClientNum].Active = (*bulletIter)->GetActive();
+					server.bulletInfo[ClientNum].Pos = (*bulletIter)->GetPos();
 					send(ClientSock, (char*)&server.bulletInfo[ClientNum], sizeof(server.bulletInfo[ClientNum]), 0);
 				}
 				
 				int Msize = server.m_Monster.size();
 				send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
 				
-				for (int i = 0; i < server.m_Monster.size(); ++i)
+				for (vector<CMonster*>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
 				{
-					server.enemyInfo[ClientNum].alive = server.m_Monster[i]->GetAlive();
-					server.enemyInfo[ClientNum].pos = server.m_Monster[i]->GetPos();
-					server.enemyInfo[ClientNum].Index = server.m_Monster[i]->GetIndex();
+					server.enemyInfo[ClientNum].alive = (*enemy)->GetAlive();
+					server.enemyInfo[ClientNum].pos = (*enemy)->GetPos();
+					server.enemyInfo[ClientNum].Index = (*enemy)->GetIndex();
 					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 				}
 				if(server.m_Monster.size() > 0 )
