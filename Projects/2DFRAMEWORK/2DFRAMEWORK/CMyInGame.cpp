@@ -30,6 +30,12 @@ CMyInGame::CMyInGame()
 	for (int i = 0; i < 3000; ++i) {
 		m_Monster.emplace_back(new CMonster());
 	}
+
+	for (int i = 0; i < 3000; ++i) {
+		m_pPlayer->m_PlayerBullet.emplace_back(new CBullet());
+		m_p2Player->m_PlayerBullet.emplace_back(new CBullet());
+	}
+
 	for (int i = 0; i < 100; ++i)
 	{
 		I_bullet.emplace_back(new I_BULLET(itemInfo));
@@ -174,6 +180,15 @@ void CMyInGame::Render(HDC hdc)
 			iter++;
 		}
 
+		//플레이어2 총알 그리기
+		iter = m_p2Player->m_PlayerBullet.begin();
+		while (iter != m_p2Player->m_PlayerBullet.end())
+		{
+			if ((*iter)->alive == true) {
+				m_PlayerBulletImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			}
+			iter++;
+		}
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
 		DeleteDC(memDC);
@@ -206,8 +221,12 @@ void CMyInGame::Update()
 	MakeEnemys();
 	MakeItem();
 
-	if (m_pPlayer->m_PlayerBullet.size() > 0) {
-		for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
+	int Bnum = 0;
+	int B2num = 0;
+	recv(FRAMEWORK->GetSock(), (char*)&Bnum, sizeof(Bnum), 0);
+
+	if (Bnum > 0) {
+		for (int i = 0; i < Bnum; ++i)
 		{
 			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
 			m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
@@ -223,7 +242,16 @@ void CMyInGame::Update()
 			m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 		}
 	}
-	
+	recv(FRAMEWORK->GetSock(), (char*)&B2num, sizeof(B2num), 0);
+
+	if (B2num > 0) {
+		for (int i = 0; i < B2num; ++i)
+		{
+			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+			m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
+			m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+		}
+	}
 }
 	
 	

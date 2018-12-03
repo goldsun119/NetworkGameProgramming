@@ -341,7 +341,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 		int Snum = clientinfotohandle[ClientNum].IsScene;
 		int idx = 0;
-	
+		int Bnum;
+
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때
 			printf("메뉴씬입니다!\n");
@@ -404,11 +405,14 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				//printf("%d번클라 스페이스바!\n",ClientNum);
 			}
 
+			server.playerInfo[ClientNum].Space = server.Input.m_KeyInput.Space;
 			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
 			server.MakeEnemy(ClientSock, ClientNum); //적
 			server.MakeItem(ClientSock, ClientNum); //아이템
 
 			//충돌체크 및 업데이트
+			Bnum = server.playerBullet[ClientNum].size();
+			send(ClientSock, (char*)&Bnum, sizeof(Bnum), 0);//총알 크기 미리 알려줌
 			if (server.playerBullet[ClientNum].size() > 0) {
 				if (server.m_Monster.size() > 0)
 					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
@@ -432,142 +436,47 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				}
 				
 			}
+
+			if (ClientNum == 0)
+			{
+				Bnum = server.playerBullet[1].size();
+				send(ClientSock, (char*)&Bnum, sizeof(Bnum), 0);//총알 크기 미리 알려줌
+				if (Bnum > 0) {
+
+					for (int i = 0; i <Bnum; ++i)
+					{
+						server.bulletInfo[1].Active = server.playerBullet[1][i]->GetActive();
+						server.bulletInfo[1].Pos = server.playerBullet[1][i]->GetPos();
+						send(ClientSock, (char*)&server.bulletInfo[1], sizeof(server.bulletInfo[1]), 0);
+					}
+					//for (vector<CBullet*>::iterator bulletIter = server.playerBullet[1].begin(); bulletIter != server.playerBullet[1].end(); ++bulletIter)
+					//{
+					//	server.bulletInfo[1].Active = (*bulletIter)->GetActive();
+					//	server.bulletInfo[1].Pos = (*bulletIter)->GetPos();
+					//	send(ClientSock, (char*)&server.bulletInfo[1], sizeof(server.bulletInfo[1]), 0);
+					//}
+				}
+			}
+			else
+			{
+				Bnum = server.playerBullet[0].size();
+				send(ClientSock, (char*)&Bnum, sizeof(Bnum), 0);//총알 크기 미리 알려줌
+				if (Bnum > 0) {
+					for (int i = 0; i < Bnum; ++i)
+					{
+						server.bulletInfo[0].Active = server.playerBullet[0][i]->GetActive();
+						server.bulletInfo[0].Pos = server.playerBullet[0][i]->GetPos();
+						send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
+					}
+				}
+					//for (vector<CBullet*>::iterator bulletIter = server.playerBullet[0].begin(); bulletIter != server.playerBullet[0].end(); ++bulletIter)
+					//{
+					//	server.bulletInfo[0].Active = (*bulletIter)->GetActive();
+					//	server.bulletInfo[0].Pos = (*bulletIter)->GetPos();
+					//	send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
+					//}
+			}
 			
-			//for (int i = 0; i < I_power.size(); ++i)
-			//{
-			//	if (I_power[i]->GetXPos() + I_power[i]->GetSize() > WndX)
-			//		I_power[i]->SetDir('x', false);
-			//	else if (I_power[i]->GetXPos() < 0)
-			//		I_power[i]->SetDir('x', true);
-
-			//	if (I_power[i]->GetYPos() + I_power[i]->GetSize() > WndY)
-			//		I_power[i]->SetDir('y', false);
-			//	else if (I_power[i]->GetYPos() < 0)
-			//		I_power[i]->SetDir('y', true);
-
-			//	if (I_power[i]->GetDir('x'))
-			//	{
-			//		I_power[i]->SetXPos(I_power[i]->GetXPos() + 3);
-			//		//printf("아이템의 x좌표: %d\n", I_power[i]->GetPos());
-			//	}
-			//	else
-			//		I_power[i]->SetXPos(I_power[i]->GetXPos() - 3);
-
-			//	if (I_power[i]->GetDir('y'))
-			//		I_power[i]->SetYPos(I_power[i]->GetYPos() + 3);
-			//	else
-			//		I_power[i]->SetYPos(I_power[i]->GetYPos() - 3);
-
-			//	//   send(ClientSock, (char*)&I_power[i]->GetPos(), sizeof(I_power[i]->GetPos()), 0);
-			//}
-
-
-			//for (int i = 0; i < I_skill.size(); ++i) // 필살기 아이템 이동
-			//{
-			//	if (I_skill[i]->GetXPos() + I_skill[i]->GetSize() > WndX)
-			//		I_skill[i]->SetDir('x', false);
-			//	else if (I_skill[i]->GetXPos() < 0)
-			//		I_skill[i]->SetDir('x', true);
-
-			//	if (I_skill[i]->GetYPos() + I_skill[i]->GetSize() > WndY)
-			//		I_skill[i]->SetDir('y', false);
-			//	else if (I_skill[i]->GetYPos() < 0)
-			//		I_skill[i]->SetDir('y', true);
-
-			//	if (I_skill[i]->GetDir('x'))
-			//		I_skill[i]->SetXPos(I_skill[i]->GetXPos() + 3);
-			//	else
-			//		I_skill[i]->SetXPos(I_skill[i]->GetXPos() - 3);
-
-			//	if (I_skill[i]->GetDir('y'))
-			//		I_skill[i]->SetYPos(I_skill[i]->GetYPos() + 3);
-			//	else
-			//		I_skill[i]->SetYPos(I_skill[i]->GetYPos() - 3);
-			//	//   send(ClientSock, (char*)&I_skill[i]->GetPos(), sizeof(I_skill[i]->GetPos()), 0);
-			//}
-
-
-
-			//for (int i = 0; i < I_bullet.size(); ++i) // 총알 아이템 이동
-			//{
-			//	if (I_bullet[i]->GetXPos() + I_bullet[i]->GetSize() > WndX)
-			//		I_bullet[i]->SetDir('x', false);
-			//	else if (I_bullet[i]->GetXPos() < 0)
-			//		I_bullet[i]->SetDir('x', true);
-
-			//	if (I_bullet[i]->GetYPos() + I_bullet[i]->GetSize() > WndY)
-			//		I_bullet[i]->SetDir('y', false);
-			//	else if (I_bullet[i]->GetYPos() < 0)
-			//		I_bullet[i]->SetDir('y', true);
-
-			//	if (I_bullet[i]->GetDir('x'))
-			//		I_bullet[i]->SetXPos(I_bullet[i]->GetXPos() + 3);
-			//	else
-			//		I_bullet[i]->SetXPos(I_bullet[i]->GetXPos() - 3);
-
-			//	if (I_bullet[i]->GetDir('y'))
-			//		I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() + 3);
-			//	else
-			//		I_bullet[i]->SetYPos(I_bullet[i]->GetYPos() - 3);
-			//	//send(ClientSock, (char*)&I_bullet[i]->GetPos(), sizeof(I_bullet[i]->GetPos()), 0);
-			//}
-
-
-
-			//for (int i = 0; i < I_sub.size(); ++i)
-			//{
-			//	if (I_sub[i]->GetXPos() + I_sub[i]->GetSize() > WndX)
-			//		I_sub[i]->SetDir('x', false);
-			//	else if (I_sub[i]->GetXPos() < 0)
-			//		I_sub[i]->SetDir('x', true);
-
-			//	if (I_sub[i]->GetYPos() + I_sub[i]->GetSize() > WndY)
-			//		I_sub[i]->SetDir('y', false);
-			//	else if (I_sub[i]->GetYPos() < 0)
-			//		I_sub[i]->SetDir('y', true);
-
-			//	if (I_sub[i]->GetDir('x'))
-			//		I_sub[i]->SetXPos(I_sub[i]->GetXPos() + 3);
-			//	else
-			//		I_sub[i]->SetXPos(I_sub[i]->GetXPos() - 3);
-
-			//	if (I_sub[i]->GetDir('y'))
-			//		I_sub[i]->SetYPos(I_sub[i]->GetYPos() + 3);
-			//	else
-			//		I_sub[i]->SetYPos(I_sub[i]->GetYPos() - 3);
-			//	//send(ClientSock, (char*)&I_sub[i]->GetPos(), sizeof(I_sub[i]->GetPos()), 0);
-			//}
-
-
-
-			//for (int i = 0; i < I_sheild.size(); ++i) // 방어 아이템 이동
-			//{
-			//	if (I_sheild[i]->GetXPos() + I_sheild[i]->GetSize() > WndX)
-			//		I_sheild[i]->SetDir('x', false);
-			//	else if (I_sheild[i]->GetXPos() < 0)
-			//		I_sheild[i]->SetDir('x', true);
-
-			//	if (I_sheild[i]->GetYPos() + I_sheild[i]->GetSize() > WndY)
-			//		I_sheild[i]->SetDir('y', false);
-			//	else if (I_sheild[i]->GetYPos() < 0)
-			//		I_sheild[i]->SetDir('y', true);
-
-			//	if (I_sheild[i]->GetDir('x'))
-			//		I_sheild[i]->SetXPos(I_sheild[i]->GetXPos() + 3);
-			//	else
-			//		I_sheild[i]->SetXPos(I_sheild[i]->GetXPos() - 3);
-
-			//	if (I_sheild[i]->GetDir('y'))
-			//		I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() + 3);
-			//	else
-			//		I_sheild[i]->SetYPos(I_sheild[i]->GetYPos() - 3);
-			//	//send(ClientSock, (char*)&I_sheild[i]->GetPos(), sizeof(I_sheild[i]->GetPos()), 0);
-			//}
-			////sendAllIngamePack(ClientSock);
-
-			//m_pItem->Update(I_bullet, I_sub, I_power, I_skill, I_sheild);
-			//m_pMonster->Update();
-			//MoveEnemy();
 			//플레이어 총알
 			//이동
 			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)

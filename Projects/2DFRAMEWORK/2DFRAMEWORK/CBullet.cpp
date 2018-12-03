@@ -4,6 +4,7 @@
 
 CBullet::CBullet()
 {
+	m_size = 20;
 }
 
 CBullet::CBullet(POINT pos, int typeNum)
@@ -73,7 +74,7 @@ bool CBullet::IsCrashtoEnemy(CGameObject* enemy)
 	switch (enemy->GetType())
 	{
 	case 1:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetYPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
 		break;
 	case 2:
 		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize() - 50, rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();

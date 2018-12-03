@@ -22,6 +22,7 @@ public:
 	bool Shield;
 	bool SubWeapon;
 	bool Power;
+	bool Space;
 	int Score;
 };
 

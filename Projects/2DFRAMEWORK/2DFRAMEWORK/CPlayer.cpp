@@ -56,14 +56,6 @@ void CPlayer::CheckKey()
 		if (Key & KEY_SPACE)
 		{
 			m_KeyInput.Space = true;
-
-			POINT TempPos = this->GetPos();
-			//위치지정
-			TempPos.x = this->GetPos().x;
-			TempPos.y = this->GetPos().y;
-			//총알만들기
-			m_PlayerBullet.emplace_back(new CBullet(TempPos, 0));
-
 		}
 		break;
 	}
