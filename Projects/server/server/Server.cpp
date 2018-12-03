@@ -5,11 +5,13 @@ void err_quit(char *msg);
 void err_display(char *msg);
 int recvn(SOCKET s, char *buf, int len, int flags);
 //=============================================================
+
 ClientInfoToHandle clientinfotohandle[2];
 int ClientCount = 0; //클라이언트 번호 할당
 Server server;
 typedef pair<int, string> Score;
 vector<Score> Rank;
+
 //=============================================================
 istream&ReadInputFile(istream& in, vector<Score>& vec)
 {
@@ -70,10 +72,9 @@ void Server::sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
 	//send(sock, (char*)&I_sheild, sizeof(I_sheild), 0);
 
 }
-void Server::MakeItem(SOCKET sock)
+void Server::MakeItem(SOCKET sock, int Cnum)
 {
 	
-	ItemInfo itemInfo;
 	
 	int iteamNumber = 0;
 	float NowTime = (float)timeGetTime() * 0.001f;
@@ -86,11 +87,11 @@ void Server::MakeItem(SOCKET sock)
 	{
 		if (inum1 < 10)
 		{
-			itemInfo.Index = inum1;
+			server.itemInfo[Cnum].Index = inum1;
 			inum1++;
-			itemInfo.IsDraw = true;
-			itemInfo.Type = E_IPOWER;
-			m_Item.push_back(new CItem(itemInfo));
+			server.itemInfo[Cnum].IsDraw = true;
+			server.itemInfo[Cnum].Type = E_IPOWER;
+			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
 			//I_power.push_back(new I_POWER());
 			ItemTime1 = NowTime;
 		}
@@ -100,11 +101,11 @@ void Server::MakeItem(SOCKET sock)
 	{
 		if (inum2 < 10)
 		{
-			itemInfo.Index = inum2;
+			server.itemInfo[Cnum].Index = inum2;
 			inum2++;
-			itemInfo.IsDraw = true;
-			itemInfo.Type = E_ISKILL;
-			m_Item.push_back(new CItem(itemInfo));
+			server.itemInfo[Cnum].IsDraw = true;
+			server.itemInfo[Cnum].Type = E_ISKILL;
+			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
 			//I_skill.push_back(new I_SKILL());
 			ItemTime2 = NowTime;
 		}
@@ -116,11 +117,11 @@ void Server::MakeItem(SOCKET sock)
 	{
 		if (inum3 < 10)
 		{
-			itemInfo.Index = inum3;
+			server.itemInfo[Cnum].Index = inum3;
 			inum3++;
-			itemInfo.IsDraw = true;
-			itemInfo.Type = E_IBULLET;
-			m_Item.push_back(new CItem(itemInfo));
+			server.itemInfo[Cnum].IsDraw = true;
+			server.itemInfo[Cnum].Type = E_IBULLET;
+			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
 			//I_bullet.push_back(new I_BULLET());
 			ItemTime3 = NowTime;
 		}
@@ -131,11 +132,11 @@ void Server::MakeItem(SOCKET sock)
 	{
 		if (inum4 < 10)
 		{
-			itemInfo.Index = inum4;
+			server.itemInfo[Cnum].Index = inum4;
 			inum4++;
-			itemInfo.IsDraw = true;
-			itemInfo.Type = E_ISUB;
-			m_Item.push_back(new CItem(itemInfo));
+			server.itemInfo[Cnum].IsDraw = true;
+			server.itemInfo[Cnum].Type = E_ISUB;
+			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
 			//I_sub.push_back(new I_SUB());
 			ItemTime4 = NowTime;
 		}
@@ -145,11 +146,11 @@ void Server::MakeItem(SOCKET sock)
 	{
 		if (inum5 < 10)
 		{
-			itemInfo.Index = inum5;
+			server.itemInfo[Cnum].Index = inum5;
 			inum5++;
-			itemInfo.IsDraw = true;
-			itemInfo.Type = E_ISHIELD;
-			m_Item.push_back(new CItem(itemInfo));
+			server.itemInfo[Cnum].IsDraw = true;
+			server.itemInfo[Cnum].Type = E_ISHIELD;
+			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
 			//I_sheild.push_back(new I_SHEILD());
 			ItemTime5 = NowTime;
 		}
@@ -161,11 +162,11 @@ void Server::MakeItem(SOCKET sock)
 		{
 
 			m_Item[i]->Update();
-			itemInfo.Index = m_Item[i]->MyIndex;
-			itemInfo.pos = m_Item[i]->GetPos();
-			itemInfo.Type = m_Item[i]->GetType();
-			itemInfo.IsDraw = m_Item[i]->IsDraw;
-			send(sock, (char*)&itemInfo, sizeof(itemInfo), 0);
+			server.itemInfo[Cnum].Index = m_Item[i]->MyIndex;
+			server.itemInfo[Cnum].pos = m_Item[i]->GetPos();
+			server.itemInfo[Cnum].Type = m_Item[i]->GetType();
+			server.itemInfo[Cnum].IsDraw = m_Item[i]->IsDraw;
+			send(sock, (char*)&server.itemInfo[Cnum], sizeof(server.itemInfo[Cnum]), 0);
 		}
 
 }
@@ -205,9 +206,9 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bul
 	}
 
 }
-void Server::MakeEnemy(SOCKET sock)
+void Server::MakeEnemy(SOCKET sock, int Cnum)
 {
-	EnemyInfo enemyInfo;
+	
 	
 	static int MonsterNumber = 0;
 	//g_makeEnemy1  = 3;
@@ -221,32 +222,32 @@ void Server::MakeEnemy(SOCKET sock)
 	if (m_pMonster->Boss2_Appear == false) {
 		if (NowTime - enemyTime1 >= 3.0f)
 		{
-			enemyInfo.Index = MonsterNumber;
+			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
-			enemyInfo.alive = true;
-			enemyInfo.Type = E_ENEMY1;
-			m_Monster.push_back(new CMonster(enemyInfo));
+			server.enemyInfo[Cnum].alive = true;
+			server.enemyInfo[Cnum].Type = E_ENEMY1;
+			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
 			//printf("1번 생성\n");
 			enemyTime1 = NowTime;
 		}
 		if (NowTime - enemyTime2 >= 5.0f)
 		{
-			enemyInfo.Index = MonsterNumber;
+			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
-			enemyInfo.alive = true;
-			enemyInfo.Type = E_ENEMY2;
-			m_Monster.push_back(new CMonster(enemyInfo));
+			server.enemyInfo[Cnum].alive = true;
+			server.enemyInfo[Cnum].Type = E_ENEMY2;
+			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
 			//printf("2번 생성\n");
 			enemyTime2 = NowTime;
 		}
 
 		if (NowTime - enemyTime3 >= 10.0f)
 		{
-			enemyInfo.Index = MonsterNumber;
+			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
-			enemyInfo.alive = true;
-			enemyInfo.Type = E_ENEMY3;
-			m_Monster.push_back(new CMonster(enemyInfo));
+			server.enemyInfo[Cnum].alive = true;
+			server.enemyInfo[Cnum].Type = E_ENEMY3;
+			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
 			//   printf("3번 생성\n");
 			enemyTime3 = NowTime;
 		}
@@ -256,11 +257,11 @@ void Server::MakeEnemy(SOCKET sock)
 	{
 		if (m_pMonster->Boss1_Appear == false)
 		{
-			enemyInfo.Index = MonsterNumber;
+			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
-			enemyInfo.alive = true;
-			enemyInfo.Type = E_BOSS1;
-			m_Monster.push_back(new CMonster(enemyInfo));
+			server.enemyInfo[Cnum].alive = true;
+			server.enemyInfo[Cnum].Type = E_BOSS1;
+			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
 			//printf("보스1 생성\n");
 
 			m_pMonster->Boss1_Appear = true;
@@ -272,11 +273,11 @@ void Server::MakeEnemy(SOCKET sock)
 	{
 		if (m_pMonster->Boss2_Appear == false)
 		{
-			enemyInfo.Index = MonsterNumber;
+			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
-			enemyInfo.alive = true;
-			enemyInfo.Type = E_BOSS2;
-			m_Monster.push_back(new CMonster(enemyInfo));
+			server.enemyInfo[Cnum].alive = true;
+			server.enemyInfo[Cnum].Type = E_BOSS2;
+			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
 			//printf("보스2 생성\n");
 
 			m_pMonster->Boss2_Appear = true;
@@ -293,12 +294,12 @@ void Server::MakeEnemy(SOCKET sock)
 	{
 
 		m_Monster[i]->Update();
-		enemyInfo.pos = m_Monster[i]->GetPos();
-		enemyInfo.Index = m_Monster[i]->GetIndex();
-		enemyInfo.Type = m_Monster[i]->GetType();
-		enemyInfo.alive = m_Monster[i]->GetAlive();
-		enemyInfo.Hp = m_Monster[i]->GetHp();
-		send(sock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
+		server.enemyInfo[Cnum].pos = m_Monster[i]->GetPos();
+		server.enemyInfo[Cnum].Index = m_Monster[i]->GetIndex();
+		server.enemyInfo[Cnum].Type = m_Monster[i]->GetType();
+		server.enemyInfo[Cnum].alive = m_Monster[i]->GetAlive();
+		server.enemyInfo[Cnum].Hp = m_Monster[i]->GetHp();
+		send(sock, (char*)&server.enemyInfo[Cnum], sizeof(server.enemyInfo[Cnum]), 0);
 	}
 }
 
@@ -320,9 +321,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	clientinfotohandle[ClientNum].PlayNum = ClientNum;
 	server.SetInitData(server.playerInfo[ClientNum], ClientNum);
 
-	EnemyInfo enemyInfo;
-	ItemInfo itemInfo;
-	BulletInfo bulletInfo;
 
 	bool isClientnumSend = false;
 
@@ -406,17 +404,17 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
-			server.MakeEnemy(ClientSock); //적
-			server.MakeItem(ClientSock); //아이템
+			server.MakeEnemy(ClientSock, ClientNum); //적
+			server.MakeItem(ClientSock, ClientNum); //아이템
 
 			//충돌체크 및 업데이트
 			if (server.playerBullet[ClientNum].size() > 0) {
 			
 				for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
 				{
-					bulletInfo.Active = server.playerBullet[ClientNum][i]->GetActive();
-					bulletInfo.Pos = server.playerBullet[ClientNum][i]->GetPos();
-					send(ClientSock, (char*)&bulletInfo, sizeof(bulletInfo), 0);
+					server.bulletInfo[ClientNum].Active = server.playerBullet[ClientNum][i]->GetActive();
+					server.bulletInfo[ClientNum].Pos = server.playerBullet[ClientNum][i]->GetPos();
+					send(ClientSock, (char*)&server.bulletInfo[ClientNum], sizeof(server.bulletInfo[ClientNum]), 0);
 				}
 				
 				int Msize = server.m_Monster.size();
@@ -424,10 +422,10 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				
 				for (int i = 0; i < server.m_Monster.size(); ++i)
 				{
-					enemyInfo.alive = server.m_Monster[i]->GetAlive();
-					enemyInfo.pos = server.m_Monster[i]->GetPos();
-					enemyInfo.Index = server.m_Monster[i]->GetIndex();
-					send(ClientSock, (char*)&enemyInfo, sizeof(enemyInfo), 0);
+					server.enemyInfo[ClientNum].alive = server.m_Monster[i]->GetAlive();
+					server.enemyInfo[ClientNum].pos = server.m_Monster[i]->GetPos();
+					server.enemyInfo[ClientNum].Index = server.m_Monster[i]->GetIndex();
+					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 				}
 				if(server.m_Monster.size() > 0 )
 					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);

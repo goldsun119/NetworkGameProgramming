@@ -11,8 +11,8 @@ class Server {
 public:
 	//클라이언트 접속관리
 	PlayerInfo playerInfo[2];
-	EnemyInfo enemyInfo;
-	ItemInfo itemInfo;
+	EnemyInfo enemyInfo[2];
+	ItemInfo itemInfo[2];
 	BulletInfo bulletInfo[2];
 	TimeManager* m_pTime = new TimeManager();
 	InputManager Input;
@@ -50,9 +50,10 @@ public:
 	void SetInitData(PlayerInfo& a, int num);
 	void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[]);
 	void sendAllIngamePack(SOCKET sock);
-	void MakeItem(SOCKET sock);
+	void MakeItem(SOCKET sock,int Cnum);
+	void MakeEnemy(SOCKET sock, int Cnum);
 	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target);
-	void MakeEnemy(SOCKET sock);
+
 	
 	
 
