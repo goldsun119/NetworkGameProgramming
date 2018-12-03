@@ -410,7 +410,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			//충돌체크 및 업데이트
 			if (server.playerBullet[ClientNum].size() > 0) {
-			
+				if (server.m_Monster.size() > 0)
+					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
+
 				for (vector<CBullet*>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
 				{
 					server.bulletInfo[ClientNum].Active = (*bulletIter)->GetActive();
@@ -428,8 +430,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					server.enemyInfo[ClientNum].Index = (*enemy)->GetIndex();
 					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 				}
-				if(server.m_Monster.size() > 0 )
-					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
+				
 			}
 			
 			//for (int i = 0; i < I_power.size(); ++i)
@@ -595,6 +596,22 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			break;
 
+			for (int i = 0; i < server.m_Monster.size(); ++i)
+			{
+				if (server.m_Monster[i]->GetYPos() < 0)
+				{
+					
+					server.m_Monster[i]->SetAlive(false);
+					iter_swap(server.m_Monster[i], server.m_Monster.back());
+					if (server.m_Monster.back())
+					{
+						delete server.m_Monster.back();
+						server.m_Monster.back() = nullptr;
+					}
+					server.m_Monster.pop_back();
+					
+				}
+			}
 			//인게임 아이템
 		   //send(ClientSock, (char*)&playerInfo[ClientNum].m_PlayerBullet, sizeof(playerInfo[ClientNum].m_PlayerBullet), 0);
 		   //게임 종료

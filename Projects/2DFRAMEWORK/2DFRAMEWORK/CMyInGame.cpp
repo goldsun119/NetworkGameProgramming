@@ -30,7 +30,7 @@ CMyInGame::CMyInGame()
 	for (int i = 0; i < 3000; ++i) {
 		m_Monster.emplace_back(new CMonster());
 	}
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		I_bullet.emplace_back(new I_BULLET(itemInfo));
 		I_sheild.emplace_back(new I_SHEILD(itemInfo));
