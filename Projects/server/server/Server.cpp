@@ -93,7 +93,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			server.itemInfo[Cnum].Type = E_IPOWER;
 			m_Item.push_back(CItem(server.itemInfo[Cnum]));
 			//I_power.push_back( I_POWER());
+			EnterCriticalSection(&cs);
 			ItemTime1 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 		//printf("颇况 积己");
 	}
@@ -107,7 +109,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			server.itemInfo[Cnum].Type = E_ISKILL;
 			m_Item.push_back(  CItem(server.itemInfo[Cnum]));
 			//I_skill.push_back( I_SKILL());
+			EnterCriticalSection(&cs);
 			ItemTime2 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 
 		//printf("胶懦 积己");
@@ -123,7 +127,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			server.itemInfo[Cnum].Type = E_IBULLET;
 			m_Item.push_back( CItem(server.itemInfo[Cnum]));
 			//I_bullet.push_back( I_BULLET());
+			EnterCriticalSection(&cs);
 			ItemTime3 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 		//printf("焊炼醚舅 积己");
 
@@ -138,7 +144,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			server.itemInfo[Cnum].Type = E_ISUB;
 			m_Item.push_back( CItem(server.itemInfo[Cnum]));
 			//I_sub.push_back( I_SUB());
+			EnterCriticalSection(&cs);
 			ItemTime4 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 
 	}
@@ -152,7 +160,10 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			server.itemInfo[Cnum].Type = E_ISHIELD;
 			m_Item.push_back( CItem(server.itemInfo[Cnum]));
 			//I_sheild.push_back( I_SHEILD());
+			
+			EnterCriticalSection(&cs);
 			ItemTime5 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 	}
 	int num = m_Item.size();
@@ -230,7 +241,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			server.enemyInfo[Cnum].Type = E_ENEMY1;
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("1锅 积己\n");
+			EnterCriticalSection(&cs);
 			enemyTime1 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 		if (NowTime - enemyTime2 >= 5.0f)
 		{
@@ -240,7 +253,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			server.enemyInfo[Cnum].Type = E_ENEMY2;
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("2锅 积己\n");
+			EnterCriticalSection(&cs);
 			enemyTime2 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 
 		if (NowTime - enemyTime3 >= 10.0f)
@@ -251,7 +266,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			server.enemyInfo[Cnum].Type = E_ENEMY3;
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//   printf("3锅 积己\n");
+			EnterCriticalSection(&cs);
 			enemyTime3 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 	}
 
@@ -267,7 +284,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			//printf("焊胶1 积己\n");
 
 			m_pMonster.Boss1_Appear = true;
+			EnterCriticalSection(&cs);
 			enemyTime4 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 	}
 
@@ -283,7 +302,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			//printf("焊胶2 积己\n");
 
 			m_pMonster.Boss2_Appear = true;
+			EnterCriticalSection(&cs);
 			enemyTime5 = NowTime;
+			LeaveCriticalSection(&cs);
 		}
 	}
 	if (MAXOBJECTNUM <= MonsterNumber) {
@@ -294,8 +315,10 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 	send(sock, (char*)&num, sizeof(num), 0);
 	for (int i = 0; i < m_Monster.size(); ++i)
 	{
-
+		EnterCriticalSection(&cs);
 		m_Monster[i].Update();
+		LeaveCriticalSection(&cs);
+		
 		server.enemyInfo[Cnum].pos = m_Monster[i].GetPos();
 		server.enemyInfo[Cnum].Index = m_Monster[i].GetIndex();
 		server.enemyInfo[Cnum].Type = m_Monster[i].GetType();

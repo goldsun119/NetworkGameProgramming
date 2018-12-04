@@ -27,7 +27,7 @@ public:
 	CItem m_pItem = CItem();
 
 	int score = 1;
-	LPCRITICAL_SECTION key;
+	
 	CRITICAL_SECTION cs;
 	//=====OBJTIME======
 	float enemyTime1;
