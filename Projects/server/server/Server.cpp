@@ -170,7 +170,7 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 		}
 
 }
-void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> Bullet, vector<CMonster> Target)
+void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bullet, vector<CMonster> &Target)
 {
 	
 	for (vector<CBullet>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)

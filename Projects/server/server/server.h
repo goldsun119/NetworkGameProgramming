@@ -52,7 +52,7 @@ public:
 	void sendAllIngamePack(SOCKET sock);
 	void MakeItem(SOCKET sock,int Cnum);
 	void MakeEnemy(SOCKET sock, int Cnum);
-	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> Bullet, vector<CMonster> Target);
+	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
 
 	
 	
