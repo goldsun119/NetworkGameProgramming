@@ -177,29 +177,30 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bul
 	{
 		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
-			
-			if ((*bulletIter)->IsCrashtoEnemy((*enemy)))
-			{
-
-				//2. 여기 까지도 안들어오는데? 근데 지워져 말이되나?
-				if((*enemy)->GetAlive() == true)
-					(*bulletIter)->m_IsActive = false;
-				if ((*bulletIter)->getType() == -1) 
+			if ((*bulletIter)->m_IsActive == true && (*enemy)->GetAlive() == true) {
+				if ((*bulletIter)->IsCrashtoEnemy((*enemy)))
 				{
-					(*enemy)->SetHp((*enemy)->GetHp() - 10);
-				}
-				else if ((*bulletIter)->getType() == 0)
-				{
-					(*enemy)->SetHp((*enemy)->GetHp() - 10);
-				}
 
-				if ((*enemy)->GetHp() <= 0) 
-				{
-					(*enemy)->SetAlive(false);
-					
-					//1. 여기 안들어오는거 같은데 왜 죽지?
-				}
 
+					if ((*enemy)->GetAlive() == true)
+						(*bulletIter)->m_IsActive = false;
+					if ((*bulletIter)->getType() == -1)
+					{
+						(*enemy)->SetHp((*enemy)->GetHp() - 10);
+					}
+					else if ((*bulletIter)->getType() == 0)
+					{
+						(*enemy)->SetHp((*enemy)->GetHp() - 10);
+					}
+
+					if ((*enemy)->GetHp() <= 0)
+					{
+						(*enemy)->SetAlive(false);
+
+						//1. 여기 안들어오는거 같은데 왜 죽지?
+					}
+
+				}
 			}
 
 		}
