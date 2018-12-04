@@ -15,7 +15,7 @@ protected:
 
 	int m_size;
 	int m_hp;
-	static CGameObject* AllObjectList[MAXOBJECTNUM];
+	static CGameObject AllObjectList[MAXOBJECTNUM];
 	static unsigned long ObjIndex;
 
 	unsigned long myIdx;

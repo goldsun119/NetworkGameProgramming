@@ -1,19 +1,19 @@
 #include "stdafx.h"
 #include "CGameObject.h"
 
-CGameObject* CGameObject::AllObjectList[MAXOBJECTNUM] = { nullptr, };
+CGameObject CGameObject::AllObjectList[MAXOBJECTNUM] = {  };
 unsigned long CGameObject::ObjIndex = 0;
 
 CGameObject::CGameObject()
 {
-	while (AllObjectList[ObjIndex] != nullptr)
-	{
-		ObjIndex %= MAXOBJECTNUM;
-		++ObjIndex;
-	}
-	AllObjectList[ObjIndex] = this;
-	myIdx = ObjIndex;
-	++ObjIndex;
+	//while (AllObjectList[ObjIndex] != NULL)
+	//{
+	//	ObjIndex %= MAXOBJECTNUM;
+	//	++ObjIndex;
+	//}
+	//AllObjectList[ObjIndex] = (*this);
+	//myIdx = ObjIndex;
+	//++ObjIndex;
 }
 
 
@@ -34,7 +34,7 @@ CGameObject::CGameObject()
 
 CGameObject::~CGameObject()
 {
-	AllObjectList[myIdx] = nullptr;
+	//AllObjectList[myIdx] = nullptr;
 }
 
 unsigned long CGameObject::GetMyIdx()

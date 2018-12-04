@@ -14,17 +14,17 @@ public:
 	EnemyInfo enemyInfo[2];
 	ItemInfo itemInfo[2];
 	BulletInfo bulletInfo[2];
-	TimeManager* m_pTime = new TimeManager();
+	TimeManager m_pTime = TimeManager();
 	InputManager Input;
 	DWORD KeyInput;
 	
 
-	vector<CBullet*> playerBullet[2];
-	vector<CMonster*> m_Monster;
-	vector<CItem*> m_Item;
+	vector<CBullet> playerBullet[2];
+	vector<CMonster> m_Monster;
+	vector<CItem> m_Item;
 
-	CMonster* m_pMonster = new CMonster;
-	CItem* m_pItem = new CItem;
+	CMonster m_pMonster = CMonster{};
+	CItem m_pItem = CItem();
 
 	int score = 1;
 	LPCRITICAL_SECTION key;
@@ -52,7 +52,7 @@ public:
 	void sendAllIngamePack(SOCKET sock);
 	void MakeItem(SOCKET sock,int Cnum);
 	void MakeEnemy(SOCKET sock, int Cnum);
-	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target);
+	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> Bullet, vector<CMonster> Target);
 
 	
 	

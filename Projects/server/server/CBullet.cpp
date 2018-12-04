@@ -67,23 +67,23 @@ CBullet::~CBullet()
 {
 }
 
-bool CBullet::IsCrashtoEnemy(CGameObject* enemy)
+bool CBullet::IsCrashtoEnemy(CGameObject enemy)
 {
 	RECT rt1, rt2, rt3;
 	rt1.top = m_Pos.y, rt1.bottom = m_Pos.y + m_size, rt1.left = m_Pos.x, rt1.right = m_Pos.x + m_size;
-	switch (enemy->GetType())
+	switch (enemy.GetType())
 	{
 	case 1:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy.GetYPos(), rt2.bottom = enemy.GetYPos() + enemy.GetSize(), rt2.left = enemy.GetXPos(), rt2.right = enemy.GetXPos() + enemy.GetSize();
 		break;
 	case 2:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy.GetYPos(), rt2.bottom = enemy.GetYPos() + enemy.GetSize(), rt2.left = enemy.GetXPos(), rt2.right = enemy.GetXPos() + enemy.GetSize();
 		break;
 	case 3:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy.GetYPos(), rt2.bottom = enemy.GetYPos() + enemy.GetSize(), rt2.left = enemy.GetXPos(), rt2.right = enemy.GetXPos() + enemy.GetSize();
 		break;
 	case 4:
-		rt2.top = enemy->GetYPos(), rt2.bottom = enemy->GetYPos() + enemy->GetSize(), rt2.left = enemy->GetXPos(), rt2.right = enemy->GetXPos() + enemy->GetSize();
+		rt2.top = enemy.GetYPos(), rt2.bottom = enemy.GetYPos() + enemy.GetSize(), rt2.left = enemy.GetXPos(), rt2.right = enemy.GetXPos() + enemy.GetSize();
 		break;
 	}
 

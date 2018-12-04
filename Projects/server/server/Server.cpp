@@ -91,8 +91,8 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum1++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_IPOWER;
-			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
-			//I_power.push_back(new I_POWER());
+			m_Item.push_back(CItem(server.itemInfo[Cnum]));
+			//I_power.push_back( I_POWER());
 			ItemTime1 = NowTime;
 		}
 		//printf("파워 생성");
@@ -105,8 +105,8 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum2++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISKILL;
-			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
-			//I_skill.push_back(new I_SKILL());
+			m_Item.push_back(  CItem(server.itemInfo[Cnum]));
+			//I_skill.push_back( I_SKILL());
 			ItemTime2 = NowTime;
 		}
 
@@ -121,8 +121,8 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum3++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_IBULLET;
-			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
-			//I_bullet.push_back(new I_BULLET());
+			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			//I_bullet.push_back( I_BULLET());
 			ItemTime3 = NowTime;
 		}
 		//printf("보조총알 생성");
@@ -136,8 +136,8 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum4++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISUB;
-			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
-			//I_sub.push_back(new I_SUB());
+			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			//I_sub.push_back( I_SUB());
 			ItemTime4 = NowTime;
 		}
 
@@ -150,8 +150,8 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum5++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISHIELD;
-			m_Item.push_back(new CItem(server.itemInfo[Cnum]));
-			//I_sheild.push_back(new I_SHEILD());
+			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			//I_sheild.push_back( I_SHEILD());
 			ItemTime5 = NowTime;
 		}
 	}
@@ -161,41 +161,41 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 		for (int i = 0; i < num; ++i)
 		{
 
-			m_Item[i]->Update();
-			server.itemInfo[Cnum].Index = m_Item[i]->MyIndex;
-			server.itemInfo[Cnum].pos = m_Item[i]->GetPos();
-			server.itemInfo[Cnum].Type = m_Item[i]->GetType();
-			server.itemInfo[Cnum].IsDraw = m_Item[i]->IsDraw;
+			m_Item[i].Update();
+			server.itemInfo[Cnum].Index = m_Item[i].MyIndex;
+			server.itemInfo[Cnum].pos = m_Item[i].GetPos();
+			server.itemInfo[Cnum].Type = m_Item[i].GetType();
+			server.itemInfo[Cnum].IsDraw = m_Item[i].IsDraw;
 			send(sock, (char*)&server.itemInfo[Cnum], sizeof(server.itemInfo[Cnum]), 0);
 		}
 
 }
-void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet*> Bullet, vector<CMonster*> Target)
+void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> Bullet, vector<CMonster> Target)
 {
 	
-	for (vector<CBullet*>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
+	for (vector<CBullet>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
 	{
-		for (vector<CMonster*>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
+		for (vector<CMonster>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
-			if ((*bulletIter)->m_IsActive == true && (*enemy)->GetAlive() == true) {
-				if ((*bulletIter)->IsCrashtoEnemy((*enemy)))
+			if (bulletIter->m_IsActive == true && enemy->GetAlive() == true) {
+				if (bulletIter->IsCrashtoEnemy(*enemy))
 				{
 
 
-					if ((*enemy)->GetAlive() == true)
-						(*bulletIter)->m_IsActive = false;
-					if ((*bulletIter)->getType() == -1)
+					if (enemy->GetAlive() == true)
+						bulletIter->m_IsActive = false;
+					if (bulletIter->getType() == -1)
 					{
-						(*enemy)->SetHp((*enemy)->GetHp() - 10);
+						enemy->SetHp(enemy->GetHp() - 10);
 					}
-					else if ((*bulletIter)->getType() == 0)
+					else if (bulletIter->getType() == 0)
 					{
-						(*enemy)->SetHp((*enemy)->GetHp() - 10);
+						enemy->SetHp(enemy->GetHp() - 10);
 					}
 
-					if ((*enemy)->GetHp() <= 0)
+					if (enemy->GetHp() <= 0)
 					{
-						(*enemy)->SetAlive(false);
+						enemy->SetAlive(false);
 
 						//1. 여기 안들어오는거 같은데 왜 죽지?
 					}
@@ -219,16 +219,16 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 	
 	//maketime = maketime - time;
 	//maketime += 1;
-	//m_Monster.push_back(new CMonster(E_ENEMY1));
+	//m_Monster.push_back( CMonster(E_ENEMY1));
 	//send(sock, (char*)&maketime, sizeof(maketime), 0);
-	if (m_pMonster->Boss2_Appear == false) {
+	if (m_pMonster.Boss2_Appear == false) {
 		if (NowTime - enemyTime1 >= 3.0f)
 		{
 			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY1;
-			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
+			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("1번 생성\n");
 			enemyTime1 = NowTime;
 		}
@@ -238,7 +238,7 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY2;
-			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
+			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("2번 생성\n");
 			enemyTime2 = NowTime;
 		}
@@ -249,7 +249,7 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY3;
-			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
+			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//   printf("3번 생성\n");
 			enemyTime3 = NowTime;
 		}
@@ -257,32 +257,32 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 
 	if (NowTime - enemyTime4 >= 50.0f)
 	{
-		if (m_pMonster->Boss1_Appear == false)
+		if (m_pMonster.Boss1_Appear == false)
 		{
 			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_BOSS1;
-			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
+			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("보스1 생성\n");
 
-			m_pMonster->Boss1_Appear = true;
+			m_pMonster.Boss1_Appear = true;
 			enemyTime4 = NowTime;
 		}
 	}
 
 	if (NowTime - enemyTime5 >= 80.0f)
 	{
-		if (m_pMonster->Boss2_Appear == false)
+		if (m_pMonster.Boss2_Appear == false)
 		{
 			server.enemyInfo[Cnum].Index = MonsterNumber;
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_BOSS2;
-			m_Monster.push_back(new CMonster(server.enemyInfo[Cnum]));
+			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
 			//printf("보스2 생성\n");
 
-			m_pMonster->Boss2_Appear = true;
+			m_pMonster.Boss2_Appear = true;
 			enemyTime5 = NowTime;
 		}
 	}
@@ -295,12 +295,12 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 	for (int i = 0; i < m_Monster.size(); ++i)
 	{
 
-		m_Monster[i]->Update();
-		server.enemyInfo[Cnum].pos = m_Monster[i]->GetPos();
-		server.enemyInfo[Cnum].Index = m_Monster[i]->GetIndex();
-		server.enemyInfo[Cnum].Type = m_Monster[i]->GetType();
-		server.enemyInfo[Cnum].alive = m_Monster[i]->GetAlive();
-		server.enemyInfo[Cnum].Hp = m_Monster[i]->GetHp();
+		m_Monster[i].Update();
+		server.enemyInfo[Cnum].pos = m_Monster[i].GetPos();
+		server.enemyInfo[Cnum].Index = m_Monster[i].GetIndex();
+		server.enemyInfo[Cnum].Type = m_Monster[i].GetType();
+		server.enemyInfo[Cnum].alive = m_Monster[i].GetAlive();
+		server.enemyInfo[Cnum].Hp = m_Monster[i].GetHp();
 		send(sock, (char*)&server.enemyInfo[Cnum], sizeof(server.enemyInfo[Cnum]), 0);
 	}
 }
@@ -330,15 +330,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	server.enemyTime1 = server.enemyTime2 = server.enemyTime3 = server.enemyTime4 = server.enemyTime5 = (float)timeGetTime() * 0.001f;
 	server.ItemTime1 = server.ItemTime2 = server.ItemTime3 = server.ItemTime4 = server.ItemTime5 = (float)timeGetTime() * 0.001f;
 
-	server.m_pTime->m_CurrentTime = timeGetTime();
-	server.m_pTime->m_eTime = server.m_pTime->m_CurrentTime - server.m_pTime->m_PrevTime;
-	server.m_pTime->m_eActine += server.m_pTime->m_eTime;
-	if (server.m_pTime->m_eActine > 1 / FPS_PERSECOND)
+	server.m_pTime.m_CurrentTime = timeGetTime();
+	server.m_pTime.m_eTime = server.m_pTime.m_CurrentTime - server.m_pTime.m_PrevTime;
+	server.m_pTime.m_eActine += server.m_pTime.m_eTime;
+	if (server.m_pTime.m_eActine > 1 / FPS_PERSECOND)
 	{
 
 	while (true)
 	{
-		server.m_pTime->m_eTime = 0.0f;
+		server.m_pTime.m_eTime = 0.0f;
 
 		int Snum = clientinfotohandle[ClientNum].IsScene;
 		int idx = 0;
@@ -402,7 +402,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			if (server.Input.m_KeyInput.Space)
 			{
-				server.playerBullet[ClientNum].emplace_back(new CBullet(server.playerInfo[ClientNum].Pos, 0));
+				server.playerBullet[ClientNum].emplace_back( CBullet(server.playerInfo[ClientNum].Pos, 0));
 				//printf("%d번클라 스페이스바!\n",ClientNum);
 			}
 
@@ -418,21 +418,21 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				if (server.m_Monster.size() > 0)
 					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
 
-				for (vector<CBullet*>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
+				for (vector<CBullet>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
 				{
-					server.bulletInfo[ClientNum].Active = (*bulletIter)->GetActive();
-					server.bulletInfo[ClientNum].Pos = (*bulletIter)->GetPos();
+					server.bulletInfo[ClientNum].Active = bulletIter->GetActive();
+					server.bulletInfo[ClientNum].Pos = bulletIter->GetPos();
 					send(ClientSock, (char*)&server.bulletInfo[ClientNum], sizeof(server.bulletInfo[ClientNum]), 0);
 				}
 				
 				int Msize = server.m_Monster.size();
 				send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
 				
-				for (vector<CMonster*>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
+				for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
 				{
-					server.enemyInfo[ClientNum].alive = (*enemy)->GetAlive();
-					server.enemyInfo[ClientNum].pos = (*enemy)->GetPos();
-					server.enemyInfo[ClientNum].Index = (*enemy)->GetIndex();
+					server.enemyInfo[ClientNum].alive = enemy->GetAlive();
+					server.enemyInfo[ClientNum].pos = enemy->GetPos();
+					server.enemyInfo[ClientNum].Index = (*enemy).GetIndex();
 					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 				}
 				
@@ -446,14 +446,14 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 					for (int i = 0; i <Bnum; ++i)
 					{
-						server.bulletInfo[1].Active = server.playerBullet[1][i]->GetActive();
-						server.bulletInfo[1].Pos = server.playerBullet[1][i]->GetPos();
+						server.bulletInfo[1].Active = server.playerBullet[1][i].GetActive();
+						server.bulletInfo[1].Pos = server.playerBullet[1][i].GetPos();
 						send(ClientSock, (char*)&server.bulletInfo[1], sizeof(server.bulletInfo[1]), 0);
 					}
 					//for (vector<CBullet*>::iterator bulletIter = server.playerBullet[1].begin(); bulletIter != server.playerBullet[1].end(); ++bulletIter)
 					//{
-					//	server.bulletInfo[1].Active = (*bulletIter)->GetActive();
-					//	server.bulletInfo[1].Pos = (*bulletIter)->GetPos();
+					//	server.bulletInfo[1].Active = bulletIter.GetActive();
+					//	server.bulletInfo[1].Pos = bulletIter.GetPos();
 					//	send(ClientSock, (char*)&server.bulletInfo[1], sizeof(server.bulletInfo[1]), 0);
 					//}
 				}
@@ -465,15 +465,15 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				if (Bnum > 0) {
 					for (int i = 0; i < Bnum; ++i)
 					{
-						server.bulletInfo[0].Active = server.playerBullet[0][i]->GetActive();
-						server.bulletInfo[0].Pos = server.playerBullet[0][i]->GetPos();
+						server.bulletInfo[0].Active = server.playerBullet[0][i].GetActive();
+						server.bulletInfo[0].Pos = server.playerBullet[0][i].GetPos();
 						send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
 					}
 				}
 					//for (vector<CBullet*>::iterator bulletIter = server.playerBullet[0].begin(); bulletIter != server.playerBullet[0].end(); ++bulletIter)
 					//{
-					//	server.bulletInfo[0].Active = (*bulletIter)->GetActive();
-					//	server.bulletInfo[0].Pos = (*bulletIter)->GetPos();
+					//	server.bulletInfo[0].Active = bulletIter.GetActive();
+					//	server.bulletInfo[0].Pos = bulletIter.GetPos();
 					//	send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
 					//}
 			}
@@ -482,25 +482,20 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//이동
 			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)
 			{
-				if ((*p)->GetActive())
+				if ((*p).GetActive())
 				{
-					(*p)->SetYPos((*p)->GetYPos() - 13);
-					//printf("%d", (*p)->GetYPos());
+					(*p).SetYPos((*p).GetYPos() - 13);
+					//printf("%d", (*p).GetYPos());
 				}
 			}
 
 			//화면 나갈 시 삭제
 			for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
 			{
-				if (server.playerBullet[ClientNum][i]->GetYPos() > WndY)
+				if (server.playerBullet[ClientNum][i].GetYPos() > WndY)
 				{
-					server.playerBullet[ClientNum][i]->SetActive(false);
-					iter_swap(server.playerBullet[ClientNum][i], server.playerBullet[ClientNum].back());
-					if (server.playerBullet[ClientNum].back())
-					{
-						delete server.playerBullet[ClientNum].back();
-						server.playerBullet[ClientNum].back() = nullptr;
-					}
+					server.playerBullet[ClientNum][i].SetActive(false);
+					swap(server.playerBullet[ClientNum][i], server.playerBullet[ClientNum].back());
 					server.playerBullet[ClientNum].pop_back();
 				}
 			}
@@ -508,16 +503,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			for (int i = 0; i < server.m_Monster.size(); ++i)
 			{
-				if (server.m_Monster[i]->GetYPos() < 0)
+				if (server.m_Monster[i].GetYPos() < 0)
 				{
 					
-					server.m_Monster[i]->SetAlive(false);
-					iter_swap(server.m_Monster[i], server.m_Monster.back());
-					if (server.m_Monster.back())
-					{
-						delete server.m_Monster.back();
-						server.m_Monster.back() = nullptr;
-					}
+					server.m_Monster[i].SetAlive(false);
+					swap(server.m_Monster[i], server.m_Monster.back());
 					server.m_Monster.pop_back();
 					
 				}
@@ -528,7 +518,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		case E_Scene::E_GAMEOVER:
 			//EnterCriticalSection(&cs);
 			//for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
-			//   cout << iter->second << " " << iter->first << endl;
+			//   cout << iter.second << " " << iter.first << endl;
 			//LeaveCriticalSection(&cs);
 			break;
 			//랭크 출력
@@ -546,7 +536,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 //
 /////////////////////////////////////////////////////
 //
-int main(int argc, char *argv[])
+int main(int argc, char argv[])
 {
 	
 	srand(time(NULL));
