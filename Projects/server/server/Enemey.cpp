@@ -24,6 +24,8 @@ CMonster::CMonster()
 }
 CMonster::CMonster(EnemyInfo enemyInfo)
 {
+
+	
 	m_Type = enemyInfo.Type;
 	MyIndex = enemyInfo.Index;
 	alive = true;
@@ -31,17 +33,20 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 	{
 	case E_ENEMY1:
 		m_Pos.x = rand() % 500;
-		m_Pos.y = -70;
-
+		m_Pos.y = -20;
+		/*for(int i = 0;i<50;++i)
+			m_MonsterBullet.emplace_back(this->m_Pos, 1);*/
 		//printf("x: %d, y: %d", m_Pos.x, m_Pos.y);
 		m_size = 45;
 		m_hp = 20;
 		break;
 	case E_ENEMY2:
 		m_Pos.x = rand() % 500;
-		m_Pos.y = -70;
+		m_Pos.y = -20;
 		m_size = 70;
 		m_hp = 30;
+		//m_MonsterBullet.emplace_back(CBullet(m_Pos, ));;
+
 		break;
 	case E_ENEMY3:
 		m_Pos.x = 220;
@@ -74,6 +79,15 @@ void CMonster::Update()
 	{
 	case E_ENEMY1:
 		m_Pos.y += 1;
+		/*if (this->alive)
+		{
+			enemy_bullet1.emplace_back(CBullet(this->GetPos(), 1));
+		}*/
+		//for (int i = 0; i < m_MonsterBullet.size(); ++i)
+		//{
+		//	m_MonsterBullet[i].SetYPos(this->GetYPos() + 2);
+		//	//printf("y:%d\n", m_MonsterBullet[i].GetYPos());
+		//}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY2:
@@ -93,6 +107,11 @@ void CMonster::Update()
 		//printf("y:%d", m_Pos.y);
 		break;
 	}
-
+	//몬스터1 총알 이동
+	for (int i = 0; i < enemy_bullet1.size(); ++i)
+	{
+		enemy_bullet1[i].SetYPos(enemy_bullet1[i].GetYPos()-5);
+		printf("y:%d\n", enemy_bullet1[i].GetYPos() - 5);
+	}
 }
 

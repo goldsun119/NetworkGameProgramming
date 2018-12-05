@@ -51,7 +51,3 @@ void CGameObject::Render(HDC m_hdc)
 
 }
 
-//void Player::Draw(HDC memdc)
-//{
-//	//MYRENDERMANAGER->Render(memdc, name, pos, width, height);
-//}
