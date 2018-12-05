@@ -63,134 +63,185 @@ void Server::SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
 	send(sock, (char*)&P[0], sizeof(P[0]), 0);//플레이어 정보 전송
 	send(sock, (char*)&P[1], sizeof(P[1]), 0);//플레이어 정보 전송
 }
-void Server::sendAllIngamePack(SOCKET sock) //인게임 아이템과 총알
+void Server::CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player)
 {
-	//send(sock, (char*)&I_power, sizeof(I_power), 0);
-	//send(sock, (char*)&I_skill, sizeof(I_skill), 0);
-	//send(sock, (char*)&I_bullet, sizeof(I_bullet), 0);
-	//send(sock, (char*)&I_sub, sizeof(I_sub), 0);
-	//send(sock, (char*)&I_sheild, sizeof(I_sheild), 0);
+	for (vector<CItem>::iterator p = item.begin(); p < item.end(); ++p)
+
+	{
+		if (p->alive == true)
+		{
+			if (p->IsGetItem(player))
+			{
+
+				switch (p->GetType())
+				{
+				case E_IPOWER:
+					if (!player.Power)
+						player.Power = true;
+						p->alive = false;
+						printf("호호우");
+					//p = item.erasep;
+					break;
+				case E_ISHIELD:
+					if (!player.Shield)
+						player.Shield = true;
+						p->alive = false;
+						
+					//p = item.erasep;
+					break;
+				case E_ISKILL:
+					if (!player.skill)
+						player.skill = true;
+						p->alive = false;
+					
+					//p = item.erasep;
+					break;
+				case E_ISUB:
+					if (!player.SubWeapon)
+						player.SubWeapon = true;
+						p->alive = false;
+					
+
+					//p = item.erasep;
+					break;
+				case E_IBULLET:
+					if (player.BulletCount < 3)
+						player.BulletCount += 1;
+						p->alive = false;
+						//printf("으후");
+
+					//p = item.erasep;
+					break;
+				}
+
+			}
+		}
+
+	}
 
 }
+
 void Server::MakeItem(SOCKET sock, int Cnum)
 {
 	
 	
-	int iteamNumber = 0;
+	int itemNumber = 0;
 	float NowTime = (float)timeGetTime() * 0.001f;
 	static int inum1 = 0;
 	static int inum2 = 0;
 	static int inum3 = 0;
 	static int inum4 = 0;
 	static int inum5 = 0;
-	if (NowTime - ItemTime1 >= 10.0f)
-	{
-		if (inum1 < 10)
+	if (itemNumber < 10) {
+		if (NowTime - ItemTime1 >= 10.0f)
 		{
-			server.itemInfo[Cnum].Index = inum1;
-			inum1++;
-			server.itemInfo[Cnum].IsDraw = true;
-			server.itemInfo[Cnum].Type = E_IPOWER;
-			EnterCriticalSection(&cs);
-			server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//I_power.push_back( I_POWER());
-			EnterCriticalSection(&cs);
-			ItemTime1 = NowTime;
-			LeaveCriticalSection(&cs);
+			if (inum1 < 10)
+			{
+				server.itemInfo[Cnum].Index = inum1;
+				inum1++;
+				server.itemInfo[Cnum].alive = true;
+				server.itemInfo[Cnum].Type = E_IPOWER;
+				EnterCriticalSection(&cs);
+				server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+				LeaveCriticalSection(&cs);
+				//I_power.push_back( I_POWER());
+				EnterCriticalSection(&cs);
+				ItemTime1 = NowTime;
+				LeaveCriticalSection(&cs);
+			}
+			//printf("파워 생성");
 		}
-		//printf("파워 생성");
-	}
-	if (NowTime - ItemTime2 >= 20.0f)
-	{
-		if (inum2 < 10)
+		if (NowTime - ItemTime2 >= 20.0f)
 		{
-			server.itemInfo[Cnum].Index = inum2;
-			inum2++;
-			server.itemInfo[Cnum].IsDraw = true;
-			server.itemInfo[Cnum].Type = E_ISKILL;
-			EnterCriticalSection(&cs);
-			server.m_Item.push_back(  CItem(server.itemInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//I_skill.push_back( I_SKILL());
-			EnterCriticalSection(&cs);
-			ItemTime2 = NowTime;
-			LeaveCriticalSection(&cs);
+			if (inum2 < 10)
+			{
+				server.itemInfo[Cnum].Index = inum2;
+				inum2++;
+				server.itemInfo[Cnum].alive = true;
+				server.itemInfo[Cnum].Type = E_ISKILL;
+				EnterCriticalSection(&cs);
+				server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+				LeaveCriticalSection(&cs);
+				//I_skill.push_back( I_SKILL());
+				EnterCriticalSection(&cs);
+				ItemTime2 = NowTime;
+				LeaveCriticalSection(&cs);
+			}
+
+			//printf("스킬 생성");
+
 		}
-
-		//printf("스킬 생성");
-
-	}
-	if (NowTime - ItemTime3 >=30.0f)
-	{
-		if (inum3 < 10)
+		if (NowTime - ItemTime3 >= 30.0f)
 		{
-			server.itemInfo[Cnum].Index = inum3;
-			inum3++;
-			server.itemInfo[Cnum].IsDraw = true;
-			server.itemInfo[Cnum].Type = E_IBULLET;
-			EnterCriticalSection(&cs);
-			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//I_bullet.push_back( I_BULLET());
-			EnterCriticalSection(&cs);
-			ItemTime3 = NowTime;
-			LeaveCriticalSection(&cs);
+			if (inum3 < 10)
+			{
+				server.itemInfo[Cnum].Index = inum3;
+				inum3++;
+				server.itemInfo[Cnum].alive = true;
+				server.itemInfo[Cnum].Type = E_IBULLET;
+				EnterCriticalSection(&cs);
+				server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+				LeaveCriticalSection(&cs);
+				//I_bullet.push_back( I_BULLET());
+				EnterCriticalSection(&cs);
+				ItemTime3 = NowTime;
+				LeaveCriticalSection(&cs);
+			}
+			//printf("보조총알 생성");
+
 		}
-		//printf("보조총알 생성");
-
-	}
-	if (NowTime - ItemTime4 >= 40.0f)
-	{
-		if (inum4 < 10)
+		if (NowTime - ItemTime4 >= 40.0f)
 		{
-			server.itemInfo[Cnum].Index = inum4;
-			inum4++;
-			server.itemInfo[Cnum].IsDraw = true;
-			server.itemInfo[Cnum].Type = E_ISUB;
-			EnterCriticalSection(&cs);
-			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//I_sub.push_back( I_SUB());
-			EnterCriticalSection(&cs);
-			ItemTime4 = NowTime;
-			LeaveCriticalSection(&cs);
+			if (inum4 < 10)
+			{
+				server.itemInfo[Cnum].Index = inum4;
+				inum4++;
+				server.itemInfo[Cnum].alive = true;
+				server.itemInfo[Cnum].Type = E_ISUB;
+				EnterCriticalSection(&cs);
+				server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+				LeaveCriticalSection(&cs);
+				//I_sub.push_back( I_SUB());
+				EnterCriticalSection(&cs);
+				ItemTime4 = NowTime;
+				LeaveCriticalSection(&cs);
+			}
+
 		}
-
-	}
-	if (NowTime - ItemTime5 >= 50.0f)
-	{
-		if (inum5 < 10)
+		if (NowTime - ItemTime5 >= 50.0f)
 		{
-			server.itemInfo[Cnum].Index = inum5;
-			inum5++;
-			server.itemInfo[Cnum].IsDraw = true;
-			server.itemInfo[Cnum].Type = E_ISHIELD;
-			EnterCriticalSection(&cs);
-			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//I_sheild.push_back( I_SHEILD());
-			
-			EnterCriticalSection(&cs);
-			ItemTime5 = NowTime;
-			LeaveCriticalSection(&cs);
+			if (inum5 < 10)
+			{
+				server.itemInfo[Cnum].Index = inum5;
+				inum5++;
+				server.itemInfo[Cnum].alive = true;
+				server.itemInfo[Cnum].Type = E_ISHIELD;
+				EnterCriticalSection(&cs);
+				server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+				LeaveCriticalSection(&cs);
+				//I_sheild.push_back( I_SHEILD());
+
+				EnterCriticalSection(&cs);
+				ItemTime5 = NowTime;
+				LeaveCriticalSection(&cs);
+			}
 		}
 	}
 	int num = m_Item.size();
 	send(sock, (char*)&num, sizeof(num), 0);
+	CheckItembyPlayerCollision(sock, server.m_Item, server.playerInfo[Cnum]);
+	for (int i = 0; i < num; ++i)
+	{
 
-		for (int i = 0; i < num; ++i)
-		{
-
-			EnterCriticalSection(&cs);
-			server.m_Item[i].Update();
-			server.itemInfo[Cnum].Index = server.m_Item[i].MyIndex;
-			server.itemInfo[Cnum].pos = server.m_Item[i].GetPos();
-			server.itemInfo[Cnum].Type = server.m_Item[i].GetType();
-			server.itemInfo[Cnum].IsDraw = server.m_Item[i].IsDraw;
-			send(sock, (char*)&server.itemInfo[Cnum], sizeof(server.itemInfo[Cnum]), 0);
-			LeaveCriticalSection(&cs);
-		}
+		EnterCriticalSection(&cs);
+		server.m_Item[i].Update();
+		server.itemInfo[Cnum].Index = server.m_Item[i].MyIndex;
+		server.itemInfo[Cnum].pos = server.m_Item[i].GetPos();
+		server.itemInfo[Cnum].Type = server.m_Item[i].GetType();
+		server.itemInfo[Cnum].alive = server.m_Item[i].alive;
+		send(sock, (char*)&server.itemInfo[Cnum], sizeof(server.itemInfo[Cnum]), 0);
+		LeaveCriticalSection(&cs);
+	}
 
 }
 void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bullet, vector<CMonster> &Target)
@@ -390,6 +441,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		int Snum = clientinfotohandle[ClientNum].IsScene;
 		int idx = 0;
 		int Bnum;
+		int num;
 
 		switch (Snum) {
 		case E_Scene::E_MENU: //메뉴화면일때
@@ -524,15 +576,24 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					//	send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
 					//}
 			}
-			
-			//플레이어 총알
+	
+
+			/*	int itemSize;
+			itemSize = server.m_Item.size();
+			send(ClientSock, (char*)&itemSize, sizeof(itemSize),0);
+			for (vector<CItem>::iterator Item = server.m_Item.begin(); Item < server.m_Item.end(); ++Item)
+			{
+				server.itemInfo[ClientNum].alive = Item->alive;
+				send(ClientSock, (char*)&server.itemInfo[ClientNum], sizeof(server.itemInfo[ClientNum]), 0);
+			}*/
+//플레이어 총알
 			//이동
 			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)
 			{
 				if ((*p).GetActive())
 				{
 					(*p).SetYPos((*p).GetYPos() - 13);
-					//printf("%d", (*p).GetYPos());
+					//printf("%d", p.GetYPos());
 				}
 			}
 

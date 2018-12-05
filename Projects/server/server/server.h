@@ -49,11 +49,11 @@ public:
 	bool IsAllClientReady();
 	void SetInitData(PlayerInfo& a, int num);
 	void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[]);
-	void sendAllIngamePack(SOCKET sock);
 	void MakeItem(SOCKET sock,int Cnum);
 	void MakeEnemy(SOCKET sock, int Cnum);
+	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player);
 	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
-
+	
 	
 	
 

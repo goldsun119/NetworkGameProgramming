@@ -15,6 +15,7 @@ protected:
 	bool m_XDir, m_YDir = true;
 
 public:
+	
 	CItem();
 	~CItem();
 	void SetDir(char c, bool b);

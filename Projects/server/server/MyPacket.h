@@ -41,6 +41,7 @@ public:
 	bool Power;
 	bool Space;
 	int Score;
+	bool skill;
 };
 
 #pragma pack(1)
@@ -84,7 +85,7 @@ enum E_ITEM
 #pragma pack(1)
 class ItemInfo {
 public:
-	bool IsDraw;
+	bool alive;
 	int Type;
 	POINT pos;
 	int Index;
