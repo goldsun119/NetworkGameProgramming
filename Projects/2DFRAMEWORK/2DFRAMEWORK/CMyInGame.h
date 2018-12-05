@@ -24,11 +24,7 @@ public:
 
 
 	vector<CMonster*>				m_Monster;
-	vector<I_BULLET*>				m_Ibullet;
-	vector<I_SUB*>					m_Isub;
-	vector<I_POWER*>				m_Ipower;
-	vector<I_SKILL*>				m_Iskill;
-	vector<I_SHEILD*>				m_Isheild;
+	
 	int								eTime = 0;
 
 	bool							Boss1_Appear = false;
@@ -84,5 +80,5 @@ public:
 	void MakeItem();
 	void MakeEnemys();
 
-	void sendAllIngamePack();
+
 };

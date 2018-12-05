@@ -21,6 +21,8 @@ protected:
 	unsigned long myIdx;
 
 public:
+	bool alive;
+
 	CGameObject();
 	//CGameObject(string name, POINT pos, float width, float height);
 	//CGameObject(string name, float destX, float destY, float width, float height);

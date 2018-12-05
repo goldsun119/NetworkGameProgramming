@@ -14,7 +14,7 @@ CItem::~CItem()
 CItem::CItem(ItemInfo itemInfo)
 {
 	MyIndex = itemInfo.Index;
-	IsDraw = itemInfo.IsDraw;
+	alive = true;
 	m_Type = itemInfo.Type;
 	m_size = 30;
 	switch (m_Type)
@@ -77,6 +77,24 @@ bool CItem::GetDir(char c) const
 		break;
 	}
 }
+bool CItem::IsGetItem(PlayerInfo player)
+{
+	RECT rt1, rt2, rt3;
+	rt1.top = m_Pos.y;
+	rt1.bottom = m_Pos.y + m_size;
+	rt1.left = m_Pos.x;
+	rt1.right = m_Pos.x + m_size;
+
+	rt2.top = player.Pos.y;
+	rt2.bottom = player.Pos.y + 50;
+	rt2.left = player.Pos.x;
+	rt2.right = player.Pos.x + 50;
+
+	if (IntersectRect(&rt3, &rt1, &rt2))
+		return true;
+	else
+		return false;
+}
 //void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
 //{
 	/*for (auto p = I_power.begin(); p < I_power.end();)
@@ -86,7 +104,7 @@ bool CItem::GetDir(char c) const
 			if (!player.getPowerUp())
 				player.setPowerUp(true);
 			Ui_Score.setScore(Ui_Score.getScore() + 50);
-			p = I_power.erase(p);
+			p = I_power.erasep;
 		}
 		else
 			++p;
@@ -97,7 +115,7 @@ bool CItem::GetDir(char c) const
 		if (p->IsGet(player))
 		{
 			Ui_Score.setScore(Ui_Score.getScore() + 50);
-			p = I_skill.erase(p);
+			p = I_skill.erasep;
 			if (player.getBomb() < 3)
 			{
 				player.setBomb(player.getBomb() + 1);
@@ -113,7 +131,7 @@ bool CItem::GetDir(char c) const
 		if (p->IsGet(player))
 		{
 			Ui_Score.setScore(Ui_Score.getScore() + 50);
-			p = I_bullet.erase(p);
+			p = I_bullet.erasep;
 			if (player.getBullet() < 3)
 				player.setBullet(player.getBullet() + 1);
 		}
@@ -127,7 +145,7 @@ bool CItem::GetDir(char c) const
 		{
 			Ui_Score.setScore(Ui_Score.getScore() + 50);
 			player.setSub(true);
-			p = I_sub.erase(p);
+			p = I_sub.erasep;
 		}
 		else
 			++p;
@@ -140,7 +158,7 @@ bool CItem::GetDir(char c) const
 			Ui_Score.setScore(Ui_Score.getScore() + 50);
 			if (!player.getBarrier())
 				player.setBarrier(true);
-			p = I_sheild.erase(p);
+			p = I_sheild.erasep;
 		}
 		else
 			++p;

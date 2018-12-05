@@ -135,29 +135,29 @@ void CMyInGame::Render(HDC hdc)
 		}
 
 		//아이템 - 총알
-		for (vector<I_BULLET*>::iterator iter = m_Ibullet.begin();
-			iter != m_Ibullet.end(); ++iter)
+		for (vector<I_BULLET*>::iterator iter = I_bullet.begin();
+			iter != I_bullet.end(); ++iter)
 		{
 			if ((*iter)->alive == true) 
 				m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 방어막
-		for (vector<I_SHEILD*>::iterator iter = m_Isheild.begin();
-			iter != m_Isheild.end(); ++iter)
+		for (vector<I_SHEILD*>::iterator iter = I_sheild.begin();
+			iter != I_sheild.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
 				m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 궁아이템획득
-		for (vector<I_SKILL*>::iterator iter = m_Iskill.begin();
-			iter != m_Iskill.end(); ++iter)
+		for (vector<I_SKILL*>::iterator iter = I_skill.begin();
+			iter != I_skill.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
 				m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
 		}
 		//아이템 - 보조
-		for (vector<I_SUB*>::iterator iter = m_Isub.begin();
-			iter != m_Isub.end(); ++iter)
+		for (vector<I_SUB*>::iterator iter = I_sub.begin();
+			iter != I_sub.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
 				m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
@@ -268,18 +268,13 @@ void CMyInGame::Update()
 			}
 		}
 	}
+
+
 }
 	
 	
 
-void CMyInGame::sendAllIngamePack() //인게임 아이템
-{
-	recv(FRAMEWORK->GetSock(), (char*)&I_power, sizeof(I_power), 0);
-	recv(FRAMEWORK->GetSock(), (char*)&I_skill, sizeof(I_skill), 0);
-	recv(FRAMEWORK->GetSock(), (char*)&I_bullet, sizeof(I_bullet), 0);
-	recv(FRAMEWORK->GetSock(), (char*)&I_sub, sizeof(I_sub), 0);
-	recv(FRAMEWORK->GetSock(), (char*)&I_sheild, sizeof(I_sheild), 0);
-}
+
 void CMyInGame::MakeItem()
 {
 	int num = 0;
@@ -292,34 +287,35 @@ void CMyInGame::MakeItem()
 				switch (itemInfo.Type)
 				{
 				case E_IPOWER:
-					I_power[itemInfo.Index]->alive = true;
+					
+					I_power[itemInfo.Index]->alive = itemInfo.alive;
 					I_power[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
 					I_power[itemInfo.Index]->SetSize(10);
 					//printf("파워 생성");
 					break;
 
 				case E_ISKILL:
-					I_skill[itemInfo.Index]->alive = true;
+					I_skill[itemInfo.Index]->alive = itemInfo.alive;
 					I_skill[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
 					I_skill[itemInfo.Index]->SetSize(10);
 					//printf("스킬 생성");
 					break;
 
 				case E_IBULLET:
-					I_bullet[itemInfo.Index]->alive = true;
+					I_bullet[itemInfo.Index]->alive = itemInfo.alive;
 					I_bullet[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
 					I_bullet[itemInfo.Index]->SetSize(10);
 					break;
 
 				case E_ISUB:
-					I_sub[itemInfo.Index]->alive = true;
+					I_sub[itemInfo.Index]->alive = itemInfo.alive;
 					I_sub[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
 					I_sub[itemInfo.Index]->SetSize(10);
 					//printf("보조총알 생성");
 					break;
 
 				case E_ISHIELD:
-					I_sheild[itemInfo.Index]->alive = true;
+					I_sheild[itemInfo.Index]->alive = itemInfo.alive;
 					I_sheild[itemInfo.Index]->SetPos(itemInfo.pos.x, itemInfo.pos.y);
 					I_sheild[itemInfo.Index]->SetSize(10);
 					break;

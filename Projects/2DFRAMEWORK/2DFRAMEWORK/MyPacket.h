@@ -24,6 +24,7 @@ public:
 	bool Power;
 	bool Space;
 	int Score;
+	bool skill;
 };
 
 #pragma pack(1)
@@ -47,7 +48,7 @@ public:
 #pragma pack(1)
 class ItemInfo {
 public:
-	bool IsDraw;
+	bool alive;
 	int Type;
 	POINT pos;
 	int Index;
