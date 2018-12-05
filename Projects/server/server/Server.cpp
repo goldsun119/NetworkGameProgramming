@@ -91,7 +91,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum1++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_IPOWER;
-			m_Item.push_back(CItem(server.itemInfo[Cnum]));
+			EnterCriticalSection(&cs);
+			server.m_Item.push_back(CItem(server.itemInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//I_power.push_back( I_POWER());
 			EnterCriticalSection(&cs);
 			ItemTime1 = NowTime;
@@ -107,7 +109,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum2++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISKILL;
-			m_Item.push_back(  CItem(server.itemInfo[Cnum]));
+			EnterCriticalSection(&cs);
+			server.m_Item.push_back(  CItem(server.itemInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//I_skill.push_back( I_SKILL());
 			EnterCriticalSection(&cs);
 			ItemTime2 = NowTime;
@@ -125,7 +129,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum3++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_IBULLET;
-			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			EnterCriticalSection(&cs);
+			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//I_bullet.push_back( I_BULLET());
 			EnterCriticalSection(&cs);
 			ItemTime3 = NowTime;
@@ -142,7 +148,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum4++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISUB;
-			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			EnterCriticalSection(&cs);
+			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//I_sub.push_back( I_SUB());
 			EnterCriticalSection(&cs);
 			ItemTime4 = NowTime;
@@ -158,7 +166,9 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 			inum5++;
 			server.itemInfo[Cnum].IsDraw = true;
 			server.itemInfo[Cnum].Type = E_ISHIELD;
-			m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			EnterCriticalSection(&cs);
+			server.m_Item.push_back( CItem(server.itemInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//I_sheild.push_back( I_SHEILD());
 			
 			EnterCriticalSection(&cs);
@@ -172,12 +182,14 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 		for (int i = 0; i < num; ++i)
 		{
 
-			m_Item[i].Update();
-			server.itemInfo[Cnum].Index = m_Item[i].MyIndex;
-			server.itemInfo[Cnum].pos = m_Item[i].GetPos();
-			server.itemInfo[Cnum].Type = m_Item[i].GetType();
-			server.itemInfo[Cnum].IsDraw = m_Item[i].IsDraw;
+			EnterCriticalSection(&cs);
+			server.m_Item[i].Update();
+			server.itemInfo[Cnum].Index = server.m_Item[i].MyIndex;
+			server.itemInfo[Cnum].pos = server.m_Item[i].GetPos();
+			server.itemInfo[Cnum].Type = server.m_Item[i].GetType();
+			server.itemInfo[Cnum].IsDraw = server.m_Item[i].IsDraw;
 			send(sock, (char*)&server.itemInfo[Cnum], sizeof(server.itemInfo[Cnum]), 0);
+			LeaveCriticalSection(&cs);
 		}
 
 }
@@ -239,7 +251,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY1;
+			EnterCriticalSection(&cs);
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//printf("1锅 积己\n");
 			EnterCriticalSection(&cs);
 			enemyTime1 = NowTime;
@@ -251,7 +265,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY2;
+			EnterCriticalSection(&cs);
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//printf("2锅 积己\n");
 			EnterCriticalSection(&cs);
 			enemyTime2 = NowTime;
@@ -264,7 +280,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_ENEMY3;
+			EnterCriticalSection(&cs);
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//   printf("3锅 积己\n");
 			EnterCriticalSection(&cs);
 			enemyTime3 = NowTime;
@@ -280,7 +298,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_BOSS1;
+			EnterCriticalSection(&cs);
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//printf("焊胶1 积己\n");
 
 			m_pMonster.Boss1_Appear = true;
@@ -298,7 +318,9 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			MonsterNumber++;
 			server.enemyInfo[Cnum].alive = true;
 			server.enemyInfo[Cnum].Type = E_BOSS2;
+			EnterCriticalSection(&cs);
 			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+			LeaveCriticalSection(&cs);
 			//printf("焊胶2 积己\n");
 
 			m_pMonster.Boss2_Appear = true;
@@ -319,12 +341,14 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 		m_Monster[i].Update();
 		LeaveCriticalSection(&cs);
 		
+		EnterCriticalSection(&cs);
 		server.enemyInfo[Cnum].pos = m_Monster[i].GetPos();
 		server.enemyInfo[Cnum].Index = m_Monster[i].GetIndex();
 		server.enemyInfo[Cnum].Type = m_Monster[i].GetType();
 		server.enemyInfo[Cnum].alive = m_Monster[i].GetAlive();
 		server.enemyInfo[Cnum].Hp = m_Monster[i].GetHp();
 		send(sock, (char*)&server.enemyInfo[Cnum], sizeof(server.enemyInfo[Cnum]), 0);
+		LeaveCriticalSection(&cs);
 	}
 }
 

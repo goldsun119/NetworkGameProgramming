@@ -226,11 +226,19 @@ void CMyInGame::Update()
 	recv(FRAMEWORK->GetSock(), (char*)&Bnum, sizeof(Bnum), 0);
 
 	if (Bnum > 0) {
-		for (int i = 0; i < Bnum; ++i)
+		for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
 		{
-			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
-			m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
-			m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+			if (i < Bnum)
+			{
+				recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+				m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
+				m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+			}
+			else
+			{
+				m_pPlayer->m_PlayerBullet[i]->alive = false;
+				m_pPlayer->m_PlayerBullet[i]->SetPos(0,0);
+			}
 		}
 		int msize = 0;
 		recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
@@ -245,11 +253,19 @@ void CMyInGame::Update()
 	recv(FRAMEWORK->GetSock(), (char*)&B2num, sizeof(B2num), 0);
 
 	if (B2num > 0) {
-		for (int i = 0; i < B2num; ++i)
+		for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
 		{
-			recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
-			m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
-			m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+			if (i < B2num)
+			{
+				recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+				m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
+				m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+			}
+			else
+			{
+				m_p2Player->m_PlayerBullet[i]->alive = false;
+				m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+			}
 		}
 	}
 }
