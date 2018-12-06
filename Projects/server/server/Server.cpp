@@ -56,6 +56,7 @@ void Server::SetInitData(PlayerInfo& a, int num)
 	a.SubWeapon = 1;
 	a.Power = 1;
 	a.Score = 0;
+	a.skill = false;
 }
 
 void Server::SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
@@ -79,7 +80,7 @@ void Server::CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, Player
 					if (!player.Power)
 						player.Power = true;
 						p->alive = false;
-						printf("호호우");
+						
 					//p = item.erasep;
 					break;
 				case E_ISHIELD:
@@ -478,8 +479,13 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					server.BulletTime = NowTime;
 				}
 			}
-
-			server.playerInfo[ClientNum].Space = server.Input.m_KeyInput.Space;
+			if (server.Input.m_KeyInput.Skill)
+			{
+				server.playerInfo[ClientNum].skill = true;
+				printf("호우");
+			}
+		
+			//server.playerInfo[ClientNum].skill = server.Input.m_KeyInput.Skill;
 			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
 			if (ClientNum == 0)
 				server.MakeEnemy(ClientSock, ClientNum); //적

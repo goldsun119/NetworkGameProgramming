@@ -11,6 +11,14 @@ CPlayer::CPlayer()
 	m_KeyInput.Up = false;
 	m_KeyInput.Down = false;
 	m_KeyInput.Space = false;
+	m_KeyInput.Skill = false;
+
+	BulletCount=0;
+	Shield=false;
+	SubWeapon = false;
+	Power = false;
+	SkillCount=3;
+	Skillplay = false;
 
 	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
 
@@ -52,10 +60,18 @@ void CPlayer::CheckKey()
 		{
 			m_KeyInput.Down = true;
 		}
-
+		
 		if (Key & KEY_SPACE)
 		{
 			m_KeyInput.Space = true;
+		}
+		
+		if (Key & KEY_SKILL)
+		{
+			if (SkillCount > 0) {
+				m_KeyInput.Skill = true;
+				SkillCount--;
+			}
 		}
 		break;
 	}
@@ -65,6 +81,7 @@ void CPlayer::CheckKey()
 	m_KeyInput.Up = false;
 	m_KeyInput.Down = false;
 	m_KeyInput.Space = false;
+	m_KeyInput.Skill = false;
 	
 }
 

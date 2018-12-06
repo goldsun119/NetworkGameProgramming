@@ -53,6 +53,7 @@ public:
 	bool Up;
 	bool Down;
 	bool Space;
+	bool Skill;
 };
 enum E_OBJECT
 {

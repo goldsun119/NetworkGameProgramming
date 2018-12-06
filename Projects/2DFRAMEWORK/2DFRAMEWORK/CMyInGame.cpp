@@ -79,7 +79,7 @@ CMyInGame::CMyInGame()
 	m_MonsterImg3.Load(TEXT("enemy3.png"));
 	m_BossImg1.Load(TEXT("boss1-1.png"));
 	m_BossImg2.Load(TEXT("boss2.png"));
-
+	m_SkillImg.Load(TEXT("skill.png"));
 }
 
 
@@ -93,6 +93,7 @@ CMyInGame::~CMyInGame()
 	m_BossImg1.Destroy();
 	m_BossImg2.Destroy();
 	m_PlayerBulletImg.Destroy();
+	m_SkillImg.Destroy();
 }
 
 void CMyInGame::Render(HDC hdc)
@@ -107,14 +108,10 @@ void CMyInGame::Render(HDC hdc)
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		
-		
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
-		
-		
 		
 		m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
 
-	
 		//몬스터 그리기
 		for (vector<CMonster*>::iterator iter = m_Monster.begin();
 			iter != m_Monster.end(); ++iter)
@@ -189,10 +186,22 @@ void CMyInGame::Render(HDC hdc)
 			}
 			iter2++;
 		}
+		if (m_pPlayer->GetSkillPlay()== true)
+			m_SkillImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, 100, 100);
+		if (m_p2Player->GetSkillPlay() == true)
+			m_SkillImg.Draw(memDC, 50, 50, 100, 100);
+
+
+
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
 		DeleteDC(memDC);
+
+		
 	}
+
+
+
 	EndPaint(g_hWnd, &ps);	
 	
 
@@ -211,10 +220,14 @@ void CMyInGame::Update()
 	case 0:
 		m_pPlayer->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
 		m_p2Player->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
+		m_pPlayer->SetSkillPlay(playerInfo[0].skill);
+		m_p2Player->SetSkillPlay(playerInfo[1].skill);
 		break;
 	case 1:
 		m_pPlayer->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
 		m_p2Player->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
+		m_pPlayer->SetSkillPlay( playerInfo[1].skill);
+		m_p2Player->SetSkillPlay(playerInfo[0].skill);
 		break;
 	}
 

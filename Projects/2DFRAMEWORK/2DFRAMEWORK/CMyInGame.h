@@ -41,6 +41,7 @@ public:
 	CImage							m_ItemUlt;
 	CImage							m_ItemSub;
 	CImage							m_ItemPower;
+	CImage							m_SkillImg;
 
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;

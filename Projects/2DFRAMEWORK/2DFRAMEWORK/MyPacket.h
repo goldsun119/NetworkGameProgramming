@@ -63,4 +63,5 @@ public:
 	bool Up;
 	bool Down;
 	bool Space;
+	bool Skill;
 };
