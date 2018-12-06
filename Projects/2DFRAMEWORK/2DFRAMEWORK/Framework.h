@@ -62,6 +62,7 @@ public:
 	int MakeServer();
 	int recvn(SOCKET s, char *buf, int len, int flags);
 	void err_display(const char *msg);
+	char SERVERIP[20];
 
 
 //private:

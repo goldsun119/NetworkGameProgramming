@@ -1,11 +1,22 @@
-﻿  Server.cpp
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(246): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(373): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(389): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(418): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(444): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(470): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(496): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(536): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\blueb\documents\github\networkgameprogramming\projects\server\server\server.cpp(581): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  server.vcxproj -> C:\Users\blueb\Documents\GitHub\NetworkGameProgramming\Projects\server\Debug\server.exe
+﻿  CBullet.cpp
+  CGameObject.cpp
+  CItem.cpp
+  Enemey.cpp
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\enemey.cpp(58): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\enemey.cpp(59): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\enemey.cpp(64): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\enemey.cpp(65): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Input.cpp
+  Player.cpp
+  Server.cpp
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\timermanager.h(7): warning C4244: '초기화 중': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\timermanager.h(8): warning C4244: '초기화 중': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\timermanager.h(9): warning C4244: '초기화 중': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\server.cpp(398): warning C4244: '=': 'DWORD'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\server.cpp(615): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\server.cpp(629): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\server.cpp(413): warning C4101: 'num' :참조되지 않은 지역 변수입니다.
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\server.cpp(668): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+c:\users\jes\documents\github\networkgameprogramming\projects\server\server\citem.cpp(79): warning C4715: 'CItem::GetDir': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  server.vcxproj -> C:\Users\JES\Documents\GitHub\NetworkGameProgramming\Projects\server\Debug\server.exe
