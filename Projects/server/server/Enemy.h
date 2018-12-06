@@ -15,10 +15,11 @@ public:
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 	//vector<CBullet> m_MonsterBullet;
+	int radian[8] = { 0, 45, 90, 135, 180, 225, 270, 315 }; // 0 ¸Ç¿ìÃø
 
-	//vector<CBullet> enemy_bullet1;
-	//vector<CBullet> enemy_bullet2[3];
-	//vector<CBullet> enemy_bullet3[8];
+	vector<CBullet> enemy_bullet1;
+	vector<CBullet> enemy_bullet2[3];
+	vector<CBullet> enemy_bullet3[8];
 	//vector<CBullet> boss1_bullet1[36];
 	//vector<CBullet> boss1_bullet2[36];
 	//vector<CBullet> boss1_bullet3[3];

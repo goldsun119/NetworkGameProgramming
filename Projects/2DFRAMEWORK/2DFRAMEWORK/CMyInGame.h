@@ -24,7 +24,8 @@ public:
 
 
 	vector<CMonster*>				m_Monster;
-	
+	CMonster* m_pMonster;
+
 	int								eTime = 0;
 
 	bool							Boss1_Appear = false;
@@ -42,7 +43,12 @@ public:
 	CImage							m_ItemSub;
 	CImage							m_ItemPower;
 	CImage							m_SkillImg;
-
+	//적 총알 이미지
+	CImage							m_MonsterBullet1;
+	CImage							m_MonsterBullet2;
+	CImage							m_MonsterBullet3;
+	CImage							m_BossBullet1;
+	CImage							m_BossBullet2;
 	int								m_nWndClientWidth = 403;
 	int								m_nWndClientHeight = 599;
 

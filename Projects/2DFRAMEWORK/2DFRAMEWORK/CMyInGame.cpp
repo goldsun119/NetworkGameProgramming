@@ -20,6 +20,7 @@
 
 CMyInGame::CMyInGame()
 {
+	m_pMonster = new CMonster;
 	m_Monster.reserve(MAXOBJECTNUM);
 	I_sub.reserve(MAXITEMNUM);
 	I_bullet.reserve(MAXITEMNUM);
@@ -80,6 +81,12 @@ CMyInGame::CMyInGame()
 	m_BossImg1.Load(TEXT("boss1-1.png"));
 	m_BossImg2.Load(TEXT("boss2.png"));
 	m_SkillImg.Load(TEXT("skill.png"));
+	//적총알 이미지
+	m_MonsterBullet1.Load(TEXT("image/적총알기본.png"));
+	m_MonsterBullet2.Load(TEXT("image/적총알2.png"));
+	m_MonsterBullet3.Load(TEXT("image/적총알3.png"));
+	m_BossBullet1.Load(TEXT("image/적총알4.png"));
+	m_BossBullet2.Load(TEXT("image/적총알5.png"));
 }
 
 
@@ -130,7 +137,28 @@ void CMyInGame::Render(HDC hdc)
 			}
 
 		}
-
+		//총알 그리기
+		//적1
+		for (vector<CBullet>::iterator bulletiter = m_pMonster->enemy_bullet1.begin(); bulletiter != m_pMonster->enemy_bullet1.end(); ++bulletiter)
+		{
+			m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, (bulletiter)->GetSize(), (bulletiter)->GetSize());
+		}
+		//적2
+		for (int i = 0; i < 3; ++i)
+		{
+			for (vector<CBullet>::iterator bulletiter2 = m_pMonster->enemy_bullet2[i].begin(); bulletiter2 != m_pMonster->enemy_bullet2[i].end(); ++bulletiter2)
+			{
+				m_MonsterBullet2.Draw(memDC, (bulletiter2)->GetPos().x, (bulletiter2)->GetPos().y, (bulletiter2)->GetSize(), (bulletiter2)->GetSize());
+			}
+		}
+		//적3
+		for (int i = 0; i < 8; ++i)
+		{
+			for (vector<CBullet>::iterator bulletiter3 = m_pMonster->enemy_bullet3[i].begin(); bulletiter3 != m_pMonster->enemy_bullet3[i].end(); ++bulletiter3)
+			{
+				m_MonsterBullet3.Draw(memDC, (bulletiter3)->GetPos().x, (bulletiter3)->GetPos().y, (bulletiter3)->GetSize(), (bulletiter3)->GetSize());
+			}
+		}
 		//아이템 - 총알
 		for (vector<I_BULLET*>::iterator iter = I_bullet.begin();
 			iter != I_bullet.end(); ++iter)

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CMonster.h"
 #include "Framework.h"
-
+#include "CBullet.h"
 CMonster::CMonster()
 {
 	m_size = 70;
