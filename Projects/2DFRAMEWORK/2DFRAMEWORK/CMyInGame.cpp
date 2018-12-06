@@ -181,13 +181,13 @@ void CMyInGame::Render(HDC hdc)
 		}
 
 		//플레이어2 총알 그리기
-		iter = m_p2Player->m_PlayerBullet.begin();
-		while (iter != m_p2Player->m_PlayerBullet.end())
+		vector<CBullet*>::iterator iter2 = m_p2Player->m_PlayerBullet.begin();
+		while (iter2 != m_p2Player->m_PlayerBullet.end())
 		{
-			if ((*iter)->alive == true) {
-				m_PlayerBulletImg.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+			if ((*iter2)->alive == true) {
+				m_PlayerBulletImg.Draw(memDC, (*iter2)->GetPos().x, (*iter2)->GetPos().y, (*iter2)->GetSize(), (*iter2)->GetSize());
 			}
-			iter++;
+			iter2++;
 		}
 		BitBlt(hdc, 0, 0, 403, 599, memDC, 0, 0, SRCCOPY);
 		DeleteObject(memBit);
@@ -264,7 +264,7 @@ void CMyInGame::Update()
 			else
 			{
 				m_p2Player->m_PlayerBullet[i]->alive = false;
-				m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+				//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
 			}
 		}
 	}

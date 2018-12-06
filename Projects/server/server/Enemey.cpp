@@ -108,10 +108,10 @@ void CMonster::Update()
 		break;
 	}
 	//몬스터1 총알 이동
-	for (int i = 0; i < enemy_bullet1.size(); ++i)
-	{
-		enemy_bullet1[i].SetYPos(enemy_bullet1[i].GetYPos()-5);
-		printf("y:%d\n", enemy_bullet1[i].GetYPos() - 5);
-	}
+	//for (int i = 0; i < enemy_bullet1.size(); ++i)
+	//{
+	//	enemy_bullet1[i].SetYPos(enemy_bullet1[i].GetYPos()-5);
+	//	printf("y:%d\n", enemy_bullet1[i].GetYPos() - 5);
+	//}
 }
 

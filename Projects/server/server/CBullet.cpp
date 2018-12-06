@@ -16,7 +16,7 @@ CBullet::CBullet(POINT pos, int typeNum)
 	m_Pos.y = pos.y;
 	m_hp = 10;
 	m_Type = typeNum;
-	m_Count += 1;
+	//m_Count += 1;
 	switch (typeNum)
 	{
 	case 0:
