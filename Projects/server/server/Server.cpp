@@ -396,6 +396,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	server.enemyTime1 = server.enemyTime2 = server.enemyTime3 = server.enemyTime4 = server.enemyTime5 = (float)timeGetTime() * 0.001f;
 	server.ItemTime1 = server.ItemTime2 = server.ItemTime3 = server.ItemTime4 = server.ItemTime5 = (float)timeGetTime() * 0.001f;
 	server.m_pTime.m_CurrentTime = timeGetTime();
+	server.BulletTime = (float)timeGetTime() * 0.001f;
 	server.m_pTime.m_eTime = server.m_pTime.m_CurrentTime - server.m_pTime.m_PrevTime;
 	LeaveCriticalSection(&server.cs);
 	server.m_pTime.m_eActine += server.m_pTime.m_eTime;
@@ -470,8 +471,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			if (server.Input.m_KeyInput.Space)
 			{
-				server.playerBullet[ClientNum].emplace_back( CBullet(server.playerInfo[ClientNum].Pos, 0));
-				//printf("%d번클라 스페이스바!\n",ClientNum);
+				float NowTime = (float)timeGetTime();
+				if (NowTime - server.BulletTime >= 0.5f) {
+					server.playerBullet[ClientNum].emplace_back(CBullet(server.playerInfo[ClientNum].Pos, 0));
+					//printf("%d번클라 스페이스바!\n",ClientNum);
+					server.BulletTime = NowTime;
+				}
 			}
 
 			server.playerInfo[ClientNum].Space = server.Input.m_KeyInput.Space;

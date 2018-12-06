@@ -42,7 +42,7 @@ public:
 	float ItemTime4;
 	float ItemTime5;
 
-
+	float BulletTime;
 	// =========ÇÔ¼ö=========
 
 	
