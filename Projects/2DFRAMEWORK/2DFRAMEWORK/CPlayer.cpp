@@ -24,6 +24,7 @@ CPlayer::CPlayer()
 
 	Speed = 5.0f;
 	Size = 30;
+	m_hp = 3;
 	m_size = 50;
 	m_PlayerBullet.reserve(1000); //미리 공간 만들어줌
 

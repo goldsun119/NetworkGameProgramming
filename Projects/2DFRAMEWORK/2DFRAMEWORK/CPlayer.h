@@ -25,6 +25,7 @@ public:
 
 public:
 	bool m_IsReady = false;
+	int GetSkillCount() { return SkillCount; }
 	int GetPlayerNum() { return playerNum; }
 	bool GetIsReady() { return m_IsReady; }
 	void SetSkillPlay(bool sp) { Skillplay = sp; }

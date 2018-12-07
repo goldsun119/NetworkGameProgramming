@@ -36,7 +36,7 @@ CMyInGame::CMyInGame()
 		m_pPlayer->m_PlayerBullet.emplace_back(new CBullet());
 		m_p2Player->m_PlayerBullet.emplace_back(new CBullet());
 	}
-
+	
 	for (int i = 0; i < 100; ++i)
 	{
 		I_bullet.emplace_back(new I_BULLET(itemInfo));
@@ -48,7 +48,8 @@ CMyInGame::CMyInGame()
 
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameBackGroundImage", *MYRENDERMANAGER->FindCImage("IngameBackGroundImage")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngamePlayerImage", *MYRENDERMANAGER->FindCImage("IngamePlayerImage")));
-
+	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("IngameHPImage", *MYRENDERMANAGER->FindCImage("IngameHPImage")));
+	
 
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemBullet", *MYRENDERMANAGER->FindCImage("ItemBullet")));
 	m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("ItemShield", *MYRENDERMANAGER->FindCImage("ItemShield")));
@@ -73,6 +74,7 @@ CMyInGame::CMyInGame()
 		m_PlayerImg.Load(TEXT("image/player2.png"));
 		m_2PlayerImg.Load(TEXT("Player1.png"));
 	}
+	m_PlayerLifeImg.Load(TEXT("image/목숨.png"));
 
 	m_PlayerBulletImg.Load(TEXT("image/총알기본.png"));
 	m_MonsterImg1.Load(TEXT("enemy1.png"));
@@ -118,7 +120,22 @@ void CMyInGame::Render(HDC hdc)
 		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 		
 		m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
-
+		//UI - HP
+		if (m_pPlayer->GetHp() != 0)
+		{
+			for (int i = 0; i < m_pPlayer->GetHp(); ++i)
+			{
+				m_PlayerLifeImg.Draw(memDC, WndX- (m_UiSize * 2) - (m_UiSize * i), 10, m_UiSize, m_UiSize);
+			}
+		}
+		//UI - SKILL
+		if (m_pPlayer->GetSkillCount() != 0)
+		{
+			for (int i = 0; i < m_pPlayer->GetHp(); ++i)
+			{
+				m_ItemUlt.Draw(memDC, WndX - (m_UiSize * 2) - (m_UiSize * i), (WndY - m_UiSize*2), m_UiSize, m_UiSize);
+			}
+		}
 		//몬스터 그리기
 		for (vector<CMonster*>::iterator iter = m_Monster.begin();
 			iter != m_Monster.end(); ++iter)

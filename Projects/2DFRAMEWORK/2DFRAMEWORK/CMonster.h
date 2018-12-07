@@ -11,6 +11,9 @@ public:
 	
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
+
+	bool Boss1_Stop = false;
+	bool Boss2_Stop = false;
 	vector<CBullet> enemy_bullet1;
 
 	//vector<CBullet> enemy_bullet1;

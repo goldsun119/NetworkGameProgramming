@@ -63,6 +63,10 @@ void CRenderManager::LoadCImage()
 	AddRenderObject((TCHAR*)"background.png", "IngameBackGroundImage");
 	AddRenderObject((TCHAR*)"Player1.png", "IngamePlayerImage");
 
+	//UI
+	AddRenderObject((TCHAR*)"image/¸ñ¼û.png", "IngameHPImage");
+
+
 	AddRenderObject((TCHAR*)"image/STARTBUTTON.PNG", "MenuStartButtonImage");
 	AddRenderObject((TCHAR*)"image/EXITBUTTON.PNG", "MenuExitButtonImage");
 	AddRenderObject((TCHAR*)"image/·¹µð.png", "MenuReadyButtonImage");
