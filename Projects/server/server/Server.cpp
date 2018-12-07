@@ -482,7 +482,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			if (server.Input.m_KeyInput.Skill)
 			{
 				server.playerInfo[ClientNum].skill = true;
-				printf("È£¿ì");
+			
 			}
 		
 			//server.playerInfo[ClientNum].skill = server.Input.m_KeyInput.Skill;

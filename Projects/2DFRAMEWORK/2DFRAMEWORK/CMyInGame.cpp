@@ -131,7 +131,7 @@ void CMyInGame::Render(HDC hdc)
 		//UI - SKILL
 		if (m_pPlayer->GetSkillCount() != 0)
 		{
-			for (int i = 0; i < m_pPlayer->GetHp(); ++i)
+			for (int i = 0; i < m_pPlayer->GetSkillCount(); ++i)
 			{
 				m_ItemUlt.Draw(memDC, WndX - (m_UiSize * 2) - (m_UiSize * i), (WndY - m_UiSize*2), m_UiSize, m_UiSize);
 			}
@@ -231,10 +231,12 @@ void CMyInGame::Render(HDC hdc)
 			}
 			iter2++;
 		}
-		if (m_pPlayer->GetSkillPlay()== true)
-			m_SkillImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, 100, 100);
-		if (m_p2Player->GetSkillPlay() == true)
-			m_SkillImg.Draw(memDC, 50, 50, 100, 100);
+		//스킬
+		if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
+			if (m_pPlayer->GetSkillCount() > 0 || m_p2Player->GetSkillCount() > 0) {
+				m_SkillImg.Draw(memDC, skillPosX, skillPosY, 400, 400);
+			}
+		}
 
 
 
@@ -275,7 +277,21 @@ void CMyInGame::Update()
 		m_p2Player->SetSkillPlay(playerInfo[0].skill);
 		break;
 	}
+	//스킬업뎃	
+	if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
+		skillPosY -= 1.5f;
+		if (skillPosY < 0.0f) {
 
+			skillPosY = 400.0f;
+
+			m_pPlayer->Skillplay = false;
+			m_p2Player->Skillplay = false;
+			if (m_pPlayer->GetSkillPlay() == false || m_p2Player->GetSkillPlay() == false) {
+				m_pPlayer->SetSkillCount(m_pPlayer->GetSkillCount() - 1);
+				m_p2Player->SetSkillCount(m_p2Player->GetSkillCount() - 1);
+			}
+		}
+	}
 	MakeEnemys();
 	MakeItem();
 

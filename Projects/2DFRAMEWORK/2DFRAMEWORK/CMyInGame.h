@@ -71,6 +71,10 @@ public:
 	vector<I_POWER*> I_power;
 	vector<I_SKILL*> I_skill;
 	vector<I_SHEILD*> I_sheild;
+
+	int skillPosX = 0;
+	float skillPosY = 400.0f;
+	bool skillPlaying;
 	//CGameObject						*m_pGameObj;
 	//Player							*m_pPlayer;
 public:

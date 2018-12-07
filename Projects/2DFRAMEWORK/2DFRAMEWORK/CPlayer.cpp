@@ -17,7 +17,7 @@ CPlayer::CPlayer()
 	Shield=false;
 	SubWeapon = false;
 	Power = false;
-	SkillCount=3;
+	SkillCount=1;
 	Skillplay = false;
 
 	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
@@ -71,7 +71,7 @@ void CPlayer::CheckKey()
 		{
 			if (SkillCount > 0) {
 				m_KeyInput.Skill = true;
-				SkillCount--;
+				//SkillCount--;
 			}
 		}
 		break;

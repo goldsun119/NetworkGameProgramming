@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InputManager.h"
 #include "Framework.h"
-
+#define KEYDOWN(vk_code) ((GetAsyncKeyState(vk_code)& 0x8000)? 1 : 0)
 CInputManager::CInputManager()
 {
 }
@@ -55,6 +55,10 @@ void CInputManager::SetKeyState()
 	if (GetAsyncKeyState(VK_F12))
 	{
 		m_dwKey |= KEY_END;
+	}
+	if (KEYDOWN('M'))
+	{
+		m_dwKey |= KEY_SKILL;
 	}
 
 }
