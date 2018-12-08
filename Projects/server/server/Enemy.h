@@ -20,11 +20,11 @@ public:
 	vector<CBullet> enemy_bullet1;
 	vector<CBullet> enemy_bullet2[3];
 	vector<CBullet> enemy_bullet3[8];
-	//vector<CBullet> boss1_bullet1[36];
-	//vector<CBullet> boss1_bullet2[36];
-	//vector<CBullet> boss1_bullet3[3];
-	//vector<CBullet> boss1_bullet4[8];
-	//vector<CBullet> boss2_bullet[36];
+	vector<CBullet> boss1_bullet1[36];
+	vector<CBullet> boss1_bullet2[36];
+	vector<CBullet> boss1_bullet3[3];
+	vector<CBullet> boss1_bullet4[8];
+	vector<CBullet> boss2_bullet[36];
 
 	CMonster(EnemyInfo enemyInfo);
 	CMonster();

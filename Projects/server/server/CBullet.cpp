@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CBullet.h"
-
+#include "MyPacket.h"
 
 CBullet::CBullet()
 {
@@ -97,5 +97,24 @@ bool CBullet::IsCrashtoEnemy(CGameObject enemy)
 void CBullet::Update()
 {
 
+}
+
+bool CBullet::IsShootPlayer(PlayerInfo player)
+{
+	RECT rt1, rt2, rt3;
+	rt1.top = m_Pos.y;
+	rt1.bottom = m_Pos.y + m_size;
+	rt1.left = m_Pos.x;
+	rt1.right = m_Pos.x + m_size;
+
+	rt2.top = player.Pos.y;
+	rt2.bottom = player.Pos.y + 50;
+	rt2.left = player.Pos.x;
+	rt2.right = player.Pos.x + 50;
+
+	if (IntersectRect(&rt3, &rt1, &rt2))
+		return true;
+	else
+		return false;
 }
 

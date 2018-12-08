@@ -55,7 +55,8 @@ public:
 	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player);
 	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
 	void SkillCollision(vector<CMonster> &Target);
-	
+	void CheckPlayerbyEnemyBulletCollision(SOCKET sock, vector<CBullet>& Bullet, PlayerInfo player);
+
 	
 
 };

@@ -277,6 +277,59 @@ void Server::SkillCollision(vector<CMonster> &Target) {
 	}
 	
 }
+void Server::CheckPlayerbyEnemyBulletCollision(SOCKET sock, vector<CBullet>& Bullet, PlayerInfo player)
+{
+	for (vector<CBullet>::iterator p = Bullet.begin(); p < Bullet.end(); ++p)
+
+	{
+		if (p->alive == true)
+		{
+			if (p->IsShootPlayer(player))
+			{
+
+				switch (p->GetType())
+				{
+				case 0:
+				case -1:
+				case -2:
+					p->alive = false;
+					player.Hp -= 1;
+					//p = item.erasep;
+					break;
+				case 1:
+					p->alive = false;
+					player.Hp -= 1;
+
+					//p = item.erasep;
+					break;
+				case 2:
+					p->alive = false;
+					player.Hp -= 1;
+
+
+					break;
+				case 3:
+					p->alive = false;
+					player.Hp -= 1;
+
+
+					//p = item.erasep;
+					break;
+				case 4:
+					p->alive = false;
+					player.Hp -= 1;
+
+					//printf("À¸ÈÄ");
+
+				//p = item.erasep;
+					break;
+				}
+
+			}
+		}
+
+	}
+}
 void Server::MakeEnemy(SOCKET sock, int Cnum)
 {
 	

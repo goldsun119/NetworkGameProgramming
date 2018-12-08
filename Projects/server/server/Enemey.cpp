@@ -52,22 +52,9 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 		//m_MonsterBullet.emplace_back(CBullet(m_Pos, ));;
 		for (int i = 0; i < 3; i++)
 		{
-			for (auto p = enemy_bullet2[i].begin(); p < enemy_bullet2[i].end(); ++p)
-			{
-				switch (i)
-				{
-				case 0:
-					p->SetPos(p->GetXPos() - 2, p->GetYPos() + 7);
-					break;
-				case 1:
-					p->SetYPos(p->GetYPos() + 7);
-					break;
-				case 2:
-
-					p->SetPos(p->GetXPos() + 2, p->GetYPos() + 7);
-					break;
-				}
-			}
+			if (this->alive)
+				enemy_bullet2[i].emplace_back(this->GetPos(), 2);
+			
 		}		
 		break;
 	case E_ENEMY3:
@@ -75,15 +62,11 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 		m_Pos.y = -190;
 		m_size = 200;
 		m_hp = 40;
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 36; i++)
 		{
-			for (auto p = enemy_bullet3[i].begin(); p < enemy_bullet3[i].end(); ++p)
-			{
-				float dx = cos(RAD(radian[i]));
-				float dy = sin(RAD(radian[i]));
-				p->SetXPos(p->GetXPos() + 6 * dx);
-				p->SetYPos(p->GetYPos() + 6 * dy);
-			}
+			if (this->alive)
+				enemy_bullet3[i].emplace_back(this->GetPos(), 3);
+			
 		}
 		break;
 	case E_BOSS1:
@@ -91,12 +74,38 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 		m_Pos.y = 50.0f;
 		m_size = 100;
 		m_hp = 70;
+		
+		for (int i = 0; i < BossBulletNum; i++)
+		{
+			if (this->alive)
+			{
+				boss1_bullet1[i].emplace_back(this->GetPos(), 4);
+				boss1_bullet2[i].emplace_back(this->GetPos(), 4);
+
+
+			}
+		}
+		for (int j = 0; j < 3; j++)
+		{
+			if (this->alive)
+			{
+				boss1_bullet3[j].emplace_back(this->GetPos(), 4);
+
+			}
+		}
 		break;
 	case E_BOSS2:
 		m_Pos.x = 150.0f;
 		m_Pos.y = 0.0f;
 		m_size = 150;
 		m_hp = 100;
+		for (int i = 0; i < BossBulletNum; i++)
+		{
+			if (this->alive)
+			{
+				boss2_bullet[i].emplace_back(this->GetPos(), 4);
+			}
+		}
 		break;
 	}
 }
@@ -125,8 +134,22 @@ void CMonster::Update()
 		m_Pos.y += 1;
 		for (int i = 0; i < 3; i++)
 		{
-			if (this->alive)
-				enemy_bullet2[i].emplace_back(this->GetPos(), 2);
+			for (auto p = enemy_bullet2[i].begin(); p < enemy_bullet2[i].end(); ++p)
+			{
+				switch (i)
+				{
+				case 0:
+					p->SetPos(p->GetXPos() - 2, p->GetYPos() + 7);
+					break;
+				case 1:
+					p->SetYPos(p->GetYPos() + 7);
+					break;
+				case 2:
+
+					p->SetPos(p->GetXPos() + 2, p->GetYPos() + 7);
+					break;
+				}
+			}
 		}
 		//printf("y:%d", m_Pos.y);
 		break;
@@ -134,25 +157,86 @@ void CMonster::Update()
 		m_Pos.y += 1;
 		for (int i = 0; i < 8; i++)
 		{
-			if (this->alive)
-				enemy_bullet3[i].emplace_back(this->GetPos(), 3);
+			for (auto p = enemy_bullet3[i].begin(); p < enemy_bullet3[i].end(); ++p)
+			{
+				float dx = cos(RAD(radian[i]));
+				float dy = sin(RAD(radian[i]));
+				p->SetXPos(p->GetXPos() + 6 * dx);
+				p->SetYPos(p->GetYPos() + 6 * dy);
+			}
 		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS1:
 		m_Pos.y += 1;
+		if (m_Pos.y > 40&& Boss1_Stop == false)
+		{
+			Boss1_Stop = true;
+			
+		}
+
+		if (Boss1_Stop == true)
+		{
+			for (int i = 0; i < BossBulletNum; i++)
+			{
+
+				for (auto p = boss1_bullet1[i].begin(); p < boss1_bullet1[i].end(); ++p)
+				{
+					float dx = cos(RAD(radian3[i]));
+					float dy = sin(RAD(radian3[i]));
+					p->SetXPos(p->GetXPos() + 6 * dx);
+					p->SetYPos(p->GetYPos() + 6 * dy);
+				}
+
+
+				for (auto p = boss1_bullet2[i].begin(); p < boss1_bullet2[i].end(); ++p)
+				{
+					float dx = cos(RAD(radian3[i]));
+					float dy = sin(RAD(radian3[i]));
+					p->SetXPos(p->GetXPos() + 6 * dx);
+					p->SetYPos(p->GetYPos() + 6 * dy);
+				}
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+
+				for (auto p = boss1_bullet3[i].begin(); p < boss1_bullet3[i].end(); ++p)
+				{
+					switch (i)
+					{
+					case 0:
+						p->SetYPos(p->GetYPos() + 2);
+						p->SetXPos(p->GetXPos() - 2);
+						break;
+					case 1:
+						p->SetYPos(p->GetYPos() + 2);
+						break;
+					case 2:
+						p->SetYPos(p->GetYPos() + 2);
+						p->SetXPos(p->GetXPos() + 2);
+						break;
+					}
+				}
+			} // 얘없어도 도나?
+		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS2:
 		m_Pos.y += 1;
+		for (int i = 0; i < BossBulletNum; i++)
+		{
+			for (auto p = boss2_bullet[i].begin(); p < boss2_bullet[i].end(); ++p)
+			{
+				float dx = cos(RAD(radian3[i]));
+				float dy = sin(RAD(radian3[i]));
+				p->SetXPos(p->GetXPos() + 6 * dx);
+				p->SetYPos(p->GetYPos() + 6 * dy);
+			}
+		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	}
-	//몬스터1 총알 이동
-	//for (int i = 0; i < enemy_bullet1.size(); ++i)
-	//{
-	//	enemy_bullet1[i].SetYPos(enemy_bullet1[i].GetYPos()-5);
-	//	printf("y:%d\n", enemy_bullet1[i].GetYPos() - 5);
-	//}
+
 }
 
