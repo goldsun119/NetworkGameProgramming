@@ -4,6 +4,8 @@
 #include "CMybutton.h"
 #include "InputManager.h"
 #include "CPlayer.h"
+#include "Framework.h"
+
 using namespace std;
 CMyGameOver::CMyGameOver()
 {
@@ -16,7 +18,17 @@ CMyGameOver::CMyGameOver()
 	//strcpy(ScoreStr, "hi");
 	//_itoa_s(m_PlayerScore, ScoreStr, sizeof(ScoreStr), 10);
 	//Str = to_string(m_PlayerScore);
-	
+	//send(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->NICKNAME, sizeof(FRAMEWORK->NICKNAME), 0);
+
+	recv(FRAMEWORK->GetSock(), (char*)&MyScore, sizeof(MyScore), 0);
+	recv(FRAMEWORK->GetSock(), (char*)&Snum, sizeof(Snum), 0);
+	for (int i = 0; i < Snum; ++i)
+	{
+		recv(FRAMEWORK->GetSock(), (char*)&RecvRank.first, sizeof(RecvRank.first), 0);
+		recv(FRAMEWORK->GetSock(), (char*)&RecvRank.second, sizeof(RecvRank.second), 0);
+		Rank.emplace_back(RecvRank);
+	}
+
 }
 CMyGameOver::~CMyGameOver()
 {
@@ -52,16 +64,20 @@ void CMyGameOver::Render(HDC hdc)
 		/*sprintf_s(str, "%s", "Return to Game");
 		TextOut(memDC, 100, 350, str, strlen(str));*/
 
-		sprintf_s(str, "%s", "MyScore !");
+		sprintf_s(str, "%d MyScore !",MyScore);
 		TextOut(memDC, 100, 0, str, strlen(str));
 
 		//INT T0 STRING에러
 		/*sprintf_s(ScoreStr, "%s");
 		TextOut(memDC, 300, 0, ScoreStr, strlen(ScoreStr));*/
-
-		sprintf_s(str, "%s", "<Ranking>");
-		TextOut(memDC, 130, 50, str, strlen(str));
-
+		memset(str, 0, sizeof(str));
+		
+		for (int i = 0; i < Rank.size(); ++i)
+		{
+			sprintf(str, "%d 등 %7s : %5d",i+1, Rank[i].second.c_str(), Rank[i].first);
+			TextOut(memDC, 100, 50+(i*50), str, _tcslen(str));
+			//MyTextOut(memDC, 100, 50 + (i * 50), Rank[i]);
+		}
 		sprintf_s(str, "%s", "Go to Main");
 		TextOut(memDC, 130, 460, str, strlen(str));
 
@@ -106,4 +122,13 @@ void CMyGameOver::CheckKey()
 		//끄는법,,?
 		exit(0);
 	}
+}
+
+void CMyGameOver::MyTextOut(HDC hdc, int x, int y, Score score)
+{
+	////char t[50];
+	////sprintf(t, "%s  %d", score.second, score.first);
+	//WCHAR sz[100];
+	//wsprintf(sz, L"%s %d", score.second, score.first);
+	//TextOut(hdc, x, y, sz, strlen(sz));
 }

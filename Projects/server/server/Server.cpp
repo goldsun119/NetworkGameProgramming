@@ -9,8 +9,8 @@ int recvn(SOCKET s, char *buf, int len, int flags);
 ClientInfoToHandle clientinfotohandle[2];
 int ClientCount = 0; //클라이언트 번호 할당
 Server server;
-typedef pair<int, string> Score;
-vector<Score> Rank;
+string Nick[2] = { "1st","2nd" };
+bool nick[2] = { false };
 
 //=============================================================
 istream&ReadInputFile(istream& in, vector<Score>& vec)
@@ -380,6 +380,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	getpeername(ClientSock, (SOCKADDR*)&ClientAddr, &AddrLen);
 	//================================================================
 
+	int SendCount = 0;
 
 
 	int retval = 0;
@@ -425,8 +426,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (server.IsAllClientReady() == true) {
-				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; 
-				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
+				clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; 
+				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
 			}
@@ -648,10 +649,36 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		   //send(ClientSock, (char*)&playerInfo[ClientNum].m_PlayerBullet, sizeof(playerInfo[ClientNum].m_PlayerBullet), 0);
 		   //게임 종료
 		case E_Scene::E_GAMEOVER:
-			//EnterCriticalSection(&cs);
-			//for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
-			//   cout << iter.second << " " << iter.first << endl;
-			//LeaveCriticalSection(&cs);
+			if (SendCount == 0)
+			{
+				if (ClientNum == 0)
+				{
+					ofstream out("Score.txt");
+					Score temp;
+					temp.first = server.score;
+					temp.second = Nick[0] + "," + Nick[1];
+					server.Rank.emplace_back(temp);
+					sort(server.Rank.begin(), server.Rank.end(), SortFunc);
+					int Rnum = server.Rank.size();
+					send(clientinfotohandle[1].Sock, (char*)&temp.first, sizeof(temp.first), 0);
+					send(clientinfotohandle[1].Sock, (char*)&Rnum, sizeof(Rnum), 0);
+
+
+					send(clientinfotohandle[0].Sock, (char*)&temp.first, sizeof(temp.first), 0);
+					send(clientinfotohandle[0].Sock, (char*)&Rnum, sizeof(Rnum), 0);
+
+					for (vector<Score>::iterator iter = server.Rank.begin(); iter != server.Rank.end(); ++iter)
+					{
+						out << iter->first << " " << iter->second << endl;
+						send(clientinfotohandle[1].Sock, (char*)&iter->first, sizeof(iter->first), 0);
+						send(clientinfotohandle[1].Sock, (char*)&iter->second, sizeof(iter->second), 0);
+						send(clientinfotohandle[0].Sock, (char*)&iter->first, sizeof(iter->first), 0);
+						send(clientinfotohandle[0].Sock, (char*)&iter->second, sizeof(iter->second), 0);
+					}
+					out.close();
+					SendCount++;
+				}
+			}
 			break;
 			//랭크 출력
 		case E_Scene::E_RANK:
@@ -675,11 +702,11 @@ int main(int argc, char argv[])
 	int retval;
 	InitializeCriticalSection(&server.cs);
 
-	Rank.reserve(100);
+	server.Rank.reserve(100);
 	ifstream in("score.txt");
 	if (!in.is_open())
 		err_quit("Can't File Open");
-	ReadInputFile(in, Rank);
+	ReadInputFile(in, server.Rank);
 
 	// 윈속 초기화
 	WSADATA wsa;
@@ -731,14 +758,6 @@ int main(int argc, char argv[])
 			ClientCount++;
 		}
 	}
-	sort(Rank.begin(), Rank.end(), SortFunc);
-	ofstream out("Score.txt");
-	for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
-	{
-		out << iter->first << " " << iter->second << endl;
-	}
-	out.close();
-
 
 	DeleteCriticalSection(&server.cs);
 	closesocket(ListenSock);

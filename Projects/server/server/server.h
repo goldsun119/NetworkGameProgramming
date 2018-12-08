@@ -22,6 +22,7 @@ public:
 	vector<CBullet> playerBullet[2];
 	vector<CMonster> m_Monster;
 	vector<CItem> m_Item;
+	vector<Score> Rank;
 
 	CMonster m_pMonster = CMonster{};
 	CItem m_pItem = CItem();

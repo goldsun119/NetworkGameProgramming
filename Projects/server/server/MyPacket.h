@@ -91,3 +91,5 @@ public:
 	POINT pos;
 	int Index;
 };
+
+typedef pair<int, string> Score;

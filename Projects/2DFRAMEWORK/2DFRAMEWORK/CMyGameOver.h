@@ -16,10 +16,16 @@ public:
 	HBITMAP							m_hBitmapSelect;
 	DWORD							m_bBackgroundColor;
 	HFONT hFont, oldFont;
-	char str[50];
+	char str[100];
 	char ScoreStr[20];
 	string Str;
 	wchar_t* score;
+
+	int Snum;
+	int MyScore;
+	typedef pair<int, string> Score;
+	vector<Score> Rank;
+	Score RecvRank;
 	
 
 	int								m_PlayerScore = 50;
@@ -27,6 +33,7 @@ public:
 	int								m_nWndClientHeight = 600;
 
 public:
+	void MyTextOut(HDC hdc, int x, int y, Score Text);
 	void StrToLpcstr(const char* source,wchar_t* dest);
 	virtual void Render(HDC hdc) override;
 	virtual void Update() override;
