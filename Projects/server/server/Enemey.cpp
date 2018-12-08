@@ -8,41 +8,39 @@ CMonster::CMonster()
 	//switch (m_Type)
 	//{
 	//case E_ENEMY1:
-	//	Pos.x = rand() % 500;
-	//	Pos.y = -70;
-	//	m_hp = 20;
-	//	break;
+	//   Pos.x = rand() % 500;
+	//   Pos.y = -70;
+	//   m_hp = 20;
+	//   break;
 	//case E_ENEMY2:
-	//	Pos.x = rand() % 500;
-	//	Pos.y = -70;
-	//	m_hp = 30;
-	//	break;
+	//   Pos.x = rand() % 500;
+	//   Pos.y = -70;
+	//   m_hp = 30;
+	//   break;
 	//case E_ENEMY3:
-	//	m_hp = 40;
-	//	break;
+	//   m_hp = 40;
+	//   break;
 	//}
 }
 CMonster::CMonster(EnemyInfo enemyInfo)
 {
 
-	
+
 	m_Type = enemyInfo.Type;
 	MyIndex = enemyInfo.Index;
 	alive = true;
+
 	switch (m_Type)
 	{
 	case E_ENEMY1:
 		m_Pos.x = rand() % 500;
 		m_Pos.y = -20;
 		/*for(int i = 0;i<50;++i)
-			m_MonsterBullet.emplace_back(this->m_Pos, 1);*/
-		//printf("x: %d, y: %d", m_Pos.x, m_Pos.y);
+		   m_MonsterBullet.emplace_back(this->m_Pos, 1);*/
+		   //printf("x: %d, y: %d", m_Pos.x, m_Pos.y);
 		m_size = 45;
 		m_hp = 20;
-		for (int i = 0; i < 50; ++i)
-		{
-			enemy_bullet1.emplace_back(this->m_Pos, 0);
-		}
+
 		break;
 	case E_ENEMY2:
 		m_Pos.x = rand() % 500;
@@ -50,68 +48,64 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 		m_size = 70;
 		m_hp = 30;
 		//m_MonsterBullet.emplace_back(CBullet(m_Pos, ));;
-		for (int i = 0; i < 3; i++)
-		{
-			if (this->alive)
-				enemy_bullet2[i].emplace_back(this->GetPos(), 2);
-			
-		}		
+
 		break;
 	case E_ENEMY3:
 		m_Pos.x = 220;
 		m_Pos.y = -190;
 		m_size = 200;
 		m_hp = 40;
-		for (int i = 0; i < 36; i++)
-		{
-			if (this->alive)
-				enemy_bullet3[i].emplace_back(this->GetPos(), 3);
-			
-		}
+
 		break;
 	case E_BOSS1:
 		m_Pos.x = 150.0f;
 		m_Pos.y = 50.0f;
 		m_size = 100;
 		m_hp = 70;
-		
-		for (int i = 0; i < BossBulletNum; i++)
-		{
-			if (this->alive)
-			{
-				boss1_bullet1[i].emplace_back(this->GetPos(), 4);
-				boss1_bullet2[i].emplace_back(this->GetPos(), 4);
 
 
-			}
-		}
-		for (int j = 0; j < 3; j++)
-		{
-			if (this->alive)
-			{
-				boss1_bullet3[j].emplace_back(this->GetPos(), 4);
-
-			}
-		}
 		break;
 	case E_BOSS2:
 		m_Pos.x = 150.0f;
 		m_Pos.y = 0.0f;
 		m_size = 150;
 		m_hp = 100;
-		for (int i = 0; i < BossBulletNum; i++)
-		{
-			if (this->alive)
-			{
-				boss2_bullet[i].emplace_back(this->GetPos(), 4);
-			}
-		}
+
 		break;
+	}
+	for (int i = 0; i < 50; ++i)
+	{
+		m_EnemyBullet.emplace_back(this->m_Pos, 0);
 	}
 }
 CMonster::~CMonster()
 {
 
+}
+
+void CMonster::SetDir(char c, bool b)
+{
+	switch (c) {
+	case 'x':
+		m_XDir = b;
+		break;
+	case 'y':
+		m_YDir = b;
+		break;
+	}
+}
+
+bool CMonster::GetDir(char c) const
+{
+	switch (c)
+	{
+	case 'x':
+		return m_XDir;
+		break;
+	case 'y':
+		return m_YDir;
+		break;
+	}
 }
 
 void CMonster::Update()
@@ -120,118 +114,134 @@ void CMonster::Update()
 	{
 	case E_ENEMY1:
 		m_Pos.y += 1;
-		for (int i = 0; i < enemy_bullet1.size(); ++i)
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
-				enemy_bullet1[i].SetYPos(this->GetYPos() + 2);
+				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
-		}	
-		
+		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY2:
-		m_Pos.y += 1;
-		for (int i = 0; i < 3; i++)
+		m_Pos.y += 2;
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
-			for (auto p = enemy_bullet2[i].begin(); p < enemy_bullet2[i].end(); ++p)
+			if (this->alive)
 			{
-				switch (i)
-				{
-				case 0:
-					p->SetPos(p->GetXPos() - 2, p->GetYPos() + 7);
-					break;
-				case 1:
-					p->SetYPos(p->GetYPos() + 7);
-					break;
-				case 2:
-
-					p->SetPos(p->GetXPos() + 2, p->GetYPos() + 7);
-					break;
-				}
+				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
 		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY3:
+		m_Pos.x += 1;
+		(m_Pos.x > WndX) ? m_Pos.x -= 1 : m_Pos.x += 1;
+		(m_Pos.x < WndX) ? m_Pos.x += 1 : m_Pos.x -= 1;
+
 		m_Pos.y += 1;
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
-			for (auto p = enemy_bullet3[i].begin(); p < enemy_bullet3[i].end(); ++p)
+			if (this->alive)
 			{
-				float dx = cos(RAD(radian[i]));
-				float dy = sin(RAD(radian[i]));
-				p->SetXPos(p->GetXPos() + 6 * dx);
-				p->SetYPos(p->GetYPos() + 6 * dy);
+				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
 		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS1:
-		m_Pos.y += 1;
-		if (m_Pos.y > 40&& Boss1_Stop == false)
+		if (!Boss1_Stop)
+			m_Pos.y += 1;
+		if (m_Pos.y > 40 && Boss1_Stop == false)
 		{
 			Boss1_Stop = true;
-			
+
 		}
 
 		if (Boss1_Stop == true)
 		{
-			for (int i = 0; i < BossBulletNum; i++)
+			for (int i = 0; i < m_EnemyBullet.size(); ++i)
 			{
-
-				for (auto p = boss1_bullet1[i].begin(); p < boss1_bullet1[i].end(); ++p)
+				if (this->alive)
 				{
-					float dx = cos(RAD(radian3[i]));
-					float dy = sin(RAD(radian3[i]));
-					p->SetXPos(p->GetXPos() + 6 * dx);
-					p->SetYPos(p->GetYPos() + 6 * dy);
-				}
+					if (this->GetXPos() + this->GetSize() > WndX)
+						this->SetDir('x', false);
+					else if (this->GetXPos() < 0)
+						this->SetDir('x', true);
 
+					if (this->GetYPos() + this->GetSize() > WndY)
+						this->SetDir('y', false);
+					else if (this->GetYPos() < 0)
+						this->SetDir('y', true);
 
-				for (auto p = boss1_bullet2[i].begin(); p < boss1_bullet2[i].end(); ++p)
-				{
-					float dx = cos(RAD(radian3[i]));
-					float dy = sin(RAD(radian3[i]));
-					p->SetXPos(p->GetXPos() + 6 * dx);
-					p->SetYPos(p->GetYPos() + 6 * dy);
+					if (this->GetDir('x'))
+					{
+						this->SetXPos(this->GetXPos() + 3);
+						//printf("아이템의 x좌표: %d\n", I_power[i]->GetPos());
+					}
+					else
+						this->SetXPos(this->GetXPos() - 3);
+
+					if (this->GetDir('y'))
+						this->SetYPos(this->GetYPos() + 3);
+					else
+						this->SetYPos(this->GetYPos() - 3);
 				}
 			}
+		}
 
-			for (int i = 0; i < 3; i++)
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		{
+			if (this->alive)
 			{
-
-				for (auto p = boss1_bullet3[i].begin(); p < boss1_bullet3[i].end(); ++p)
-				{
-					switch (i)
-					{
-					case 0:
-						p->SetYPos(p->GetYPos() + 2);
-						p->SetXPos(p->GetXPos() - 2);
-						break;
-					case 1:
-						p->SetYPos(p->GetYPos() + 2);
-						break;
-					case 2:
-						p->SetYPos(p->GetYPos() + 2);
-						p->SetXPos(p->GetXPos() + 2);
-						break;
-					}
-				}
-			} // 얘없어도 도나?
+				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
+			}
 		}
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS2:
-		m_Pos.y += 1;
-		for (int i = 0; i < BossBulletNum; i++)
+		if (!Boss2_Stop)
+			m_Pos.y += 1;
+		if (m_Pos.y > 40 && Boss2_Stop == false)
 		{
-			for (auto p = boss2_bullet[i].begin(); p < boss2_bullet[i].end(); ++p)
+			Boss2_Stop = true;
+		}
+		if (Boss2_Stop == true)
+		{
+			for (int i = 0; i < m_EnemyBullet.size(); ++i)
 			{
-				float dx = cos(RAD(radian3[i]));
-				float dy = sin(RAD(radian3[i]));
-				p->SetXPos(p->GetXPos() + 6 * dx);
-				p->SetYPos(p->GetYPos() + 6 * dy);
+				if (this->alive)
+				{
+					if (this->GetXPos() + this->GetSize() > WndX)
+						this->SetDir('x', false);
+					else if (this->GetXPos() < 0)
+						this->SetDir('x', true);
+
+					if (this->GetYPos() + this->GetSize() > WndY)
+						this->SetDir('y', false);
+					else if (this->GetYPos() < 0)
+						this->SetDir('y', true);
+
+					if (this->GetDir('x'))
+					{
+						this->SetXPos(this->GetXPos() + 3);
+						//printf("아이템의 x좌표: %d\n", I_power[i]->GetPos());
+					}
+					else
+						this->SetXPos(this->GetXPos() - 3);
+
+					if (this->GetDir('y'))
+						this->SetYPos(this->GetYPos() + 3);
+					else
+						this->SetYPos(this->GetYPos() - 3);
+				}
+			}
+		}
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		{
+			if (this->alive)
+			{
+				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
 		}
 		//printf("y:%d", m_Pos.y);
@@ -239,4 +249,3 @@ void CMonster::Update()
 	}
 
 }
-

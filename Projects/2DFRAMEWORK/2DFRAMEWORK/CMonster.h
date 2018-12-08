@@ -14,11 +14,8 @@ public:
 
 	bool Boss1_Stop = false;
 	bool Boss2_Stop = false;
-	vector<CBullet> enemy_bullet1;
+	vector<CBullet> enemy_bullet;
 
-	//vector<CBullet> enemy_bullet1;
-	vector<CBullet> enemy_bullet2[3];
-	vector<CBullet> enemy_bullet3[8];
 	CMonster(E_OBJECT typeNum);
 	CMonster();
 	

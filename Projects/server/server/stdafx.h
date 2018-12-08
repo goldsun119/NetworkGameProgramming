@@ -36,5 +36,5 @@ const DWORD KEY_DOWN = 0x00000008;
 const DWORD KEY_SPACE = 0x00000010;
 
 #define BossBulletNum 36
-#define MAXOBJECTNUM 10000
+#define MAXOBJECTNUM 300
 #define RAD(x) 3.141592 / 180 * (x)

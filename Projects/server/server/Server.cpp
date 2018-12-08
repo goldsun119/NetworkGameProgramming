@@ -358,75 +358,75 @@ void Server::MakeEnemy(SOCKET sock, int Cnum)
 			enemyTime1 = NowTime;
 			LeaveCriticalSection(&cs);
 		}
-		if (NowTime - enemyTime2 >= 5.0f)
-		{
-			server.enemyInfo[Cnum].Index = MonsterNumber;
-			MonsterNumber++;
-			server.enemyInfo[Cnum].alive = true;
-			server.enemyInfo[Cnum].Type = E_ENEMY2;
-			EnterCriticalSection(&cs);
-			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//printf("2锅 积己\n");
-			EnterCriticalSection(&cs);
-			enemyTime2 = NowTime;
-			LeaveCriticalSection(&cs);
-		}
+		//if (NowTime - enemyTime2 >= 5.0f)
+		//{
+		//	server.enemyInfo[Cnum].Index = MonsterNumber;
+		//	MonsterNumber++;
+		//	server.enemyInfo[Cnum].alive = true;
+		//	server.enemyInfo[Cnum].Type = E_ENEMY2;
+		//	EnterCriticalSection(&cs);
+		//	m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+		//	LeaveCriticalSection(&cs);
+		//	//printf("2锅 积己\n");
+		//	EnterCriticalSection(&cs);
+		//	enemyTime2 = NowTime;
+		//	LeaveCriticalSection(&cs);
+		//}
 
-		if (NowTime - enemyTime3 >= 10.0f)
-		{
-			server.enemyInfo[Cnum].Index = MonsterNumber;
-			MonsterNumber++;
-			server.enemyInfo[Cnum].alive = true;
-			server.enemyInfo[Cnum].Type = E_ENEMY3;
-			EnterCriticalSection(&cs);
-			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//   printf("3锅 积己\n");
-			EnterCriticalSection(&cs);
-			enemyTime3 = NowTime;
-			LeaveCriticalSection(&cs);
-		}
-	}
+	//	if (NowTime - enemyTime3 >= 10.0f)
+	//	{
+	//		server.enemyInfo[Cnum].Index = MonsterNumber;
+	//		MonsterNumber++;
+	//		server.enemyInfo[Cnum].alive = true;
+	//		server.enemyInfo[Cnum].Type = E_ENEMY3;
+	//		EnterCriticalSection(&cs);
+	//		m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+	//		LeaveCriticalSection(&cs);
+	//		//   printf("3锅 积己\n");
+	//		EnterCriticalSection(&cs);
+	//		enemyTime3 = NowTime;
+	//		LeaveCriticalSection(&cs);
+	//	}
+	//}
 
-	if (NowTime - enemyTime4 >= 50.0f)
-	{
-		if (m_pMonster.Boss1_Appear == false)
-		{
-			server.enemyInfo[Cnum].Index = MonsterNumber;
-			MonsterNumber++;
-			server.enemyInfo[Cnum].alive = true;
-			server.enemyInfo[Cnum].Type = E_BOSS1;
-			EnterCriticalSection(&cs);
-			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//printf("焊胶1 积己\n");
+	//if (NowTime - enemyTime4 >= 50.0f)
+	//{
+	//	if (m_pMonster.Boss1_Appear == false)
+	//	{
+	//		server.enemyInfo[Cnum].Index = MonsterNumber;
+	//		MonsterNumber++;
+	//		server.enemyInfo[Cnum].alive = true;
+	//		server.enemyInfo[Cnum].Type = E_BOSS1;
+	//		EnterCriticalSection(&cs);
+	//		m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+	//		LeaveCriticalSection(&cs);
+	//		//printf("焊胶1 积己\n");
 
-			m_pMonster.Boss1_Appear = true;
-			EnterCriticalSection(&cs);
-			enemyTime4 = NowTime;
-			LeaveCriticalSection(&cs);
-		}
-	}
+	//		m_pMonster.Boss1_Appear = true;
+	//		EnterCriticalSection(&cs);
+	//		enemyTime4 = NowTime;
+	//		LeaveCriticalSection(&cs);
+	//	}
+	//}
 
-	if (NowTime - enemyTime5 >= 80.0f)
-	{
-		if (m_pMonster.Boss2_Appear == false)
-		{
-			server.enemyInfo[Cnum].Index = MonsterNumber;
-			MonsterNumber++;
-			server.enemyInfo[Cnum].alive = true;
-			server.enemyInfo[Cnum].Type = E_BOSS2;
-			EnterCriticalSection(&cs);
-			m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
-			LeaveCriticalSection(&cs);
-			//printf("焊胶2 积己\n");
+	//if (NowTime - enemyTime5 >= 80.0f)
+	//{
+	//	if (m_pMonster.Boss2_Appear == false)
+	//	{
+	//		server.enemyInfo[Cnum].Index = MonsterNumber;
+	//		MonsterNumber++;
+	//		server.enemyInfo[Cnum].alive = true;
+	//		server.enemyInfo[Cnum].Type = E_BOSS2;
+	//		EnterCriticalSection(&cs);
+	//		m_Monster.push_back( CMonster(server.enemyInfo[Cnum]));
+	//		LeaveCriticalSection(&cs);
+	//		//printf("焊胶2 积己\n");
 
-			m_pMonster.Boss2_Appear = true;
-			EnterCriticalSection(&cs);
-			enemyTime5 = NowTime;
-			LeaveCriticalSection(&cs);
-		}
+	//		m_pMonster.Boss2_Appear = true;
+	//		EnterCriticalSection(&cs);
+	//		enemyTime5 = NowTime;
+	//		LeaveCriticalSection(&cs);
+	//	}
 	}
 	if (MAXOBJECTNUM <= MonsterNumber) {
 		return;
@@ -444,7 +444,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	//================================================================
 
 	int SendCount = 0;
-
+	int Ebnum;
 
 	int retval = 0;
 
@@ -589,6 +589,21 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				server.enemyInfo[ClientNum].Hp = server.m_Monster[i].GetHp();
 				send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 				LeaveCriticalSection(&server.cs);
+				
+
+					EnterCriticalSection(&server.cs);
+					Ebnum = server.m_Monster[i].m_EnemyBullet.size();
+					send(ClientSock, (char*)&Ebnum, sizeof(Ebnum), 0);
+					LeaveCriticalSection(&server.cs);
+
+					for (int j = 0; j < server.m_Monster[i].m_EnemyBullet.size(); ++i)
+					{
+						EnterCriticalSection(&server.cs);
+						server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
+						server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].m_IsActive;
+						send(ClientSock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
+						LeaveCriticalSection(&server.cs);
+					}
 			}
 			if(ClientNum==0)
 				server.MakeItem(ClientSock, ClientNum); //酒捞袍

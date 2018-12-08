@@ -14,6 +14,7 @@ public:
 	EnemyInfo enemyInfo[2];
 	ItemInfo itemInfo[2];
 	BulletInfo bulletInfo[2];
+	BulletInfo enemybulletInfo[2];
 	TimeManager m_pTime = TimeManager();
 	InputManager Input;
 	DWORD KeyInput;
