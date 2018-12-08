@@ -16,6 +16,7 @@ class CPlayer : public CGameObject
 	bool Power;
 	int SkillCount;
 public:
+	bool skillPlaying =false;
 	bool Skillplay;
 	CPlayer();
 	~CPlayer();

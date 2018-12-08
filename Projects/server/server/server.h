@@ -28,7 +28,7 @@ public:
 	CItem m_pItem = CItem();
 
 	int score = 1;
-
+	bool skillPlaying;
 	CRITICAL_SECTION cs;
 	//=====OBJTIME======
 	float enemyTime1;
@@ -54,7 +54,7 @@ public:
 	void MakeEnemy(SOCKET sock, int Cnum);
 	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player);
 	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
-	
+	void SkillCollision(vector<CMonster> &Target);
 	
 	
 

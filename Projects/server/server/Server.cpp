@@ -231,16 +231,14 @@ void Server::MakeItem(SOCKET sock, int Cnum)
 }
 void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bullet, vector<CMonster> &Target)
 {
-	
 	for (vector<CBullet>::iterator bulletIter = Bullet.begin(); bulletIter < Bullet.end(); ++bulletIter)
 	{
 		for (vector<CMonster>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
 			if (bulletIter->m_IsActive == true && enemy->GetAlive() == true) {
+
 				if (bulletIter->IsCrashtoEnemy(*enemy))
 				{
-
-
 					if (enemy->GetAlive() == true)
 						bulletIter->m_IsActive = false;
 					if (bulletIter->getType() == -1)
@@ -255,8 +253,6 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bul
 					if (enemy->GetHp() <= 0)
 					{
 						enemy->SetAlive(false);
-
-						//1. 여기 안들어오는거 같은데 왜 죽지?
 					}
 
 				}
@@ -266,6 +262,20 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bul
 		
 	}
 
+}
+void Server::SkillCollision(vector<CMonster> &Target) {
+	
+	for (vector<CMonster>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
+	{
+		if (enemy->GetAlive() == true)
+			enemy->SetHp(enemy->GetHp() - 100);
+		if (enemy->GetHp() <= 0)
+		{
+			enemy->alive = false;
+			printf("1번");
+		}
+	}
+	
 }
 void Server::MakeEnemy(SOCKET sock, int Cnum)
 {
@@ -426,7 +436,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			if (server.IsAllClientReady() == true) {
-				clientinfotohandle[ClientNum].IsScene = E_Scene::E_GAMEOVER; 
+				clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; 
 				//clientinfotohandle[ClientNum].IsScene = E_Scene::E_INGAME; //게임플레이로 씬전환
 				retval = send(ClientSock, (char*)&clientinfotohandle[ClientNum].IsScene, sizeof(clientinfotohandle[ClientNum].IsScene), 0);//씬전환 전송
 				send(ClientSock, (char*)&clientinfotohandle[ClientNum].PlayNum, sizeof(clientinfotohandle[ClientNum].PlayNum), 0);
@@ -488,6 +498,26 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 		
 			//server.playerInfo[ClientNum].skill = server.Input.m_KeyInput.Skill;
 			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
+			recv(ClientSock, (char*)&server.skillPlaying, sizeof(server.skillPlaying), 0);
+
+			if (server.skillPlaying == true) {
+				server.SkillCollision(server.m_Monster);
+
+				int Msize = server.m_Monster.size();
+				send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
+				for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
+				{
+
+					EnterCriticalSection(&server.cs);
+					server.enemyInfo[ClientNum].alive = enemy->GetAlive();
+					server.enemyInfo[ClientNum].Hp = enemy->GetHp();
+					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
+					LeaveCriticalSection(&server.cs);
+					printf("2번");
+				}
+				
+			}
+
 			if (ClientNum == 0)
 				server.MakeEnemy(ClientSock, ClientNum); //적
 			Mnum = server.m_Monster.size();
@@ -512,6 +542,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			Inum = server.m_Item.size();
 			send(ClientSock, (char*)&Inum, sizeof(Inum), 0);
 			server.CheckItembyPlayerCollision(ClientSock, server.m_Item, server.playerInfo[ClientNum]);
+
+
+
 			for (int i = 0; i < Inum; ++i)
 			{
 
@@ -530,10 +563,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			Bnum = server.playerBullet[ClientNum].size();
 			send(ClientSock, (char*)&Bnum, sizeof(Bnum), 0);//총알 크기 미리 알려줌
 			LeaveCriticalSection(&server.cs);
+			
 			if (server.playerBullet[ClientNum].size() > 0) {
-				if (server.m_Monster.size() > 0)
+				if (server.m_Monster.size() > 0) {
 					server.CheckEnemybyPlayerBulletCollision(ClientSock, server.playerBullet[ClientNum], server.m_Monster);
-
+					
+				}
 				for (vector<CBullet>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
 				{
 					server.bulletInfo[ClientNum].Active = bulletIter->GetActive();

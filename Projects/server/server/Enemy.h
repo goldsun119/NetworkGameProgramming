@@ -10,8 +10,8 @@ class CMonster : public CGameObject
 private:
 	float Size;
 	int MyIndex;
-	bool alive;
 public:
+	bool alive;
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 	//vector<CBullet> m_MonsterBullet;
