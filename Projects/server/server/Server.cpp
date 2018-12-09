@@ -549,7 +549,6 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			if (server.Input.m_KeyInput.Skill)
 			{
 				server.playerInfo[ClientNum].skill = true;
-
 			}
 			LeaveCriticalSection(&server.cs);
 
@@ -563,28 +562,35 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 
 			// 여긴 좀 더 생각하기~!?@~@~!@?~!?@~!?@?~!@?~!?@~!?@~!?@?~!@?~!@?~!?@~!?@~!@~!?@~!
-			//if (ClientNum == 0)
-			//{
-			//	recv(ClientSock, (char*)&server.skillPlaying, sizeof(server.skillPlaying), 0);
+				
+			if (ClientNum == 0)
+			{
+				
+					if (server.playerInfo[0].skill == true) {
+						server.SkillCollision(server.m_Monster);
 
-			//		if (server.skillPlaying == true) {
-			//			server.SkillCollision(server.m_Monster);
+						int Msize = server.m_Monster.size();
 
-			//			int Msize = server.m_Monster.size();
+						send(clientinfotohandle[0].Sock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
+						send(clientinfotohandle[1].Sock, (char*)&Msize, sizeof(Msize), 0);
+						for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
+						{
+							
+							EnterCriticalSection(&server.cs);
+							server.enemyInfo.alive = enemy->GetAlive();
+							server.enemyInfo.Hp = enemy->GetHp();
+							
+							send(clientinfotohandle[1].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
+							send(clientinfotohandle[0].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
+							LeaveCriticalSection(&server.cs);
 
-			//			send(ClientSock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
-			//			for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
-			//			{
+						}
+						recv(ClientSock, (char*)&server.skillPlaying, sizeof(server.skillPlaying), 0);
+						server.playerInfo[0].skill = server.skillPlaying;
+						server.playerInfo[1].skill = server.skillPlaying;
+					}
+			}
 
-			//				EnterCriticalSection(&server.cs);
-			//				server.enemyInfo.alive = enemy->GetAlive();
-			//				server.enemyInfo.Hp = enemy->GetHp();
-			//				send(ClientSock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
-			//				LeaveCriticalSection(&server.cs);
-
-			//			}
-			//		}
-			//}
 			if (ClientNum == 0)
 			{
 				server.MakeEnemy(); //적

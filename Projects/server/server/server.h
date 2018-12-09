@@ -29,7 +29,7 @@ public:
 	CItem m_pItem = CItem();
 
 	int score = 1;
-	bool skillPlaying;
+	bool skillPlaying =false;
 	CRITICAL_SECTION cs;
 	//=====OBJTIME======
 	float enemyTime1;
@@ -53,10 +53,10 @@ public:
 	void SendAllPlayerInfo( PlayerInfo P[]);
 	void MakeItem();
 	void MakeEnemy();
-	void CheckItembyPlayerCollision(vector<CItem>& item, PlayerInfo& player);
-	void CheckEnemybyPlayerBulletCollision(vector<CBullet>& Bullet, vector<CMonster> &Target);
+	void CheckItembyPlayerCollision(vector<CItem> &item, PlayerInfo &player);
+	void CheckEnemybyPlayerBulletCollision(vector<CBullet> &Bullet, vector<CMonster> &Target);
 	void SkillCollision(vector<CMonster> &Target);
-	void CheckPlayerbyEnemyBulletCollision(vector<CBullet> Bullet, PlayerInfo& player);
+	void CheckPlayerbyEnemyBulletCollision(vector<CBullet> Bullet, PlayerInfo &player);
 	
 
 };
