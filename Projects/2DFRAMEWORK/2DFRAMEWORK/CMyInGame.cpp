@@ -316,52 +316,125 @@ void CMyInGame::Update()
 
 	int Bnum = 0;
 	int B2num = 0;
-	recv(FRAMEWORK->GetSock(), (char*)&Bnum, sizeof(Bnum), 0);
 
-	if (Bnum > 0) {
-		for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
-		{
-			if (i < Bnum)
+	if (FRAMEWORK->m_ClientInfo.PlayNum == 0)
+	{
+		recv(FRAMEWORK->GetSock(), (char*)&Bnum, sizeof(Bnum), 0);
+
+
+		if (Bnum > 0) {
+			for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
 			{
-				recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
-				m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
-				m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				if (i < Bnum)
+				{
+					recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+					m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
+					m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				}
+				else
+				{
+					m_pPlayer->m_PlayerBullet[i]->alive = false;
+					m_pPlayer->m_PlayerBullet[i]->SetPos(0, 0);
+				}
 			}
-			else
+			int msize = 0;
+			recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
+			//미리 사이즈를 알려줌
+			for (int i = 0; i < msize; ++i)
 			{
-				m_pPlayer->m_PlayerBullet[i]->alive = false;
-				m_pPlayer->m_PlayerBullet[i]->SetPos(0,0);
+				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[i]->alive = enemyInfo.alive;
+				m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 			}
 		}
-		int msize = 0;
-		recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
-		//미리 사이즈를 알려줌
-		for (int i = 0; i < msize; ++i)
-		{
-			recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
-			m_Monster[i]->alive = enemyInfo.alive;
-			m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+
+		recv(FRAMEWORK->GetSock(), (char*)&B2num, sizeof(B2num), 0);
+
+		if (B2num > 0) {
+			for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
+			{
+				if (i < B2num)
+				{
+					recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+					m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
+					m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				}
+				else
+				{
+					m_p2Player->m_PlayerBullet[i]->alive = false;
+					//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+				}
+			}
+			int msize = 0;
+			recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
+			//미리 사이즈를 알려줌
+			for (int i = 0; i < msize; ++i)
+			{
+				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[i]->alive = enemyInfo.alive;
+				m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			}
 		}
 	}
-	recv(FRAMEWORK->GetSock(), (char*)&B2num, sizeof(B2num), 0);
+	else
+	{
+		recv(FRAMEWORK->GetSock(), (char*)&Bnum, sizeof(Bnum), 0);
 
-	if (B2num > 0) {
-		for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
-		{
-			if (i < B2num)
+
+		if (Bnum > 0) {
+			for (int i = 0; i < m_p2Player->m_PlayerBullet.size(); ++i)
 			{
-				recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
-				m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
-				m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				if (i < Bnum)
+				{
+					recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+					m_p2Player->m_PlayerBullet[i]->alive = bulletInfo.Active;
+					m_p2Player->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				}
+				else
+				{
+					m_p2Player->m_PlayerBullet[i]->alive = false;
+					m_p2Player->m_PlayerBullet[i]->SetPos(0, 0);
+				}
 			}
-			else
+			int msize = 0;
+			recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
+			//미리 사이즈를 알려줌
+			for (int i = 0; i < msize; ++i)
 			{
-				m_p2Player->m_PlayerBullet[i]->alive = false;
-				//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[i]->alive = enemyInfo.alive;
+				m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
+			}
+		}
+
+		recv(FRAMEWORK->GetSock(), (char*)&B2num, sizeof(B2num), 0);
+
+		if (B2num > 0) {
+			for (int i = 0; i < m_pPlayer->m_PlayerBullet.size(); ++i)
+			{
+				if (i < B2num)
+				{
+					recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
+					m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
+					m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
+				}
+				else
+				{
+					m_pPlayer->m_PlayerBullet[i]->alive = false;
+					//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+				}
+			}
+			int msize = 0;
+			recv(FRAMEWORK->GetSock(), (char*)& msize, sizeof(msize), 0);
+			//미리 사이즈를 알려줌
+			for (int i = 0; i < msize; ++i)
+			{
+				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[i]->alive = enemyInfo.alive;
+				m_Monster[i]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 			}
 		}
 	}
-
 
 }
 	

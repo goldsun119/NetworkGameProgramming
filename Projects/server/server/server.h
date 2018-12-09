@@ -11,9 +11,9 @@ class Server {
 public:
 	//클라이언트 접속관리
 	PlayerInfo playerInfo[2];
-	EnemyInfo enemyInfo[2];
-	ItemInfo itemInfo[2];
-	BulletInfo bulletInfo[2];
+	EnemyInfo enemyInfo;
+	ItemInfo itemInfo;
+	BulletInfo bulletInfo;
 	BulletInfo enemybulletInfo[2];
 	TimeManager m_pTime = TimeManager();
 	InputManager Input;
@@ -50,11 +50,11 @@ public:
 	
 	bool IsAllClientReady();
 	void SetInitData(PlayerInfo& a, int num);
-	void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[]);
-	void MakeItem(SOCKET sock,int Cnum);
-	void MakeEnemy(SOCKET sock, int Cnum);
-	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo& player);
-	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
+	void SendAllPlayerInfo( PlayerInfo P[]);
+	void MakeItem();
+	void MakeEnemy();
+	void CheckItembyPlayerCollision(vector<CItem>& item, PlayerInfo& player);
+	void CheckEnemybyPlayerBulletCollision(vector<CBullet>& Bullet, vector<CMonster> &Target);
 	void SkillCollision(vector<CMonster> &Target);
 	void CheckPlayerbyEnemyBulletCollision(vector<CBullet> Bullet, PlayerInfo& player);
 	

@@ -71,7 +71,7 @@ void CPlayer::CheckKey()
 		{
 			if (SkillCount > 0) {
 				m_KeyInput.Skill = true;
-				skillPlaying = true;
+				//skillPlaying = true;
 				//SkillCount--;
 			}
 		}
