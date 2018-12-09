@@ -84,28 +84,28 @@ void Server::CheckItembyPlayerCollision( vector<CItem>& item, PlayerInfo& player
 						if (!player.Power)
 							player.Power = true;
 						p->alive = false;
-
+						p->SetPos(3000, 3000);
 						//p = item.erasep;
 						break;
 					case E_ISHIELD:
 						if (!player.Shield)
 							player.Shield = true;
 						p->alive = false;
-
+						p->SetPos(3000, 3000);
 						//p = item.erasep;
 						break;
 					case E_ISKILL:
 						if (!player.skill)
 							player.skill = true;
 						p->alive = false;
-
+						p->SetPos(3000, 3000);
 						//p = item.erasep;
 						break;
 					case E_ISUB:
 						if (!player.SubWeapon)
 							player.SubWeapon = true;
 						p->alive = false;
-
+						p->SetPos(3000, 3000);
 
 						//p = item.erasep;
 						break;
@@ -113,6 +113,7 @@ void Server::CheckItembyPlayerCollision( vector<CItem>& item, PlayerInfo& player
 						if (player.BulletCount < 3)
 							player.BulletCount += 1;
 						p->alive = false;
+						p->SetPos(3000, 3000);
 						//printf("으후");
 
 					//p = item.erasep;
@@ -257,6 +258,12 @@ void Server::CheckEnemybyPlayerBulletCollision(vector<CBullet> &Bullet, vector<C
 					if (enemy->GetHp() <= 0)
 					{
 						enemy->SetAlive(false);
+						enemy->SetPos(3000, 3000);
+						for (vector<CBullet>::iterator ebullet = enemy->m_EnemyBullet.begin(); ebullet < enemy->m_EnemyBullet.end(); ++ebullet)
+						{
+							ebullet->SetPos(3000, 3000);
+							ebullet->SetAlive(false);
+						}
 					}
 
 				}
@@ -276,7 +283,7 @@ void Server::SkillCollision(vector<CMonster> &Target) {
 		if (enemy->GetHp() <= 0)
 		{
 			enemy->alive = false;
-			
+			enemy->SetPos(3000, 3000);
 		}
 	}
 	
@@ -297,32 +304,32 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 				case -2:
 					p->SetAlive(false);
 					player.Hp -= 1;
-					
+					p->SetPos(3000,3000);
 					
 					break;
 				case 1:
 					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
-		
+					p->SetPos(3000, 3000);
 					break;
 				case 2:
 					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
-
+					p->SetPos(3000, 3000);
 					break;
 				case 3:
 					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
-
+					p->SetPos(3000, 3000);
 					break;
 				case 4:
 					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
-
+					p->SetPos(3000, 3000);
 					break;
 				}
 
@@ -554,6 +561,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 			//server.playerInfo[ClientNum].skill = server.Input.m_KeyInput.Skill;
 			//여기 플레이어 생존 여부 확인 시 보냄
+		
 			if (ClientNum == 0)
 			{
 				
@@ -564,7 +572,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			// 여긴 좀 더 생각하기~!?@~@~!@?~!?@~!?@?~!@?~!?@~!?@~!?@?~!@?~!@?~!?@~!?@~!@~!?@~!
 				
 			
-				if (server.playerInfo[ClientNum].skill == true) {
+				if (server.playerInfo[0].skill || server.playerInfo[1].skill) {
 
 
 					int Msize = server.m_Monster.size();
@@ -582,7 +590,10 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 									send(clientinfotohandle[1].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
 									send(clientinfotohandle[0].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
-									
+									for (vector<CBullet>::iterator enemy = server.m_Monster[i].m_EnemyBullet.begin(); enemy < server.m_Monster[i].m_EnemyBullet.end(); ++enemy) {
+										enemy->alive == false;
+										enemy->SetPos(3000, 3000);
+									}
 
 						}
 						server.playerInfo[1].skill = false;

@@ -62,8 +62,8 @@ CMyInGame::CMyInGame()
 	m_ItemBullet.Load(TEXT("image/ITEM(총알).png"));
 	m_BItemShield.Load(TEXT("image/ITEM(방어막).png"));
 	m_ItemPower.Load(TEXT("image/강화총알.png"));
-	m_ItemSub.Load(TEXT("image/ITEM(보조).png"));
 	m_ItemUlt.Load(TEXT("image/ITEM(필살기).png"));
+	m_ItemSub.Load(TEXT("image/ITEM(보조).png"));
 	
 	//m_IngameImageMap.insert(pair<std::string, std::vector<MyImage>>("PlayerDefaultBulletImage", *MYRENDERMANAGER->FindCImage("PlayerDefaultBulletImage")));
 	
@@ -118,12 +118,19 @@ void CMyInGame::Render(HDC hdc)
 		HBITMAP memBit = CreateCompatibleBitmap(hdc, m_nWndClientWidth, m_nWndClientHeight);
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
-		
+		//스킬
+		if (skillPlaying == true) {
+			if (m_pPlayer->GetSkillCount() > 0 || m_p2Player->GetSkillCount() > 0) {
+				m_SkillImg.Draw(memDC, skillPosX, skillPosY, 400, 400);
+			}
+		}
+
 		if(m_pPlayer->GetHp() >0)
 			m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
 
 		if (m_p2Player->GetHp() > 0)
 			m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
+		
 		//UI - HP
 		if (m_pPlayer->GetHp() != 0)
 		{
@@ -138,6 +145,15 @@ void CMyInGame::Render(HDC hdc)
 			for (int i = 0; i < m_pPlayer->GetSkillCount(); ++i)
 			{
 				m_ItemUlt.Draw(memDC, WndX - (m_UiSize * 2) - (m_UiSize * i), (WndY - m_UiSize*3), m_UiSize, m_UiSize);
+			}
+		}
+		//적 총알 그리기
+		for (vector<CMonster*>::iterator iter = m_Monster.begin(); iter != m_Monster.end(); ++iter) {
+			if ((*iter)->alive == true) {
+				for (vector<CBullet>::iterator bulletiter = (*iter)->enemy_bullet.begin(); bulletiter != (*iter)->enemy_bullet.end(); ++bulletiter)
+				{
+					m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, 10, 10);
+				}
 			}
 		}
 		//몬스터 그리기
@@ -158,16 +174,8 @@ void CMyInGame::Render(HDC hdc)
 			}
 
 		}
-		//총알 그리기
-		//적1
-		for (vector<CMonster*>::iterator iter = m_Monster.begin(); iter != m_Monster.end(); ++iter) {
-			if ((*iter)->alive == true) {
-				for (vector<CBullet>::iterator bulletiter = (*iter)->enemy_bullet.begin(); bulletiter != (*iter)->enemy_bullet.end(); ++bulletiter)
-				{
-					m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, 10, 10);
-				}
-			}
-		}
+		
+
 
 
 		//아이템 - 총알
@@ -225,12 +233,7 @@ void CMyInGame::Render(HDC hdc)
 			}
 			iter2++;
 		}
-		//스킬
-		if (skillPlaying == true) {
-			if (m_pPlayer->GetSkillCount() > 0 || m_p2Player->GetSkillCount() > 0) {
-				m_SkillImg.Draw(memDC, skillPosX, skillPosY, 400, 400);
-			}
-		}
+		
 
 
 
@@ -291,7 +294,9 @@ void CMyInGame::Update()
 				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
 				m_Monster[i]->alive = enemyInfo.alive;
 				m_Monster[i]->SetHp(enemyInfo.Hp);
-
+				if (m_Monster[i]->alive == false) {
+					m_Monster[i]->SetPos(3000, 3000);
+				}
 
 			}
 		}
@@ -338,7 +343,7 @@ void CMyInGame::Update()
 				else
 				{
 					m_pPlayer->m_PlayerBullet[i]->alive = false;
-					m_pPlayer->m_PlayerBullet[i]->SetPos(0, 0);
+					m_pPlayer->m_PlayerBullet[i]->SetPos(3000,3000);
 				}
 			}
 			int msize = 0;
@@ -366,7 +371,7 @@ void CMyInGame::Update()
 				else
 				{
 					m_p2Player->m_PlayerBullet[i]->alive = false;
-					//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+					m_p2Player->m_PlayerBullet[i]->SetPos(3000,3000);
 				}
 			}
 			int msize = 0;
@@ -397,7 +402,7 @@ void CMyInGame::Update()
 				else
 				{
 					m_p2Player->m_PlayerBullet[i]->alive = false;
-					m_p2Player->m_PlayerBullet[i]->SetPos(0, 0);
+					m_p2Player->m_PlayerBullet[i]->SetPos(3000, 3000);
 				}
 			}
 			int msize = 0;
@@ -418,6 +423,7 @@ void CMyInGame::Update()
 			{
 				if (i < B2num)
 				{
+
 					recv(FRAMEWORK->GetSock(), (char*)&bulletInfo, sizeof(bulletInfo), 0);
 					m_pPlayer->m_PlayerBullet[i]->alive = bulletInfo.Active;
 					m_pPlayer->m_PlayerBullet[i]->SetPos(bulletInfo.Pos.x, bulletInfo.Pos.y);
@@ -425,7 +431,7 @@ void CMyInGame::Update()
 				else
 				{
 					m_pPlayer->m_PlayerBullet[i]->alive = false;
-					//m_p2Player->m_PlayerBullet[i]->SetPos(0,0);
+					m_pPlayer->m_PlayerBullet[i]->SetPos(3000, 3000);
 				}
 			}
 			int msize = 0;
