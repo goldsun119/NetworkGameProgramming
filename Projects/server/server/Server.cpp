@@ -559,40 +559,41 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				EnterCriticalSection(&server.cs);
 				server.SendAllPlayerInfo(server.playerInfo);//플레이어
 				LeaveCriticalSection(&server.cs);
-			}
+			
 
 			// 여긴 좀 더 생각하기~!?@~@~!@?~!?@~!?@?~!@?~!?@~!?@~!?@?~!@?~!@?~!?@~!?@~!@~!?@~!
 				
-			if (ClientNum == 0)
-			{
-				
-					if (server.playerInfo[0].skill == true) {
-						server.SkillCollision(server.m_Monster);
+			
+				if (server.playerInfo[ClientNum].skill == true) {
 
-						int Msize = server.m_Monster.size();
 
-						send(clientinfotohandle[0].Sock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
-						send(clientinfotohandle[1].Sock, (char*)&Msize, sizeof(Msize), 0);
+					int Msize = server.m_Monster.size();
+
+					send(clientinfotohandle[1].Sock, (char*)&Msize, sizeof(Msize), 0);//몬스터크기가 너무 커서 미리 사이즈 알려줌
+					send(clientinfotohandle[0].Sock, (char*)&Msize, sizeof(Msize), 0);
+					if (Msize > 0) {
+							server.SkillCollision(server.m_Monster);
 						for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
 						{
-							
-							EnterCriticalSection(&server.cs);
-							server.enemyInfo.alive = enemy->GetAlive();
-							server.enemyInfo.Hp = enemy->GetHp();
-							
-							send(clientinfotohandle[1].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
-							send(clientinfotohandle[0].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
-							LeaveCriticalSection(&server.cs);
+
+									//EnterCriticalSection(&server.cs);
+									server.enemyInfo.alive = enemy->GetAlive();
+									server.enemyInfo.Hp = enemy->GetHp();
+
+									send(clientinfotohandle[1].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
+									send(clientinfotohandle[0].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
+									//LeaveCriticalSection(&server.cs);
 
 						}
-						recv(ClientSock, (char*)&server.skillPlaying, sizeof(server.skillPlaying), 0);
-						server.playerInfo[0].skill = server.skillPlaying;
-						server.playerInfo[1].skill = server.skillPlaying;
 					}
-			}
+					server.playerInfo[1].skill = false;
+					server.playerInfo[0].skill = false;
+				}
+			
+					
+			
 
-			if (ClientNum == 0)
-			{
+			
 				server.MakeEnemy(); //적
 				Mnum = server.m_Monster.size();
 				send(clientinfotohandle[1].Sock, (char*)&Mnum, sizeof(Mnum), 0);
@@ -623,9 +624,8 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 						}
 					}
 				}
-			}
-			if (ClientNum == 0)
-			{
+			
+			
 				server.MakeItem(); //아이템
 				Inum = server.m_Item.size();
 				send(clientinfotohandle[0].Sock, (char*)&Inum, sizeof(Inum), 0);
@@ -645,12 +645,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					send(clientinfotohandle[0].Sock, (char*)&server.itemInfo, sizeof(server.itemInfo), 0);
 					send(clientinfotohandle[1].Sock, (char*)&server.itemInfo, sizeof(server.itemInfo), 0);
 				}
-			}
+			
 
 				//충돌체크 및 업데이트
 			
-			if (ClientNum == 0)
-			{
+			
 				for (int f = 0; f < 2; ++f)
 				{
 					Bnum = server.playerBullet[f].size();
@@ -685,11 +684,10 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 					}
 				}
-			}
+			
 
 				//적총알 충돌체크
-			if (ClientNum == 0)
-			{
+			
 				for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
 				{
 					server.CheckPlayerbyEnemyBulletCollision(enemy->m_EnemyBullet, server.playerInfo[0]);

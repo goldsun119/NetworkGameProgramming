@@ -75,7 +75,7 @@ public:
 
 	int skillPosX = 0;
 	float skillPosY = 400.0f;
-
+	bool skillPlaying ;
 	//CGameObject						*m_pGameObj;
 	//Player							*m_pPlayer;
 public:

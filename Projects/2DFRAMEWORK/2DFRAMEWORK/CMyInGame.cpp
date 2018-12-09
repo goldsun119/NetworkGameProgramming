@@ -226,7 +226,7 @@ void CMyInGame::Render(HDC hdc)
 			iter2++;
 		}
 		//스킬
-		if (m_pPlayer->skillPlaying == true || skillPosY < 399.9f) {
+		if (skillPlaying == true) {
 			if (m_pPlayer->GetSkillCount() > 0 || m_p2Player->GetSkillCount() > 0) {
 				m_SkillImg.Draw(memDC, skillPosX, skillPosY, 400, 400);
 			}
@@ -278,60 +278,38 @@ void CMyInGame::Update()
 	}
 	//스킬업뎃	
 
-	
-	if (m_pPlayer->skillPlaying == true || skillPosY < 399.9f) {
 
+	if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
+		skillPlaying = true;
+	}
+	if(skillPlaying == true){
 		skillPosY -= 1.5f;
 		if (skillPosY < 0.0f) {
 
 			skillPosY = 400.0f;
 
-			m_pPlayer->Skillplay = false;
-			m_p2Player->Skillplay = false;
-			
+			skillPlaying = false;
 			m_pPlayer->SetSkillCount(m_pPlayer->GetSkillCount() - 1);
 			m_p2Player->SetSkillCount(m_p2Player->GetSkillCount() - 1);
 
 		}
-	}
-		
-	if (FRAMEWORK->m_ClientInfo.PlayNum == 0)
-	{
-
-		if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
-			int monsize = 0;
-			recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
-			//미리 사이즈를 알려줌
+		int monsize = 0;
+		recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
+		if (monsize > 0) {
+		//	//미리 사이즈를 알려줌
 			for (int i = 0; i < monsize; ++i)
 			{
 				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
 				m_Monster[i]->alive = false;
 				m_Monster[i]->SetHp(enemyInfo.Hp);
-				
-
-			}
-			m_pPlayer->skillPlaying = false;
-			m_p2Player->skillPlaying = false;
-			send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->skillPlaying, sizeof(m_pPlayer->skillPlaying), 0);
-		}
-	}
-	else {
-		if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
-			int monsize = 0;
-			recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
-			//미리 사이즈를 알려줌
-			for (int i = 0; i < monsize; ++i)
-			{
-				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
-				m_Monster[i]->alive = enemyInfo.alive;
-				m_Monster[i]->SetHp(enemyInfo.Hp);
 
 
 			}
-			m_pPlayer->skillPlaying = false;
-			m_p2Player->skillPlaying = false;
 		}
 	}
+		
+	
+
 	
 	MakeEnemys();
 	MakeItem();

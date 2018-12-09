@@ -19,7 +19,7 @@ CPlayer::CPlayer()
 	Power = false;
 	SkillCount=1;
 	Skillplay = false;
-	skillPlaying = false;
+	
 
 	playerNum = FRAMEWORK->m_ClientInfo.PlayNum;
 
@@ -72,7 +72,7 @@ void CPlayer::CheckKey()
 		{
 			if (SkillCount > 0) {
 				m_KeyInput.Skill = true; 
-				skillPlaying = true;
+				
 				//skillPlaying = true;
 				//SkillCount--;
 			}
