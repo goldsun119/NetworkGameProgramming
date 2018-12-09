@@ -19,7 +19,7 @@ public:
 	InputManager Input;
 	DWORD KeyInput;
 	
-
+	EnemyBulletInfo enemyBulletInfo;
 	vector<CBullet> playerBullet[2];
 	vector<CMonster> m_Monster;
 	vector<CItem> m_Item;
@@ -53,11 +53,10 @@ public:
 	void SendAllPlayerInfo(SOCKET sock, PlayerInfo P[]);
 	void MakeItem(SOCKET sock,int Cnum);
 	void MakeEnemy(SOCKET sock, int Cnum);
-	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player);
+	void CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo& player);
 	void CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet>& Bullet, vector<CMonster> &Target);
 	void SkillCollision(vector<CMonster> &Target);
-	void CheckPlayerbyEnemyBulletCollision(SOCKET sock, vector<CBullet>& Bullet, PlayerInfo player);
-
+	void CheckPlayerbyEnemyBulletCollision(vector<CBullet> Bullet, PlayerInfo& player);
 	
 
 };

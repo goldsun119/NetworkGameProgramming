@@ -119,9 +119,11 @@ void CMyInGame::Render(HDC hdc)
 		SelectObject(memDC, memBit);
 		StretchBlt(memDC, 0, 0, 403, 599, m_IngameImageMap["IngameBackGroundImage"].begin()->GetCimage()->GetDC(), 0, 0, 360, 600, SRCCOPY);
 		
-		m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
-		
-		m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
+		if(m_pPlayer->GetHp() >0)
+			m_PlayerImg.Draw(memDC, m_pPlayer->GetPos().x, m_pPlayer->GetPos().y, m_pPlayer->GetSize(), m_pPlayer->GetSize());
+
+		if (m_p2Player->GetHp() > 0)
+			m_2PlayerImg.Draw(memDC, m_p2Player->GetPos().x, m_p2Player->GetPos().y, m_p2Player->GetSize(), m_p2Player->GetSize());
 		//UI - HP
 		if (m_pPlayer->GetHp() != 0)
 		{
@@ -258,13 +260,17 @@ void CMyInGame::Update()
 	{
 	case 0:
 		m_pPlayer->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
+		m_pPlayer->SetHp(playerInfo[0].Hp);
 		m_p2Player->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
+		m_p2Player->SetHp(playerInfo[1].Hp);
 		m_pPlayer->SetSkillPlay(playerInfo[0].skill);
 		m_p2Player->SetSkillPlay(playerInfo[1].skill);
 		break;
 	case 1:
 		m_pPlayer->SetPos(playerInfo[1].Pos.x, playerInfo[1].Pos.y);
+		m_pPlayer->SetHp(playerInfo[1].Hp);
 		m_p2Player->SetPos(playerInfo[0].Pos.x, playerInfo[0].Pos.y);
+		m_p2Player->SetHp(playerInfo[0].Hp);
 		m_pPlayer->SetSkillPlay( playerInfo[1].skill);
 		m_p2Player->SetSkillPlay(playerInfo[0].skill);
 		break;

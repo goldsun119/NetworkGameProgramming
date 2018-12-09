@@ -92,4 +92,12 @@ public:
 	int Index;
 };
 
+#pragma pack(1)
+class EnemyBulletInfo {
+public:
+	bool Alive;
+	int index;
+	POINT Pos;
+};
+
 typedef pair<int, string> Score;

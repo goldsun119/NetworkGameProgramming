@@ -50,7 +50,7 @@ void Server::SetInitData(PlayerInfo& a, int num)
 {
 	//초기값 설정 함수로 만들자!
 	a.Pos = { (num * 200) + 100, 500 };
-	a.Hp = 5;
+	a.Hp = 3;
 	a.BulletCount = 1;
 	a.Shield = 0;
 	a.SubWeapon = 1;
@@ -64,7 +64,7 @@ void Server::SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
 	send(sock, (char*)&P[0], sizeof(P[0]), 0);//플레이어 정보 전송
 	send(sock, (char*)&P[1], sizeof(P[1]), 0);//플레이어 정보 전송
 }
-void Server::CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo player)
+void Server::CheckItembyPlayerCollision(SOCKET sock, vector<CItem>& item, PlayerInfo& player)
 {
 	for (vector<CItem>::iterator p = item.begin(); p < item.end(); ++p)
 
@@ -272,56 +272,49 @@ void Server::SkillCollision(vector<CMonster> &Target) {
 		if (enemy->GetHp() <= 0)
 		{
 			enemy->alive = false;
-			printf("1번");
+			
 		}
 	}
 	
 }
-void Server::CheckPlayerbyEnemyBulletCollision(SOCKET sock, vector<CBullet>& Bullet, PlayerInfo player)
+void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo& player)
 {
 	for (vector<CBullet>::iterator p = Bullet.begin(); p < Bullet.end(); ++p)
-
 	{
-		if (p->alive == true)
+		
+		if (p->m_IsActive == true)
 		{
 			if (p->IsShootPlayer(player))
 			{
-
-				switch (p->GetType())
+				switch (p->getType())
 				{
 				case 0:
 				case -1:
 				case -2:
-					p->alive = false;
+					p->m_IsActive = false;
 					player.Hp -= 1;
-					//p = item.erasep;
+					
+					
 					break;
 				case 1:
-					p->alive = false;
+					p->m_IsActive = false;
 					player.Hp -= 1;
-
-					//p = item.erasep;
+		
 					break;
 				case 2:
-					p->alive = false;
+					p->m_IsActive = false;
 					player.Hp -= 1;
-
 
 					break;
 				case 3:
-					p->alive = false;
+					p->m_IsActive = false;
 					player.Hp -= 1;
 
-
-					//p = item.erasep;
 					break;
 				case 4:
-					p->alive = false;
+					p->m_IsActive = false;
 					player.Hp -= 1;
 
-					//printf("으후");
-
-				//p = item.erasep;
 					break;
 				}
 
@@ -330,6 +323,7 @@ void Server::CheckPlayerbyEnemyBulletCollision(SOCKET sock, vector<CBullet>& Bul
 
 	}
 }
+
 void Server::MakeEnemy(SOCKET sock, int Cnum)
 {
 	
@@ -566,7 +560,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					server.enemyInfo[ClientNum].Hp = enemy->GetHp();
 					send(ClientSock, (char*)&server.enemyInfo[ClientNum], sizeof(server.enemyInfo[ClientNum]), 0);
 					LeaveCriticalSection(&server.cs);
-					printf("2번");
+				
 				}
 				
 			}
@@ -694,23 +688,13 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					}
 				}
 				LeaveCriticalSection(&server.cs);
-				//for (vector<CBullet*>::iterator bulletIter = server.playerBullet[0].begin(); bulletIter != server.playerBullet[0].end(); ++bulletIter)
-					//{
-					//	server.bulletInfo[0].Active = bulletIter.GetActive();
-					//	server.bulletInfo[0].Pos = bulletIter.GetPos();
-					//	send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
-					//}
-			}
-	
 
-			/*	int itemSize;
-			itemSize = server.m_Item.size();
-			send(ClientSock, (char*)&itemSize, sizeof(itemSize),0);
-			for (vector<CItem>::iterator Item = server.m_Item.begin(); Item < server.m_Item.end(); ++Item)
+			}
+			//적총알 충돌체크
+			for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
 			{
-				server.itemInfo[ClientNum].alive = Item->alive;
-				send(ClientSock, (char*)&server.itemInfo[ClientNum], sizeof(server.itemInfo[ClientNum]), 0);
-			}*/
+				server.CheckPlayerbyEnemyBulletCollision(enemy->m_EnemyBullet, server.playerInfo[ClientNum]);
+			}
 //플레이어 총알
 			//이동
 			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)
