@@ -277,38 +277,38 @@ void CMyInGame::Update()
 		break;
 	}
 	//스킬업뎃	
-	if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
-		
-		skillPosY -= 1.5f;
-		if (skillPosY < 0.0f) {
+	//if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
+	//	
+	//	skillPosY -= 1.5f;
+	//	if (skillPosY < 0.0f) {
 
-			skillPosY = 400.0f;
-			
-			m_pPlayer->Skillplay = false;
-			m_p2Player->Skillplay = false;
-			if (m_pPlayer->GetSkillPlay() == false || m_p2Player->GetSkillPlay() == false) {
-				m_pPlayer->SetSkillCount(m_pPlayer->GetSkillCount() - 1);
-				m_p2Player->SetSkillCount(m_p2Player->GetSkillCount() - 1);
-				
-			}
-			
-		}
-	}
-	send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->skillPlaying, sizeof(m_pPlayer->skillPlaying), 0);
+	//		skillPosY = 400.0f;
+	//		
+	//		m_pPlayer->Skillplay = false;
+	//		m_p2Player->Skillplay = false;
+	//		if (m_pPlayer->GetSkillPlay() == false || m_p2Player->GetSkillPlay() == false) {
+	//			m_pPlayer->SetSkillCount(m_pPlayer->GetSkillCount() - 1);
+	//			m_p2Player->SetSkillCount(m_p2Player->GetSkillCount() - 1);
+	//			
+	//		}
+	//		
+	//	}
+	//}
+	//send(FRAMEWORK->GetSock(), (char*)&m_pPlayer->skillPlaying, sizeof(m_pPlayer->skillPlaying), 0);
 
-	if (m_pPlayer->skillPlaying == true) {
-		int monsize = 0;
-		recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
-		//미리 사이즈를 알려줌
-		for (int i = 0; i < monsize; ++i)
-		{
-			recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
-			m_Monster[i]->alive = enemyInfo.alive;
-			m_Monster[i]->SetHp(enemyInfo.Hp);
-			
-		}
-		m_pPlayer->skillPlaying = false;
-	}
+	//if (m_pPlayer->skillPlaying == true) {
+	//	int monsize = 0;
+	//	recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
+	//	//미리 사이즈를 알려줌
+	//	for (int i = 0; i < monsize; ++i)
+	//	{
+	//		recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+	//		m_Monster[i]->alive = enemyInfo.alive;
+	//		m_Monster[i]->SetHp(enemyInfo.Hp);
+	//		
+	//	}
+	//	m_pPlayer->skillPlaying = false;
+	//}
 	MakeEnemys();
 	int num2 = 0;
 

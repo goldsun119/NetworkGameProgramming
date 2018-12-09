@@ -652,7 +652,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 							server.CheckEnemybyPlayerBulletCollision(server.playerBullet[f], server.m_Monster);
 
 						}
-						for (vector<CBullet>::iterator bulletIter = server.playerBullet[f].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
+						for (vector<CBullet>::iterator bulletIter = server.playerBullet[f].begin(); bulletIter < server.playerBullet[f].end(); ++bulletIter)
 						{
 							server.bulletInfo.Active = bulletIter->GetAlive();
 							server.bulletInfo.Pos = bulletIter->GetPos();
