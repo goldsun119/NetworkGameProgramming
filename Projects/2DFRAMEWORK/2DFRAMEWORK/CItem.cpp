@@ -38,6 +38,7 @@ bool CItem::GetDir(char c) const
 }
 void CItem::ItemGet(vector<I_BULLET> I_bullet, vector<I_SUB> I_sub, vector<I_POWER> I_power, vector<I_SKILL> I_skill, vector<I_SHEILD> I_sheild)
 {
+	m_size = 150;
 	/*for (auto p = I_power.begin(); p < I_power.end();)
 	{
 		if (p->IsGet(player))

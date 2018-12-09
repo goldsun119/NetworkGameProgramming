@@ -164,7 +164,7 @@ void CMyInGame::Render(HDC hdc)
 			if ((*iter)->alive == true) {
 				for (vector<CBullet>::iterator bulletiter = (*iter)->enemy_bullet.begin(); bulletiter != (*iter)->enemy_bullet.end(); ++bulletiter)
 				{
-					m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, (bulletiter)->GetSize(), (bulletiter)->GetSize());
+					m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, 10, 10);
 				}
 			}
 		}
@@ -175,35 +175,35 @@ void CMyInGame::Render(HDC hdc)
 			iter != I_bullet.end(); ++iter)
 		{
 			if ((*iter)->alive == true) 
-				m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				m_ItemBullet.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, 30, 30);
 		}
 		//아이템 - 방어막
 		for (vector<I_SHEILD*>::iterator iter = I_sheild.begin();
 			iter != I_sheild.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
-				m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				m_BItemShield.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, 30, 30);
 		}
 		//아이템 - 궁아이템획득
 		for (vector<I_SKILL*>::iterator iter = I_skill.begin();
 			iter != I_skill.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
-				m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				m_ItemUlt.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, 30, 30);
 		}
 		//아이템 - 보조
 		for (vector<I_SUB*>::iterator iter = I_sub.begin();
 			iter != I_sub.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
-				m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				m_ItemSub.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, 30, 30);
 		}
 		//아이템 - 강화
 		for (vector<I_POWER*>::iterator iter = I_power.begin();
 			iter != I_power.end(); ++iter)
 		{
 			if ((*iter)->alive == true)
-				m_ItemPower.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, (*iter)->GetSize(), (*iter)->GetSize());
+				m_ItemPower.Draw(memDC, (*iter)->GetPos().x, (*iter)->GetPos().y, 30, 30);
 		}
 
 		//플레이어 총알 그리기
@@ -279,7 +279,7 @@ void CMyInGame::Update()
 	//스킬업뎃	
 
 	
-	if (m_pPlayer->skillPlaying == true ||skillPosY < 399.9f) {
+	if (m_pPlayer->skillPlaying == true || skillPosY < 399.9f) {
 
 		skillPosY -= 1.5f;
 		if (skillPosY < 0.0f) {

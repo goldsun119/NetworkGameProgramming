@@ -27,7 +27,7 @@ public:
 	CMonster* m_pMonster;
 
 	int								eTime = 0;
-	int								m_UiSize = 40;
+	int								m_UiSize = 30;
 	int								m_UiXPos = 400;
 	bool							Boss1_Appear = false;
 	bool							Boss2_Appear = false;

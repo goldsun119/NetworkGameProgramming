@@ -16,7 +16,7 @@ CItem::CItem(ItemInfo itemInfo)
 	MyIndex = itemInfo.Index;
 	alive = true;
 	m_Type = itemInfo.Type;
-	m_size = 30;
+	m_size = 50;
 	switch (m_Type)
 	{
 	case E_IPOWER:

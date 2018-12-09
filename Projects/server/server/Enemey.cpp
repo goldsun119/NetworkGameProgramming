@@ -24,7 +24,7 @@ CMonster::CMonster()
 }
 CMonster::CMonster(EnemyInfo enemyInfo)
 {
-	m_EnemyBullet.reserve(55);
+	m_EnemyBullet.reserve(15);
 
 	m_Type = enemyInfo.Type;
 	MyIndex = enemyInfo.Index;
@@ -74,7 +74,7 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 		break;
 	}
 	
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		m_EnemyBullet.emplace_back(m_Pos, 0);
 	}

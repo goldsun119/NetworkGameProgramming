@@ -23,7 +23,7 @@ CBullet::CBullet(POINT pos, int typeNum)
 	case -2:
 		alive = true;
 		m_Pos.x += 18;
-		m_size = 20;
+		m_size = 10;
 		break;
 	case 1:
 		m_Pos.x += 15;
