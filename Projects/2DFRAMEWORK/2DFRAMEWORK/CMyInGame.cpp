@@ -137,7 +137,7 @@ void CMyInGame::Render(HDC hdc)
 		{
 			for (int i = 0; i < m_pPlayer->GetSkillCount(); ++i)
 			{
-				m_ItemUlt.Draw(memDC, WndX - (m_UiSize * 2) - (m_UiSize * i), (WndY - m_UiSize*2), m_UiSize, m_UiSize);
+				m_ItemUlt.Draw(memDC, WndX - (m_UiSize * 2) - (m_UiSize * i), (WndY - m_UiSize*3), m_UiSize, m_UiSize);
 			}
 		}
 		//몬스터 그리기
@@ -281,7 +281,22 @@ void CMyInGame::Update()
 
 	if (m_pPlayer->GetSkillPlay() == true || m_p2Player->GetSkillPlay() == true) {
 		skillPlaying = true;
+
+		int monsize = 0;
+		recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
+		if (monsize > 0) {
+			//	//미리 사이즈를 알려줌
+			for (int i = 0; i < monsize; ++i)
+			{
+				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
+				m_Monster[i]->alive = enemyInfo.alive;
+				m_Monster[i]->SetHp(enemyInfo.Hp);
+
+
+			}
+		}
 	}
+
 	if(skillPlaying == true){
 		skillPosY -= 1.5f;
 		if (skillPosY < 0.0f) {
@@ -293,20 +308,8 @@ void CMyInGame::Update()
 			m_p2Player->SetSkillCount(m_p2Player->GetSkillCount() - 1);
 
 		}
-		int monsize = 0;
-		recv(FRAMEWORK->GetSock(), (char*)&monsize, sizeof(monsize), 0);
-		if (monsize > 0) {
-		//	//미리 사이즈를 알려줌
-			for (int i = 0; i < monsize; ++i)
-			{
-				recv(FRAMEWORK->GetSock(), (char*)&enemyInfo, sizeof(enemyInfo), 0);
-				m_Monster[i]->alive = false;
-				m_Monster[i]->SetHp(enemyInfo.Hp);
-
-
-			}
-		}
 	}
+	
 		
 	
 
@@ -504,35 +507,35 @@ void CMyInGame::MakeEnemys()
 			{
 			case E_ENEMY1:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY1);
-				m_Monster[enemyInfo.index]->alive = true;
+				m_Monster[enemyInfo.index]->alive = enemyInfo.alive;
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				m_Monster[enemyInfo.index]->SetSize(60);
 				break;
 			case E_ENEMY2:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY2);
-				m_Monster[enemyInfo.index]->alive = true;
+				m_Monster[enemyInfo.index]->alive = enemyInfo.alive;
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				m_Monster[enemyInfo.index]->SetSize(70);
 				break;
 			case E_ENEMY3:
 				m_Monster[enemyInfo.index]->SetType(E_ENEMY3);
-				m_Monster[enemyInfo.index]->alive = true;
+				m_Monster[enemyInfo.index]->alive = enemyInfo.alive;
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				m_Monster[enemyInfo.index]->SetSize(80);
 				break;
 			case E_BOSS1:
 				m_Monster[enemyInfo.index]->SetType(E_BOSS1);
-				m_Monster[enemyInfo.index]->alive = true;
+				m_Monster[enemyInfo.index]->alive = enemyInfo.alive;
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				m_Monster[enemyInfo.index]->SetSize(90);
 				break;
 			case E_BOSS2:
 				m_Monster[enemyInfo.index]->SetType(E_BOSS2);
-				m_Monster[enemyInfo.index]->alive = true;
+				m_Monster[enemyInfo.index]->alive = enemyInfo.alive;
 				m_Monster[enemyInfo.index]->SetHp(enemyInfo.Hp);
 				m_Monster[enemyInfo.index]->SetPos(enemyInfo.pos.x, enemyInfo.pos.y);
 				m_Monster[enemyInfo.index]->SetSize(100);
@@ -542,9 +545,11 @@ void CMyInGame::MakeEnemys()
 			if (num2 != 0) {
 				for (int i = 0; i < num2; ++i)
 				{
-					recv(FRAMEWORK->GetSock(), (char*)&enemybulletInfo, sizeof(enemybulletInfo), 0);
-					m_Monster[enemyInfo.index]->enemy_bullet[i].alive = enemybulletInfo.Active;
-					m_Monster[enemyInfo.index]->enemy_bullet[i].SetPos(enemybulletInfo.Pos.x, enemybulletInfo.Pos.y);
+					if (m_Monster[enemyInfo.index]->alive == true) {
+						recv(FRAMEWORK->GetSock(), (char*)&enemybulletInfo, sizeof(enemybulletInfo), 0);
+						m_Monster[enemyInfo.index]->enemy_bullet[i].alive = enemybulletInfo.Active;
+						m_Monster[enemyInfo.index]->enemy_bullet[i].SetPos(enemybulletInfo.Pos.x, enemybulletInfo.Pos.y);
+					}
 				}
 			}
 

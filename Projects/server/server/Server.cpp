@@ -556,9 +556,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			//여기 플레이어 생존 여부 확인 시 보냄
 			if (ClientNum == 0)
 			{
-				EnterCriticalSection(&server.cs);
+				
 				server.SendAllPlayerInfo(server.playerInfo);//플레이어
-				LeaveCriticalSection(&server.cs);
+				
 			
 
 			// 여긴 좀 더 생각하기~!?@~@~!@?~!?@~!?@?~!@?~!?@~!?@~!?@?~!@?~!@?~!?@~!?@~!@~!?@~!
@@ -573,21 +573,22 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					send(clientinfotohandle[0].Sock, (char*)&Msize, sizeof(Msize), 0);
 					if (Msize > 0) {
 							server.SkillCollision(server.m_Monster);
-						for (vector<CMonster>::iterator enemy = server.m_Monster.begin(); enemy < server.m_Monster.end(); ++enemy)
+						for (int i=0; i< Msize;++i)
 						{
 
-									//EnterCriticalSection(&server.cs);
-									server.enemyInfo.alive = enemy->GetAlive();
-									server.enemyInfo.Hp = enemy->GetHp();
+									
+									server.enemyInfo.alive = server.m_Monster[i].GetAlive();
+									server.enemyInfo.Hp = server.m_Monster[i].GetHp();
 
 									send(clientinfotohandle[1].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
 									send(clientinfotohandle[0].Sock, (char*)&server.enemyInfo, sizeof(server.enemyInfo), 0);
-									//LeaveCriticalSection(&server.cs);
+									
 
 						}
+						server.playerInfo[1].skill = false;
+						server.playerInfo[0].skill = false;
 					}
-					server.playerInfo[1].skill = false;
-					server.playerInfo[0].skill = false;
+					
 				}
 			
 					
@@ -617,10 +618,12 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					if (Ebnum != 0) {
 						for (int j = 0; j < Ebnum; ++j)
 						{
-							server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
-							server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].GetAlive();
-							send(clientinfotohandle[1].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
-							send(clientinfotohandle[0].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
+							if (server.m_Monster[i].alive == true) {
+								server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
+								server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].GetAlive();
+								send(clientinfotohandle[1].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
+								send(clientinfotohandle[0].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
+							}
 						}
 					}
 				}
