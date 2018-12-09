@@ -30,7 +30,6 @@ public:
 
 	virtual ~CGameObject();
 
-
 	// Get
 	POINT GetPos() { return m_Pos; }
 	int GetXPos() const { return m_Pos.x; }
@@ -38,6 +37,7 @@ public:
 	int GetHp() { return m_hp; }
 	int GetSize() { return m_size; }
 	int GetType() { return m_Type; }
+	bool GetAlive() { return alive; }
 
 	unsigned long GetMyIdx();
 	// Set
@@ -47,6 +47,8 @@ public:
 	void SetHp(int hp) { m_hp = hp; }
 	void SetSize(int size) { m_size = size; }
 	void SetType(int type) { m_Type = type; }
+	void SetAlive(bool life) { alive = life; }
+
 	// ¿ÃπÃ¡ˆ
 	
 public:

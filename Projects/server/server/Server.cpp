@@ -236,12 +236,12 @@ void Server::CheckEnemybyPlayerBulletCollision(SOCKET sock, vector<CBullet> &Bul
 	{
 		for (vector<CMonster>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
-			if (bulletIter->m_IsActive == true && enemy->GetAlive() == true) {
+			if (bulletIter->GetAlive() == true && enemy->GetAlive() == true) {
 
 				if (bulletIter->IsCrashtoEnemy(*enemy))
 				{
 					if (enemy->GetAlive() == true)
-						bulletIter->m_IsActive = false;
+						bulletIter->SetAlive(false);
 					if (bulletIter->getType() == -1)
 					{
 						enemy->SetHp(enemy->GetHp() - 10);
@@ -283,7 +283,7 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 	for (vector<CBullet>::iterator p = Bullet.begin(); p < Bullet.end(); ++p)
 	{
 		
-		if (p->m_IsActive == true)
+		if (p->alive == true)
 		{
 			if (p->IsShootPlayer(player))
 			{
@@ -292,28 +292,28 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 				case 0:
 				case -1:
 				case -2:
-					p->m_IsActive = false;
+					p->alive = false;
 					player.Hp -= 1;
 					
 					
 					break;
 				case 1:
-					p->m_IsActive = false;
+					p->alive = false;
 					player.Hp -= 1;
 		
 					break;
 				case 2:
-					p->m_IsActive = false;
+					p->alive = false;
 					player.Hp -= 1;
 
 					break;
 				case 3:
-					p->m_IsActive = false;
+					p->alive = false;
 					player.Hp -= 1;
 
 					break;
 				case 4:
-					p->m_IsActive = false;
+					p->alive = false;
 					player.Hp -= 1;
 
 					break;
@@ -636,7 +636,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				}
 				for (vector<CBullet>::iterator bulletIter = server.playerBullet[ClientNum].begin(); bulletIter < server.playerBullet[ClientNum].end(); ++bulletIter)
 				{
-					server.bulletInfo[ClientNum].Active = bulletIter->GetActive();
+					server.bulletInfo[ClientNum].Active = bulletIter->GetAlive();
 					server.bulletInfo[ClientNum].Pos = bulletIter->GetPos();
 					send(ClientSock, (char*)&server.bulletInfo[ClientNum], sizeof(server.bulletInfo[ClientNum]), 0);
 				}
@@ -663,7 +663,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 
 					for (int i = 0; i <Bnum; ++i)
 					{
-						server.bulletInfo[1].Active = server.playerBullet[1][i].GetActive();
+						server.bulletInfo[1].Active = server.playerBullet[1][i].GetAlive();
 						server.bulletInfo[1].Pos = server.playerBullet[1][i].GetPos();
 						send(ClientSock, (char*)&server.bulletInfo[1], sizeof(server.bulletInfo[1]), 0);
 					}
@@ -684,7 +684,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				if (Bnum > 0) {
 					for (int i = 0; i < Bnum; ++i)
 					{
-						server.bulletInfo[0].Active = server.playerBullet[0][i].GetActive();
+						server.bulletInfo[0].Active = server.playerBullet[0][i].GetAlive();
 						server.bulletInfo[0].Pos = server.playerBullet[0][i].GetPos();
 						send(ClientSock, (char*)&server.bulletInfo[0], sizeof(server.bulletInfo[0]), 0);
 					}
@@ -697,11 +697,11 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			{
 				server.CheckPlayerbyEnemyBulletCollision(enemy->m_EnemyBullet, server.playerInfo[ClientNum]);
 			}
-//플레이어 총알
+			//플레이어 총알
 			//이동
 			for (auto p = server.playerBullet[ClientNum].begin(); p < server.playerBullet[ClientNum].end(); ++p)
 			{
-				if ((*p).GetActive())
+				if ((*p).GetAlive())
 				{
 					(*p).SetYPos((*p).GetYPos() - 13);
 					//printf("%d", p.GetYPos());
@@ -712,7 +712,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			for (int i = 0; i < server.playerBullet[ClientNum].size(); ++i)
 			{
 					EnterCriticalSection(&server.cs);
-				if (server.playerBullet[ClientNum][i].GetYPos() < 0&&server.playerBullet[ClientNum][i].GetActive())
+				if (server.playerBullet[ClientNum][i].GetYPos() < 0&&server.playerBullet[ClientNum][i].GetAlive())
 				{
 					server.playerBullet[ClientNum][i].alive=false;
 					swap(server.playerBullet[ClientNum][i], server.playerBullet[ClientNum].back());

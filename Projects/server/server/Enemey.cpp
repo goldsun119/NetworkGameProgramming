@@ -254,19 +254,35 @@ void CMonster::Update()
 		break;
 	}
 	
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		for (int i = 0; i < m_EnemyBullet.size() - 1; ++i)
 		{
-
-			if (i == 0)
-			{
-				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 2);
-			}
-			else
-			{
-				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i - 1].GetYPos() + 20);
-			}
+			m_EnemyBullet[0].alive = true;
+			if (m_EnemyBullet[i].alive = true)
+				m_EnemyBullet[i + 1].alive = true;
 		}
 	
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		{
+			if (m_EnemyBullet[i].alive)
+			{
+				/*if (i == 0)
+				{
+					m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 2);
+				}
+				else
+				{
+					m_EnemyBullet[i].SetYPos(m_EnemyBullet[i - 1].GetYPos() + 40);
+				}*/
+				if (i == 0)
+				{
+					m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 2);
+				}
+				else
+				{
+					m_EnemyBullet[i].SetYPos(m_EnemyBullet[i - 1].GetYPos() + 40);
+				}
+			}
+		}
 	}
 
 }

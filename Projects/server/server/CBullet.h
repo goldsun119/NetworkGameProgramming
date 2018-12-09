@@ -12,8 +12,7 @@ public:
 	~CBullet();
 	int getType() const { return m_Type; }
 	bool IsCrashtoEnemy(CGameObject enemy);
-	void SetActive(bool isActive) { m_IsActive = isActive; }
-	bool GetActive() { return m_IsActive; }
+	
 	void Update();
 	bool IsShootPlayer(PlayerInfo player);
 public:

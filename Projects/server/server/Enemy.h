@@ -11,7 +11,7 @@ private:
 	float Size;
 	int MyIndex;
 public:
-	bool alive;
+
 	bool Boss1_Appear = false;
 	bool Boss2_Appear = false;
 	bool Boss1_Stop = false;
@@ -31,8 +31,7 @@ public:
 	~CMonster();
 public:
 	virtual void Update();
-	bool GetAlive() {return alive;}
-	void SetAlive(bool life) { alive = life; }
+
 	int GetIndex() { return MyIndex; }
 	void SetIndex(int index) { MyIndex = index; }
 	//virtual void Render(HDC m_hdc);
