@@ -71,3 +71,8 @@ Projects/server/server/Debug/server.tlog/server.lastbuildstate
 Projects/server/server/Debug/vc141.idb
 Projects/server/server/Debug/vc141.pdb
 Projects/server/server/server.vcxproj
+Projects/server/server/Enemey.cpp
+Projects/server/server/server.h
+Projects/server/server/Server.cpp
+Projects/2DFRAMEWORK/2DFRAMEWORK/CPlayer.cpp
+Projects/2DFRAMEWORK/2DFRAMEWORK/CMyInGame.cpp
