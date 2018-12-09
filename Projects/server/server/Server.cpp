@@ -239,12 +239,12 @@ void Server::CheckEnemybyPlayerBulletCollision(vector<CBullet> &Bullet, vector<C
 	{
 		for (vector<CMonster>::iterator enemy = Target.begin(); enemy < Target.end(); ++enemy)
 		{
-			if (bulletIter->m_IsActive == true && enemy->GetAlive() == true) {
+			if (bulletIter->GetAlive() && enemy->GetAlive() == true) {
 
 				if (bulletIter->IsCrashtoEnemy(*enemy))
 				{
 					if (enemy->GetAlive() == true)
-						bulletIter->m_IsActive = false;
+						bulletIter->SetAlive(false);
 					if (bulletIter->getType() == -1)
 					{
 						enemy->SetHp(enemy->GetHp() - 10);
@@ -286,7 +286,7 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 	for (vector<CBullet>::iterator p = Bullet.begin(); p < Bullet.end(); ++p)
 	{
 		
-		if (p->m_IsActive == true)
+		if (p->GetAlive())
 		{
 			if (p->IsShootPlayer(player))
 			{
@@ -295,27 +295,31 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 				case 0:
 				case -1:
 				case -2:
-					p->m_IsActive = false;
+					p->SetAlive(false);
 					player.Hp -= 1;
 					
 					
 					break;
 				case 1:
+					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
 		
 					break;
 				case 2:
+					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
 
 					break;
 				case 3:
+					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
 
 					break;
 				case 4:
+					p->SetAlive(false);
 					p->m_IsActive = false;
 					player.Hp -= 1;
 
@@ -607,7 +611,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 						for (int j = 0; j < Ebnum; ++j)
 						{
 							server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
-							server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].m_IsActive;
+							server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].GetAlive();
 							send(clientinfotohandle[1].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
 							send(clientinfotohandle[0].Sock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
 						}
