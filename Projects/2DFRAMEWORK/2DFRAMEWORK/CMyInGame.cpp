@@ -253,6 +253,7 @@ void CMyInGame::Update()
 	m_pPlayer->Update();
 
 	//ÁÂÇ¥°ª ¼³Á¤
+	
 	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[0], sizeof(playerInfo[0]), 0);
 	recv(FRAMEWORK->GetSock(), (char*)&playerInfo[1], sizeof(playerInfo[1]), 0);
 	

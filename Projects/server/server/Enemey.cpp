@@ -73,10 +73,12 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 
 		break;
 	}
+	
 	for (int i = 0; i < 50; ++i)
 	{
 		m_EnemyBullet.emplace_back(m_Pos, 0);
 	}
+	
 }
 CMonster::~CMonster()
 {
@@ -110,28 +112,32 @@ bool CMonster::GetDir(char c) const
 
 void CMonster::Update()
 {
+	//살아있으면
+	if (this->alive)
+	{
+
 	switch (m_Type)
 	{
 	case E_ENEMY1:
 		m_Pos.y += 1;
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		/*for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
 				m_EnemyBullet[i].SetYPos(GetYPos() + 10);
 			}
-		}
+		}*/
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY2:
 		m_Pos.y += 2;
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		/*for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
 				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
-		}
+		}*/
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_ENEMY3:
@@ -140,13 +146,13 @@ void CMonster::Update()
 		(m_Pos.x < WndX) ? m_Pos.x += 1 : m_Pos.x -= 1;
 
 		m_Pos.y += 1;
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		/*for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
 				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
-		}
+		}*/
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS1:
@@ -190,13 +196,13 @@ void CMonster::Update()
 			}
 		}
 
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		/*for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
 				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
-		}
+		}*/
 		//printf("y:%d", m_Pos.y);
 		break;
 	case E_BOSS2:
@@ -237,15 +243,30 @@ void CMonster::Update()
 				}
 			}
 		}
-		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		/*for (int i = 0; i < m_EnemyBullet.size(); ++i)
 		{
 			if (this->alive)
 			{
 				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
 			}
-		}
+		}*/
 		//printf("y:%d", m_Pos.y);
 		break;
+	}
+	
+		for (int i = 0; i < m_EnemyBullet.size(); ++i)
+		{
+
+			if (i == 0)
+			{
+				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 2);
+			}
+			else
+			{
+				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i - 1].GetYPos() + 20);
+			}
+		}
+	
 	}
 
 }

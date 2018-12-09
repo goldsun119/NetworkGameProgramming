@@ -61,6 +61,7 @@ void Server::SetInitData(PlayerInfo& a, int num)
 
 void Server::SendAllPlayerInfo(SOCKET sock, PlayerInfo P[])
 {
+	
 	send(sock, (char*)&P[0], sizeof(P[0]), 0);//플레이어 정보 전송
 	send(sock, (char*)&P[1], sizeof(P[1]), 0);//플레이어 정보 전송
 }
@@ -544,6 +545,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 		
 			//server.playerInfo[ClientNum].skill = server.Input.m_KeyInput.Skill;
+			//여기 플레이어 생존 여부 확인 시 보냄
 			server.SendAllPlayerInfo(ClientSock, server.playerInfo);//플레이어
 			recv(ClientSock, (char*)&server.skillPlaying, sizeof(server.skillPlaying), 0);
 
