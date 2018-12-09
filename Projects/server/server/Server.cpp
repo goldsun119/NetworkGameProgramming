@@ -571,7 +571,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				
 			}
 
-			if (ClientNum == 0)
+			//if (ClientNum == 0)
 				server.MakeEnemy(ClientSock, ClientNum); //적
 			Mnum = server.m_Monster.size();
 			send(ClientSock, (char*)&Mnum, sizeof(Mnum), 0);
@@ -595,17 +595,18 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					Ebnum = server.m_Monster[i].m_EnemyBullet.size();
 					send(ClientSock, (char*)&Ebnum, sizeof(Ebnum), 0);
 					LeaveCriticalSection(&server.cs);
-
-					for (int j = 0; j < server.m_Monster[i].m_EnemyBullet.size(); ++i)
-					{
-						EnterCriticalSection(&server.cs);
-						server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
-						server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].m_IsActive;
-						send(ClientSock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
-						LeaveCriticalSection(&server.cs);
+					if (Ebnum != 0) {
+						for (int j = 0; j < Ebnum; ++j)
+						{
+							EnterCriticalSection(&server.cs);
+							server.enemybulletInfo[ClientNum].Pos = server.m_Monster[i].m_EnemyBullet[j].GetPos();
+							server.enemybulletInfo[ClientNum].Active = server.m_Monster[i].m_EnemyBullet[j].m_IsActive;
+							send(ClientSock, (char*)&server.enemybulletInfo[ClientNum], sizeof(server.enemybulletInfo[ClientNum]), 0);
+							LeaveCriticalSection(&server.cs);
+						}
 					}
 			}
-			if(ClientNum==0)
+			//if(ClientNum==0)
 				server.MakeItem(ClientSock, ClientNum); //아이템
 			Inum = server.m_Item.size();
 			send(ClientSock, (char*)&Inum, sizeof(Inum), 0);

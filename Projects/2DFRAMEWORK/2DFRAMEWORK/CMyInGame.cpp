@@ -158,10 +158,15 @@ void CMyInGame::Render(HDC hdc)
 		}
 		//총알 그리기
 		//적1
-		for (vector<CBullet>::iterator bulletiter = m_pMonster->enemy_bullet.begin(); bulletiter != m_pMonster->enemy_bullet.end(); ++bulletiter)
-		{
-			m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, (bulletiter)->GetSize(), (bulletiter)->GetSize());
+		for (vector<CMonster*>::iterator iter = m_Monster.begin(); iter != m_Monster.end(); ++iter) {
+			if ((*iter)->alive == true) {
+				for (vector<CBullet>::iterator bulletiter = (*iter)->enemy_bullet.begin(); bulletiter != (*iter)->enemy_bullet.end(); ++bulletiter)
+				{
+					m_MonsterBullet1.Draw(memDC, (bulletiter)->GetPos().x, (bulletiter)->GetPos().y, (bulletiter)->GetSize(), (bulletiter)->GetSize());
+				}
+			}
 		}
+
 
 		//아이템 - 총알
 		for (vector<I_BULLET*>::iterator iter = I_bullet.begin();
@@ -298,6 +303,8 @@ void CMyInGame::Update()
 		m_pPlayer->skillPlaying = false;
 	}
 	MakeEnemys();
+	int num2 = 0;
+
 	MakeItem();
 
 	int Bnum = 0;
@@ -451,17 +458,19 @@ void CMyInGame::MakeEnemys()
 				break;
 			}
 			recv(FRAMEWORK->GetSock(), (char*)&num2, sizeof(num2), 0);
-			for (int i = 0; i < num2; ++i)
-			{
-				recv(FRAMEWORK->GetSock(), (char*)&enemybulletInfo, sizeof(enemybulletInfo), 0);
-				m_Monster[enemyInfo.index]->enemy_bullet[i].SetAlive(enemybulletInfo.Active);
-				m_Monster[enemyInfo.index]->enemy_bullet[i].SetPos(enemybulletInfo.Pos.x, enemybulletInfo.Pos.y);
+			if (num2 != 0) {
+				for (int i = 0; i < num2; ++i)
+				{
+					recv(FRAMEWORK->GetSock(), (char*)&enemybulletInfo, sizeof(enemybulletInfo), 0);
+					m_Monster[enemyInfo.index]->enemy_bullet[i].alive = enemybulletInfo.Active;
+					m_Monster[enemyInfo.index]->enemy_bullet[i].SetPos(enemybulletInfo.Pos.x, enemybulletInfo.Pos.y);
+				}
 			}
 
 	}
-	m_Monster[0]->alive = false;
-	m_Monster[1]->alive = false;
-	m_Monster[2]->alive = false;
+	//m_Monster[0]->alive = false;
+	//m_Monster[1]->alive = false;
+	//m_Monster[2]->alive = false;
 }
 void CMyInGame::Destroy()
 {

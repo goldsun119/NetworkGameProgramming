@@ -24,7 +24,7 @@ CMonster::CMonster()
 }
 CMonster::CMonster(EnemyInfo enemyInfo)
 {
-
+	m_EnemyBullet.reserve(55);
 
 	m_Type = enemyInfo.Type;
 	MyIndex = enemyInfo.Index;
@@ -75,7 +75,7 @@ CMonster::CMonster(EnemyInfo enemyInfo)
 	}
 	for (int i = 0; i < 50; ++i)
 	{
-		m_EnemyBullet.emplace_back(this->m_Pos, 0);
+		m_EnemyBullet.emplace_back(m_Pos, 0);
 	}
 }
 CMonster::~CMonster()
@@ -118,7 +118,7 @@ void CMonster::Update()
 		{
 			if (this->alive)
 			{
-				m_EnemyBullet[i].SetYPos(this->GetYPos() + 2);
+				m_EnemyBullet[i].SetYPos(GetYPos() + 10);
 			}
 		}
 		//printf("y:%d", m_Pos.y);
