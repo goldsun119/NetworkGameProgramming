@@ -9,7 +9,9 @@ int recvn(SOCKET s, char *buf, int len, int flags);
 ClientInfoToHandle clientinfotohandle[2];
 int ClientCount = 0; //클라이언트 번호 할당
 Server server;
-string Nick[2] = { "1st","2nd" };
+char NICKNAME[2][4];
+char Sum[10];
+string Nick[2];
 bool nick[2] = { false };
 
 //=============================================================
@@ -32,6 +34,12 @@ istream&ReadInputFile(istream& in, vector<Score>& vec)
 int SortFunc(Score a, Score b)
 {
 	return a.first > b.first;
+}
+
+void SetRank(ofstream& out,vector<Score>& vec, Score temp)
+{
+	vec.emplace_back(temp);
+	sort(vec.begin(), vec.end(), SortFunc);
 }
 
 bool Server::IsAllClientReady()
@@ -293,7 +301,7 @@ void Server::CheckPlayerbyEnemyBulletCollision(vector<CBullet>Bullet, PlayerInfo
 	for (vector<CBullet>::iterator p = Bullet.begin(); p < Bullet.end(); ++p)
 	{
 		
-		if (p->GetAlive())
+		if (p->GetAlive()&&player.Hp>0)
 		{
 			if (p->IsShootPlayer(player))
 			{
@@ -461,8 +469,9 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 	clientinfotohandle[ClientNum].PlayNum = ClientNum;
 	server.SetInitData(server.playerInfo[ClientNum], ClientNum);
 
-
 	bool isClientnumSend = false;
+
+	int Scene;
 
 	//시간설정
 
@@ -546,11 +555,14 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			}
 			if (server.Input.m_KeyInput.Space)
 			{
-				float NowTime = (float)timeGetTime();
-				if (NowTime - server.BulletTime >= 0.5f) {
-					server.playerBullet[ClientNum].emplace_back(CBullet(server.playerInfo[ClientNum].Pos, 0));
-					//printf("%d번클라 스페이스바!\n",ClientNum);
-					server.BulletTime = NowTime;
+				if (server.playerInfo[ClientNum].Hp > 0)
+				{
+					float NowTime = (float)timeGetTime();
+					if (NowTime - server.BulletTime >= 0.5f) {
+						server.playerBullet[ClientNum].emplace_back(CBullet(server.playerInfo[ClientNum].Pos, 0));
+						//printf("%d번클라 스페이스바!\n",ClientNum);
+						server.BulletTime = NowTime;
+					}
 				}
 			}
 			if (server.Input.m_KeyInput.Skill)
@@ -729,8 +741,19 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					}
 				}
 				
-			}
 
+			Scene = E_INGAME;
+			if (server.playerInfo[0].Hp < 1 && server.playerInfo[1].Hp < 1)
+			{
+				Scene = E_GAMEOVER;
+				clientinfotohandle[0].IsScene = E_Scene::E_GAMEOVER;
+				clientinfotohandle[1].IsScene = E_Scene::E_GAMEOVER;
+			}
+			send(clientinfotohandle[1].Sock, (char*)&Scene, sizeof(Scene), 0);
+			send(clientinfotohandle[0].Sock, (char*)&Scene, sizeof(Scene), 0);
+
+			}
+			recv(ClientSock, (char*)NICKNAME[ClientNum], sizeof(NICKNAME[ClientNum]), 0);
 			break;
 				
 			
@@ -745,9 +768,14 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 					ofstream out("Score.txt");
 					Score temp;
 					temp.first = server.score;
-					temp.second = Nick[0] + "," + Nick[1];
-					server.Rank.emplace_back(temp);
-					sort(server.Rank.begin(), server.Rank.end(), SortFunc);
+					strcat(Sum, NICKNAME[0]);
+					strcat(Sum, ",");
+					strcat(Sum, NICKNAME[1]);
+
+					temp.second = Sum;
+
+					SetRank(out, server.Rank, temp);
+
 					int Rnum = server.Rank.size();
 					send(clientinfotohandle[1].Sock, (char*)&temp.first, sizeof(temp.first), 0);
 					send(clientinfotohandle[1].Sock, (char*)&Rnum, sizeof(Rnum), 0);

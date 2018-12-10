@@ -1,6 +1,4 @@
 200 test2
 100 test
 1 1st,2nd
-1 1st,2nd
-1 1st,2nd
-1 1st,2nd
+1 aaa,bbb

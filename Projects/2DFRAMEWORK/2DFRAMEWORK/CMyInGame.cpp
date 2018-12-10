@@ -9,6 +9,7 @@
 #include "CItem.h"
 #include "TimerManager.h"
 #include "Framework.h"
+#include "SceneManager.h"
 
 #define g_makeItem1 39000
 #define g_makeBullet 4000
@@ -446,6 +447,15 @@ void CMyInGame::Update()
 		}
 	}
 
+	int Scene;
+	recv(FRAMEWORK->GetSock(), (char*)&Scene, sizeof(Scene), 0);
+	send(FRAMEWORK->GetSock(), (char*)&FRAMEWORK->NICKNAME, sizeof(FRAMEWORK->NICKNAME), 0);
+
+	if (Scene == E_GAMEOVER)
+	{
+		//¾À ³Ñ±è
+		SCENEMANAGER->SetScene(E_GAMEOVER);
+	}
 }
 	
 	
