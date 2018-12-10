@@ -96,7 +96,7 @@ bool CBullet::IsCrashtoEnemy(CGameObject enemy)
 
 void CBullet::Update()
 {
-
+	
 }
 
 bool CBullet::IsShootPlayer(PlayerInfo player)

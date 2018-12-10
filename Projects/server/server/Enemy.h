@@ -25,7 +25,8 @@ public:
 	vector<CBullet> m_EnemyBullet;
 	void SetDir(char c, bool b);
 	bool GetDir(char c) const;
-
+	float etime;
+	int bulletCount = 0;
 	CMonster(EnemyInfo enemyInfo);
 	CMonster();
 	~CMonster();
