@@ -718,7 +718,23 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				{
 					server.CheckPlayerbyEnemyBulletCollision(enemy->m_EnemyBullet, server.playerInfo[0]);
 					server.CheckPlayerbyEnemyBulletCollision(enemy->m_EnemyBullet, server.playerInfo[1]);
+
+					//적총알 삭제
+					if (enemy->alive)
+					{
+						for (int i = 0; i < enemy->m_EnemyBullet.size(); ++i)
+						{
+							if (enemy->m_EnemyBullet[i].GetYPos() > WndY)
+							{
+								enemy->m_EnemyBullet[i].alive = false;
+								swap(enemy->m_EnemyBullet[i], enemy->m_EnemyBullet.back());
+								enemy->m_EnemyBullet.pop_back();
+							}
+						}
+					}
 				}
+				
+
 				//플레이어 총알
 							//이동
 				for (int f = 0; f < 2; ++f)
