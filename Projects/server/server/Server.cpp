@@ -791,10 +791,10 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 			recv(ClientSock, (char*)NICKNAME[ClientNum], sizeof(NICKNAME[ClientNum]), 0);
 			break;
 		case E_Scene::E_GAMEOVER:
+			server.RankScene(SendCount,ClientNum);
 			break;
 			//·©Å© Ãâ·Â
 		case E_Scene::E_RANK:
-			server.RankScene(SendCount,ClientNum);
 			break;
 		}
 	}
