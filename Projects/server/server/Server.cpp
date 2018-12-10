@@ -241,6 +241,24 @@ void Server::CheckEnemybyPlayerBulletCollision(vector<CBullet> &Bullet, vector<C
 
 					if (enemy->GetHp() <= 0)
 					{
+						switch (enemy->GetType())
+						{
+						case E_ENEMY1:
+							server.score += 10;
+							break;
+						case E_ENEMY2:
+							server.score += 20;
+							break;
+						case E_ENEMY3:
+							server.score += 30;
+							break;
+						case E_BOSS1:
+							server.score += 100;
+							break;
+						case E_BOSS2:
+							server.score += 100;
+							break;
+						}
 						enemy->SetAlive(false);
 						enemy->SetPos(3000, 3000);
 						for (vector<CBullet>::iterator ebullet = enemy->m_EnemyBullet.begin(); ebullet < enemy->m_EnemyBullet.end(); ++ebullet)
@@ -266,6 +284,24 @@ void Server::SkillCollision(vector<CMonster> &Target) {
 			enemy->SetHp(enemy->GetHp() - 100);
 		if (enemy->GetHp() <= 0)
 		{
+			switch (enemy->GetType())
+			{
+			case E_ENEMY1:
+				server.score += 10;
+				break;
+			case E_ENEMY2:
+				server.score += 20;
+				break;
+			case E_ENEMY3:
+				server.score += 30;
+				break;
+			case E_BOSS1:
+				server.score += 100;
+				break;
+			case E_BOSS2:
+				server.score += 100;
+				break;
+			}
 			enemy->alive = false;
 			enemy->SetPos(3000, 3000);
 		}
