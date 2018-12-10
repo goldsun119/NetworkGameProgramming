@@ -59,7 +59,7 @@ public:
 	void SkillCollision(vector<CMonster> &Target);
 	void CheckPlayerbyEnemyBulletCollision(vector<CBullet> Bullet, PlayerInfo &player);
 	
-	void KeyInput(int ClientNum);
+	void KeyInputFunc(int ClientNum);
 	void SkillUpdate();
 	void EnemyUpdate(int Mnum, int Ebnum, int ClientNum);
 	void ItemUpdate(int Inum);

@@ -437,7 +437,7 @@ void Server::MakeEnemy()
 	}
 	
 }
-void Server::KeyInput(int ClientNum) {
+void Server::KeyInputFunc(int ClientNum) {
 	if (server.Input.m_KeyInput.Left)
 	{
 		server.playerInfo[ClientNum].Pos.x -= 3;
@@ -748,7 +748,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) {
 				break;
 			}
 			EnterCriticalSection(&server.cs);
-			server.KeyInput(ClientNum);
+			server.KeyInputFunc(ClientNum);
 			LeaveCriticalSection(&server.cs);
 
 	
