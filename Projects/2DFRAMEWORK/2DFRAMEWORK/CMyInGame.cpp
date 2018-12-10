@@ -28,7 +28,8 @@ CMyInGame::CMyInGame()
 	I_skill.reserve(MAXITEMNUM);
 	I_power.reserve(MAXITEMNUM);
 	I_sheild.reserve(MAXITEMNUM);
-
+	m_pPlayer->m_PlayerBullet.reserve(3000);
+	m_p2Player->m_PlayerBullet.reserve(3000);
 	for (int i = 0; i < 300; ++i) {
 		m_Monster.emplace_back(new CMonster());
 		for (int j = 0; j < 50; ++j)
@@ -36,6 +37,7 @@ CMyInGame::CMyInGame()
 	}
 
 	for (int i = 0; i < 3000; ++i) {
+		
 		m_pPlayer->m_PlayerBullet.emplace_back(new CBullet());
 		m_p2Player->m_PlayerBullet.emplace_back(new CBullet());
 	}

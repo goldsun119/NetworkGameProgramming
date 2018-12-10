@@ -273,7 +273,7 @@ void CMonster::Update()
 
 			//if (i == 0)
 			{
-				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 4);
+				m_EnemyBullet[i].SetYPos(m_EnemyBullet[i].GetYPos() + 6);
 			}
 		/*	else
 			{
