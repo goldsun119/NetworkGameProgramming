@@ -15,31 +15,21 @@ string Nick[2];
 bool nick[2] = { false };
 
 //=============================================================
-istream&ReadInputFile(istream& in, vector<Score>& vec)
+istream&ReadInputFile(istream& in, multimap<int, std::string>& m)
 {
 	if (in)
 	{
-		vec.clear();
-		Score mem;
+		m.clear();
+		int score;
+		std::string nick;
 
-		while (in >> mem.first >> mem.second)
+		while (in >> score >> nick)
 		{
-			vec.emplace_back(mem);
+			m.insert(std::pair<int, std::string>(score,nick));
 		}
 		in.clear();
 	}
 	return in;
-}
-
-int SortFunc(Score a, Score b)
-{
-	return a.first > b.first;
-}
-
-void SetRank(ofstream& out,vector<Score>& vec, Score temp)
-{
-	vec.emplace_back(temp);
-	sort(vec.begin(), vec.end(), SortFunc);
 }
 
 bool Server::IsAllClientReady()
@@ -129,8 +119,6 @@ void Server::CheckItembyPlayerCollision( vector<CItem>& item, PlayerInfo& player
 
 void Server::MakeItem()
 {
-	
-	
 	int itemNumber = 0;
 	float NowTime = (float)timeGetTime() * 0.001f;
 	static int inum1 = 0;
@@ -639,25 +627,21 @@ void Server::RankScene(int SendCount, int ClientNum) {
 		if (ClientNum == 0)
 		{
 			ofstream out("Score.txt");
-			Score temp;
-			temp.first = score;
 			strcat(Sum, NICKNAME[0]);
 			strcat(Sum, ",");
 			strcat(Sum, NICKNAME[1]);
 
-			temp.second = Sum;
-
-			SetRank(out, Rank, temp);
+			Rank.insert(std::pair<int, std::string>(score, Sum));
 
 			int Rnum = Rank.size();
-			send(clientinfotohandle[1].Sock, (char*)&temp.first, sizeof(temp.first), 0);
+			send(clientinfotohandle[1].Sock, (char*)&score, sizeof(score), 0);
 			send(clientinfotohandle[1].Sock, (char*)&Rnum, sizeof(Rnum), 0);
 
 
-			send(clientinfotohandle[0].Sock, (char*)&temp.first, sizeof(temp.first), 0);
+			send(clientinfotohandle[0].Sock, (char*)&score, sizeof(score), 0);
 			send(clientinfotohandle[0].Sock, (char*)&Rnum, sizeof(Rnum), 0);
 
-			for (vector<Score>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
+			for (multimap<int, std::string>::iterator iter = Rank.begin(); iter != Rank.end(); ++iter)
 			{
 				out << iter->first << " " << iter->second << endl;
 				send(clientinfotohandle[1].Sock, (char*)&iter->first, sizeof(iter->first), 0);
@@ -815,7 +799,6 @@ int main(int argc, char argv[])
 	int retval;
 	InitializeCriticalSection(&server.cs);
 
-	server.Rank.reserve(100);
 	ifstream in("score.txt");
 	if (!in.is_open())
 		err_quit("Can't File Open");
